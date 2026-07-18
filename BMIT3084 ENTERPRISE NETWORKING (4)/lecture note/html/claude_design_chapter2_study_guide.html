@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 2 — Single-Area OSPFv2 | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --nexthop:#4da3ff;
+    --directconn:#f5a623;
+    --fullyspec:#3ecf8e;
+    --danger:#ff6b6b;
+    --accent:#7c8cff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .track{
+    max-width:640px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .router-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .packet{
+    animation:hop 4s linear infinite;
+  }
+  @keyframes hop{
+    0%{transform:translateX(0px);}
+    30%{transform:translateX(210px);}
+    33%{transform:translateX(210px);}
+    63%{transform:translateX(420px);}
+    66%{transform:translateX(420px);}
+    100%{transform:translateX(420px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .packet{animation:none;transform:translateX(420px);}
+  }
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{
+    font-size:26px;
+    margin:0 0 6px;
+    font-weight:700;
+  }
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--nexthop);}
+  .card.amber{border-top-color:var(--directconn);}
+  .card.green{border-top-color:var(--fullyspec);}
+  .card h4{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
+  }
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--nexthop);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--fullyspec);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--nexthop);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--fullyspec);}
+  .callout p{margin:0;color:var(--text);}
+
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:none;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--fullyspec);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.show{display:block;}
+
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--fullyspec);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  .adrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
+  .adbadge{
+    background:var(--panel2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 14px;
+    font-family:var(--mono);
+    font-size:13px;
+    flex:1;
+    min-width:130px;
+  }
+  .adbadge .n{font-size:22px;font-weight:700;color:var(--accent);}
+  .adbadge .l{color:var(--sub);font-size:11px;text-transform:uppercase;}
+
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:90%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+  }
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch2/&gt;</span>
+  <a href="#intro">Intro</a>
+  <a href="#db">Databases</a>
+  <a href="#packets">Packets</a>
+  <a href="#states">States</a>
+  <a href="#dr">DR/BDR</a>
+  <a href="#config">Config</a>
+  <a href="#cost">Cost</a>
+  <a href="#timers">Timers</a>
+  <a href="#default">Default Route</a>
+  <a href="#verify">Verify</a>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT3084 · Enterprise Networking · ENSA v7.0</span>
+  <h1>Chapter 2 — Single-Area OSPFv2</h1>
+  <p class="lead">Module 1 (OSPFv2 Concepts) + Module 2 (OSPFv2 Configuration). Zero-to-understanding guide, built only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 640 90">
+      <text x="20" y="30" class="router-label" text-anchor="middle">R1</text>
+      <rect x="2" y="43" width="36" height="24" rx="4" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="230" y="30" class="router-label" text-anchor="middle">Hello</text>
+      <circle cx="230" cy="55" r="14" fill="none" stroke="#8b96a5" stroke-width="1.5"/>
+      <text x="440" y="30" class="router-label" text-anchor="middle">R2</text>
+      <rect x="422" y="43" width="36" height="24" rx="4" fill="none" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="600" y="30" class="router-label" text-anchor="middle">LSA</text>
+      <circle cx="600" cy="55" r="14" fill="none" stroke="#8b96a5" stroke-width="1.5"/>
+      <line x1="38" y1="55" x2="216" y2="55" stroke="#2a3441" stroke-width="2"/>
+      <line x1="244" y1="55" x2="422" y2="55" stroke="#2a3441" stroke-width="2"/>
+      <line x1="458" y1="55" x2="586" y2="55" stroke="#2a3441" stroke-width="2"/>
+      <g class="packet">
+        <rect x="20" y="47" width="16" height="16" rx="3" fill="#7c8cff"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ INTRO ============ -->
+<section id="intro">
+<span class="modpill">MODULE 1 — CONCEPTS</span>
+<h2>What is OSPF?</h2>
+<p><b style="color:var(--text)">OSPF</b> (Open Shortest Path First) is a <b style="color:var(--text)">link-state routing protocol</b>. Unlike distance-vector protocols (like RIP) that only know what their neighbour tells them, OSPF routers know the <b>full network map</b>.</p>
+
+<div class="callout note">
+<b>Why OSPF?</b>
+<p>OSPF was built to replace RIP. It converges faster, scales to much larger networks, and uses <b>cost</b> (not hop count) to choose the best path.</p>
+</div>
+
+<h3>Key terms</h3>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td><code>Link</code></td><td>An interface on a router, or the network segment connecting two routers</td></tr>
+<tr><td><code>Link-State</code></td><td>Information about that link: IP address, prefix length, cost, up/down status</td></tr>
+<tr><td><code>Area</code></td><td>A group of routers sharing the same LSDB. Helps organise large networks</td></tr>
+<tr><td><code>Cost</code></td><td>OSPF's metric. Lower cost = better path. Based on interface bandwidth</td></tr>
+</table>
+
+<h3>Single-Area vs Multiarea</h3>
+<div class="cardgrid">
+<div class="card green">
+<h4>Single-Area OSPF</h4>
+<p>All routers in <b>one</b> area (best practice: area 0). Simple, good for small networks. This is what Chapter 2 covers.</p>
+</div>
+<div class="card amber">
+<h4>Multiarea OSPF</h4>
+<p>Network split into many areas, all connected to area 0 (backbone). Smaller routing tables, less CPU work, faster convergence. Used in large enterprise networks.</p>
+</div>
+</div>
+
+<div class="callout tip">
+<b>OSPFv2 vs OSPFv3</b>
+<p>OSPFv2 = IPv4. OSPFv3 = IPv6 (same basic operation, different addresses). This chapter covers <b>OSPFv2</b>.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Quick check</h4>
+<div class="q-item">
+<div class="q-text">Q1. What does OSPF stand for?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Open Shortest Path First.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. Is OSPF a link-state or distance-vector protocol?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Link-state — every router knows the full network topology, not just what its neighbour says.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>OSPF = link-state protocol, knows the full network map</li>
+<li>Uses cost (bandwidth-based) not hop count</li>
+<li>Single-area = one area for all routers; multiarea = hierarchical</li>
+<li>OSPFv2 = IPv4; OSPFv3 = IPv6</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ 3 DATABASES ============ -->
+<section id="db">
+<span class="eyebrow">Concepts</span>
+<h2>The three OSPF databases</h2>
+<p>OSPF keeps <b>three separate databases</b> on every router. Each has its own table and command to view it.</p>
+
+<table>
+<tr><th>Database</th><th>Table Name</th><th>Contents</th><th>Command</th></tr>
+<tr><td><b>Adjacency DB</b></td><td>Neighbour Table</td><td>List of neighbour routers with bidirectional communication</td><td><code>show ip ospf neighbor</code></td></tr>
+<tr><td><b>Link-State DB (LSDB)</b></td><td>Topology Table</td><td>Info about <b>all</b> routers in the area. All routers in an area have the <b>same</b> LSDB</td><td><code>show ip ospf database</code></td></tr>
+<tr><td><b>Forwarding DB</b></td><td>Routing Table</td><td>Best routes (output of the SPF calculation). Unique per router</td><td><code>show ip route</code></td></tr>
+</table>
+
+<h3>How they connect — the 5-step process</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt"><b>Establish Neighbour Adjacencies</b> — routers discover each other via Hello packets</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt"><b>Exchange LSAs</b> — routers share link-state advertisements (their local network info)</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt"><b>Build the LSDB</b> — each router collects all LSAs into its topology database</div></div>
+<div class="flowstep"><div class="num">4</div><div class="txt"><b>Execute SPF Algorithm</b> — Dijkstra's algorithm calculates the shortest path to each network</div></div>
+<div class="flowstep"><div class="num">5</div><div class="txt"><b>Choose the Best Route</b> — the SPF tree populates the routing table</div></div>
+</div>
+
+<div class="callout note">
+<b>Dijkstra's SPF Algorithm</b>
+<p>Each router puts <b>itself</b> at the root of a tree and calculates the shortest path to every node based on cumulative cost. The result goes into the forwarding database (routing table).</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. Which OSPF database is the same on every router in the same area?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">The Link-State Database (LSDB) / Topology Table — all routers in an area have an identical LSDB.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What command shows the neighbour table?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>show ip ospf neighbor</code></div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>3 databases: Adjacency (neighbour table), LSDB (topology table), Forwarding (routing table)</li>
+<li>5-step process: discover neighbours → exchange LSAs → build LSDB → run SPF → choose best route</li>
+<li>SPF = Dijkstra's algorithm, based on cumulative cost</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ 5 PACKET TYPES ============ -->
+<section id="packets">
+<span class="eyebrow">Concepts</span>
+<h2>The five OSPF packet types</h2>
+<p>OSPF routers exchange five types of Link-State Packets (LSPs) to build and maintain the network.</p>
+
+<table>
+<tr><th>Type</th><th>Packet</th><th>Purpose</th></tr>
+<tr><td>1</td><td><b>Hello</b></td><td>Discover neighbours, build adjacencies, elect DR/BDR</td></tr>
+<tr><td>2</td><td><b>DBD</b> (Database Description)</td><td>Check if databases are synchronised (summary of LSDB)</td></tr>
+<tr><td>3</td><td><b>LSR</b> (Link-State Request)</td><td>Request specific, more current link-state information</td></tr>
+<tr><td>4</td><td><b>LSU</b> (Link-State Update)</td><td>Send the requested link-state records (carries LSAs inside)</td></tr>
+<tr><td>5</td><td><b>LSAck</b> (Link-State Acknowledgment)</td><td>Confirm receipt of LSR or LSU</td></tr>
+</table>
+
+<div class="callout warn">
+<b>Important distinction</b>
+<p>LSU and LSA are often used interchangeably, but an <b>LSU packet</b> is the container that <b>carries LSA messages</b> inside. Think: envelope (LSU) and letter (LSA).</p>
+</div>
+
+<h3>Hello packet — the most important one</h3>
+<p>The Type 1 Hello packet does three things:</p>
+<ul>
+<li>Discovers OSPF neighbours and establishes neighbour adjacencies</li>
+<li>Advertises parameters that must match between neighbours (Hello timer, Dead timer, area ID, etc.)</li>
+<li>Elects the Designated Router (DR) and Backup DR (BDR) on multiaccess networks like Ethernet</li>
+</ul>
+<p>Hello packets are sent to multicast address <code>224.0.0.5</code> (All OSPF Routers).</p>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. Name the five OSPF packet types in order.</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">1-Hello, 2-DBD, 3-LSR, 4-LSU, 5-LSAck.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. Which packet type is used to discover neighbours?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Hello (Type 1).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. What multicast address do OSPF routers use for Hello packets?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">224.0.0.5 (All OSPF Routers).</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>5 packet types: Hello, DBD, LSR, LSU, LSAck</li>
+<li>Hello = neighbour discovery + DR/BDR election</li>
+<li>LSU carries LSAs (envelope vs letter)</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ 7 STATES ============ -->
+<section id="states">
+<span class="eyebrow">Concepts</span>
+<h2>The seven OSPF states</h2>
+<p>Two routers go through these 7 states to become fully connected neighbours.</p>
+
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt"><b>Down</b> — No Hello received yet. Router starts sending Hellos.</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt"><b>Init</b> — Hello received from neighbour (router sees the neighbour's Router ID).</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt"><b>Two-Way</b> — Bidirectional. Each router sees its own RID in the other's Hello. DR/BDR election happens here on multiaccess networks.</div></div>
+<div class="flowstep"><div class="num">4</div><div class="txt"><b>ExStart</b> — Routers decide who sends DBD first (highest RID wins).</div></div>
+<div class="flowstep"><div class="num">5</div><div class="txt"><b>Exchange</b> — DBD packets exchanged. Routers compare LSDBs.</div></div>
+<div class="flowstep"><div class="num">6</div><div class="txt"><b>Loading</b> — LSRs and LSUs used to get missing/updated info.</div></div>
+<div class="flowstep"><div class="num">7</div><div class="txt"><b>Full</b> — Databases fully synchronised. Neighbour adjacency complete!</div></div>
+</div>
+
+<div class="callout tip">
+<b>Normal states to expect</b>
+<p>After convergence, neighbour state should be <b>FULL</b>. The only exception is on multiaccess broadcast networks where two DROTHERs might show <b>2-WAY</b> — this is normal because DROTHERs do not form FULL adjacency with each other.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. In which OSPF state does DR/BDR election take place?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Two-Way state.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What happens in the Exchange state?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Routers exchange DBD packets to compare their LSDBs.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. What does the Full state mean?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">The link-state databases are fully synchronised and the adjacency is complete.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>Down → Init → Two-Way → ExStart → Exchange → Loading → Full</li>
+<li>Two-Way = bidirectional + DR/BDR election</li>
+<li>Full = synchronised. Normal operational state.</li>
+<li>2-WAY between two DROTHERs is normal on broadcast networks</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ DR & BDR ============ -->
+<section id="dr">
+<span class="eyebrow">Concepts</span>
+<h2>DR &amp; BDR on multiaccess networks</h2>
+<p>On <b>multiaccess networks</b> (e.g. Ethernet with many routers on the same VLAN), if every router flooded LSAs to every other router, traffic would become chaotic. OSPF solves this by electing a <b>Designated Router (DR)</b> to manage LSA distribution.</p>
+
+<h3>Three roles</h3>
+<table>
+<tr><th>Role</th><th>Job</th><th>Multicast address</th></tr>
+<tr><td><b>DR</b> (Designated Router)</td><td>Collects LSAs from all routers, distributes them to all routers</td><td>Listens on 224.0.0.6</td></tr>
+<tr><td><b>BDR</b> (Backup DR)</td><td>Backup if DR fails. Listens passively</td><td>Listens on 224.0.0.6</td></tr>
+<tr><td><b>DROTHER</b></td><td>Neither DR nor BDR. Sends LSAs only to DR/BDR</td><td>Sends to 224.0.0.6</td></tr>
+</table>
+
+<h3>How election works</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">Highest <b>interface priority</b> (0–255) becomes DR. Second highest = BDR.</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt"><b>If priority is equal</b>, highest <b>Router ID</b> wins. Second highest RID = BDR.</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt"><b>Priority 0</b> = cannot be DR or BDR (configured intentionally).</div></div>
+<div class="flowstep"><div class="num">4</div><div class="txt">Default priority on broadcast interfaces = <b>1</b>.</div></div>
+<div class="flowstep"><div class="num">5</div><div class="txt"><b>Elections are not pre-emptive.</b> Adding a new router later does NOT trigger a new election.</div></div>
+</div>
+
+<h3>If the DR fails</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">BDR <b>automatically promotes</b> itself to DR.</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt">A <b>new BDR election</b> happens — the DROTHER with highest priority or RID wins.</div></div>
+</div>
+
+<h3>Point-to-point links — no DR needed</h3>
+<p>On a direct link between two routers, DR/BDR is unnecessary. But by default, Cisco Ethernet interfaces use the BROADCAST network type (which triggers DR election). To fix this:</p>
+<div class="cli">R1(config-if)# ip ospf network point-to-point</div>
+
+<div class="callout tip">
+<b>Loopback interfaces</b>
+<p>By default, loopback interfaces are advertised as /32 host routes. To advertise the full subnet instead, configure <code>ip ospf network point-to-point</code> on the loopback.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What multicast address does a DROTHER use to send packets to the DR?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">224.0.0.6 (All Designated Routers).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What happens if the DR fails?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">The BDR promotes itself to DR, and a new BDR election takes place.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. Do point-to-point links need a DR?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">No. Use <code>ip ospf network point-to-point</code> to disable DR election on the link.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>DR manages LSA flooding; BDR is backup; DROTHERs only talk to DR/BDR</li>
+<li>Election: priority first, then Router ID. Not pre-emptive.</li>
+<li>Point-to-point links do not need DR/BDR</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ CONFIG ============ -->
+<section id="config">
+<span class="modpill">MODULE 2 — CONFIGURATION</span>
+<h2>OSPFv2 configuration basics</h2>
+
+<h3>Step 1 — Enable the OSPF process</h3>
+<div class="cli">R1(config)# router ospf <span class="hi">10</span></div>
+<p>The <code>process-id</code> (1–65535) is locally significant — it only matters on this router.</p>
+
+<h3>Step 2 — Set the Router ID</h3>
+<p>Cisco picks the Router ID in this order:</p>
+<ol>
+<li><b>Manually configured</b> via <code>router-id</code> command (highest priority)</li>
+<li><b>Highest IP</b> on any <b>loopback</b> interface</li>
+<li><b>Highest IP</b> on any active <b>physical</b> interface</li>
+</ol>
+<div class="cli">R1(config-router)# router-id <span class="hi">1.1.1.1</span>
+R1# clear ip ospf process</div>
+
+<h3>Step 3 — Enable OSPF on interfaces</h3>
+<p><b>Method A: network command</b> (in router config mode):</p>
+<div class="cli">R1(config-router)# network <span class="hi">10.10.1.0 0.0.0.255</span> area 0
+R1(config-router)# network <span class="hi">10.1.1.5 0.0.0.0</span> area 0</div>
+<ul>
+<li>Wildcard mask = inverse of subnet mask (e.g. /24 → 0.0.0.255)</li>
+<li>Quad-zero (<code>0.0.0.0</code>) = exactly one interface</li>
+<li>All routers must use the <b>same area ID</b> (best practice: area 0)</li>
+</ul>
+
+<p><b>Method B: ip ospf command</b> (on each interface):</p>
+<div class="cli">R1(config)# interface GigabitEthernet 0/0/0
+R1(config-if)# ip ospf <span class="hi">10</span> area <span class="hi">0</span></div>
+
+<h3>Step 4 — Passive interfaces</h3>
+<p>By default, OSPF sends Hellos out <b>every</b> enabled interface. On LANs without OSPF neighbours, this wastes bandwidth and creates security risks.</p>
+<div class="cli">R1(config-router)# passive-interface <span class="hi">GigabitEthernet 0/0/1</span></div>
+<p>The network is <b>still advertised</b> to other OSPF routers — Hellos just stop being sent out that interface.</p>
+
+<div class="callout warn">
+<b>3 problems passive interfaces solve</b>
+<p>1. Wasted bandwidth on unnecessary Hellos<br>2. Wasted CPU on every LAN device that has to process and discard OSPF messages<br>3. Security risk — OSPF packets can be intercepted and forged</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What is the command to enable OSPF process with ID 20?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>router ospf 20</code></div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What are the two ways to enable OSPF on an interface?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">1) <code>network</code> command in router config mode. 2) <code>ip ospf process-id area area-id</code> on the interface.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. Does a passive interface still advertise its network in OSPF?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Yes. It stops sending Hellos but the network is still advertised in LSAs.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>Enable: <code>router ospf process-id</code></li>
+<li>Router ID: manual → loopback → physical interface IP</li>
+<li>Enable OSPF on interfaces: <code>network</code> or <code>ip ospf</code></li>
+<li>Passive interface stops Hellos, still advertises the network</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ COST ============ -->
+<section id="cost">
+<span class="eyebrow">Configuration</span>
+<h2>OSPF cost metric</h2>
+<p>OSPF uses <b>cost</b> as its metric. Lower cost = better path. Cost is based on interface bandwidth.</p>
+
+<h3>The formula</h3>
+<div class="cli">Cost = reference-bandwidth / interface-bandwidth</div>
+<p>Default reference bandwidth = <b>100,000,000 bps</b> (100 Mbps).</p>
+
+<table>
+<tr><th>Interface</th><th>Speed</th><th>Default cost</th></tr>
+<tr><td>Fast Ethernet</td><td>100 Mbps</td><td>1</td></tr>
+<tr><td>Gigabit Ethernet</td><td>1,000 Mbps</td><td>1</td></tr>
+<tr><td>10 Gigabit Ethernet</td><td>10,000 Mbps</td><td>1</td></tr>
+</table>
+
+<div class="callout warn">
+<b>The problem</b>
+<p>FastEthernet, Gigabit, and 10GE all have cost = 1 because OSPF rounds to integers (100/1000 = 0.1 → 1). OSPF cannot tell which is faster! You must change the reference bandwidth on <b>all routers</b>.</p>
+</div>
+
+<h3>Fix: adjust reference bandwidth</h3>
+<div class="cli">R1(config-router)# auto-cost reference-bandwidth <span class="hi">10000</span></div>
+<p>With ref = 10000 Mbps:</p>
+<table>
+<tr><th>Interface</th><th>Cost</th></tr>
+<tr><td>Fast Ethernet (100 Mbps)</td><td>100</td></tr>
+<tr><td>Gigabit Ethernet (1000 Mbps)</td><td>10</td></tr>
+<tr><td>10 Gigabit Ethernet (10000 Mbps)</td><td>1</td></tr>
+</table>
+
+<div class="callout tip">
+<b>Must configure on ALL routers</b>
+<p>The auto-cost reference-bandwidth command must be applied to <b>every router</b> in the OSPF domain. Otherwise, different routers calculate different costs for the same links.</p>
+</div>
+
+<h3>Alternative: manually set cost</h3>
+<div class="cli">R1(config-if)# ip ospf cost <span class="hi">30</span></div>
+
+<h3>Cost accumulates along the path</h3>
+<p>The total cost to a destination = sum of all link costs along the path.</p>
+<div class="cli">R1# show ip route | include 10.10.2.0
+O   10.10.2.0/24 [110/<span class="hi">11</span>] via 10.1.1.6</div>
+<p>The <code>[110/11]</code> means: AD = 110 (OSPF), metric (cost) = 11.</p>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What is the default OSPF cost for a Gigabit Ethernet interface?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">1 (100,000,000 / 1,000,000,000 = 0.1 → rounded to 1).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What command changes the reference bandwidth and what value should you use for 10 Gigabit Ethernet links?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>auto-cost reference-bandwidth 10000</code> (10000 Mbps = 10 Gbps).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. What command manually sets OSPF cost on an interface?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>ip ospf cost <em>value</em></code></div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>Cost = ref-bw / interface-bw. Lower cost = better path.</li>
+<li>Default ref = 100 Mbps — adjust for modern networks</li>
+<li>Use <code>auto-cost reference-bandwidth</code> on all routers</li>
+<li>Or <code>ip ospf cost</code> on specific interfaces</li>
+<li>Total path cost = sum of all link costs</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ TIMERS ============ -->
+<section id="timers">
+<span class="eyebrow">Configuration</span>
+<h2>OSPF timers</h2>
+
+<table>
+<tr><th>Timer</th><th>Default</th><th>Meaning</th></tr>
+<tr><td><b>Hello Interval</b></td><td>10 seconds</td><td>How often the router sends Hello packets</td></tr>
+<tr><td><b>Dead Interval</b></td><td>40 seconds</td><td>How long to wait without a Hello before declaring neighbour dead (4 × Hello)</td></tr>
+</table>
+
+<div class="callout warn">
+<b>Must match!</b>
+<p>If two neighbouring routers have different Hello or Dead intervals, they <b>will not form an adjacency</b>.</p>
+</div>
+
+<h3>How to view timers</h3>
+<div class="cli">R1# show ip ospf interface g0/0/0
+  Timer intervals configured, Hello <span class="hi">10</span>, Dead <span class="hi">40</span>, Wait 40, Retransmit 5</div>
+
+<h3>How to change timers</h3>
+<div class="cli">R1(config-if)# ip ospf hello-interval <span class="hi">5</span>
+R1(config-if)# ip ospf dead-interval <span class="hi">20</span></div>
+<p>IOS automatically sets Dead = 4 × Hello when you change Hello, but it's best practice to set both explicitly.</p>
+
+<div class="callout tip">
+<b>When to change timers</b>
+<p>Only change timers when you need <b>faster convergence</b> (detecting failures sooner). The defaults are best practice for most networks. Faster timers = more traffic.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What are the default Hello and Dead intervals?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Hello = 10 seconds, Dead = 40 seconds.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What happens if two potential neighbours have different Hello intervals?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">They will not form an OSPF adjacency.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. Name two commands used to change OSPF timers.</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>ip ospf hello-interval <em>seconds</em></code> and <code>ip ospf dead-interval <em>seconds</em></code>.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>Hello = 10s, Dead = 40s. Must match between neighbours.</li>
+<li>Dead = 4 × Hello (default). Can be changed per interface.</li>
+<li>View with <code>show ip ospf interface</code></li>
+</ul>
+</div>
+</section>
+
+<!-- ============ DEFAULT ROUTE ============ -->
+<section id="default">
+<span class="eyebrow">Configuration</span>
+<h2>Default route propagation</h2>
+<p>A router that connects your OSPF network to the internet (or another non-OSPF network) is called an <b>ASBR</b> (Autonomous System Boundary Router).</p>
+
+<h3>Configuration steps</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">Create a default static route on the ASBR:</div></div>
+</div>
+<div class="cli">R2(config)# ip route 0.0.0.0 0.0.0.0 loopback 1</div>
+<div class="flow">
+<div class="flowstep"><div class="num">2</div><div class="txt">Tell OSPF to share it with all other routers:</div></div>
+</div>
+<div class="cli">R2(config-router)# default-information originate</div>
+
+<h3>Verify on other routers</h3>
+<div class="cli">R1# show ip route | begin Gateway
+Gateway of last resort is 10.1.1.6 to network 0.0.0.0
+O*E2  0.0.0.0/0 [110/1] via 10.1.1.6, 00:11:08, GigabitEthernet0/0/0</div>
+<ul>
+<li><b>O</b> = OSPF</li>
+<li><b>*</b> = candidate for default route (Gateway of Last Resort)</li>
+<li><b>E2</b> = external route type 2</li>
+</ul>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What is an ASBR?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">A router between the OSPF domain and a non-OSPF network (e.g. the internet).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What command makes OSPF propagate a default route?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>default-information originate</code> (in router config mode).</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>ASBR connects OSPF to non-OSPF networks</li>
+<li>Steps: ip route 0.0.0.0 0.0.0.0 + default-information originate</li>
+<li>Other routers see it as O*E2 in the routing table</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ VERIFY ============ -->
+<section id="verify">
+<span class="eyebrow">Configuration</span>
+<h2>Verification commands</h2>
+<p>Here are all the show commands to verify OSPF is working:</p>
+
+<table>
+<tr><th>Command</th><th>What it tells you</th></tr>
+<tr><td><code>show ip route</code></td><td>Full routing table — look for routes marked <code>O</code> (OSPF)</td></tr>
+<tr><td><code>show ip route ospf</code></td><td>Only OSPF-learned routes (filters out connected/static)</td></tr>
+<tr><td><code>show ip ospf neighbor</code></td><td>Neighbour table — RID, state (should be FULL), Dead Time, interface</td></tr>
+<tr><td><code>show ip protocols</code></td><td>OSPF process ID, Router ID, passive interfaces, AD (110), neighbours</td></tr>
+<tr><td><code>show ip ospf</code></td><td>Process info, SPF algorithm stats, area info, reference bandwidth</td></tr>
+<tr><td><code>show ip ospf interface</code></td><td>Interface-level OSPF settings: cost, timers, network type, DR/BDR, neighbours</td></tr>
+<tr><td><code>show ip ospf interface brief</code></td><td>Quick summary — interfaces, IP, cost, state, neighbour count</td></tr>
+<tr><td><code>show ip ospf database</code></td><td>Link-State Database contents</td></tr>
+</table>
+
+<h3>Neighbour troubleshooting</h3>
+<p>Two routers may not form an OSPF adjacency if:</p>
+<ul>
+<li><b>Subnet masks</b> do not match</li>
+<li><b>Hello / Dead timers</b> do not match</li>
+<li><b>OSPF network types</b> do not match (e.g. BROADCAST vs POINT-TO-POINT)</li>
+<li><b>Missing or incorrect</b> network command</li>
+<li>Interface is <b>shut down</b> or has the <b>wrong IP</b></li>
+</ul>
+
+<div class="callout note">
+<b>Example: show ip ospf neighbor output</b>
+<div class="cli" style="margin:10px 0 0;">R1# show ip ospf neighbor
+Neighbor ID  Pri  State      Dead Time  Address         Interface
+3.3.3.3       0   FULL/ -    00:00:35   10.1.1.13       Gi0/0/1
+2.2.2.2       0   FULL/ -    00:00:31   10.1.1.6        Gi0/0/0</div>
+<p style="margin-top:8px;font-size:13px;">Pri = 0 means point-to-point. State = FULL means adjacency is working.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. Which command shows the OSPF neighbour table?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>show ip ospf neighbor</code></div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What is the Administrative Distance (AD) of OSPF?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">110.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. Give three reasons why OSPF neighbours might not form an adjacency.</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Any three: subnet mask mismatch, timer mismatch, network type mismatch, incorrect network command, interface down.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Section summary</h4>
+<ul>
+<li>7 show commands to verify OSPF operation</li>
+<li>Neighbour state should be FULL (or 2-WAY between DROTHERs)</li>
+<li>OSPF AD = 110</li>
+<li>Troubleshoot mismatches: subnet mask, timers, network type, network command</li>
+</ul>
+</div>
+</section>
+
+</div>
+
+<footer>bmit3084 · enterprise networking · chapter 2 study guide · generated for revision</footer>
+
+<script>
+  // quiz toggles
+  document.querySelectorAll('.q-toggle').forEach(btn => {
+    btn.addEventListener('click', function(){
+      this.nextElementSibling.classList.toggle('show');
+    });
+  });
+</script>
+
+</body>
+</html>

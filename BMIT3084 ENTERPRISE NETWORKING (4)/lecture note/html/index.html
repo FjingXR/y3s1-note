@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BMIT3084 — Enterprise Networking | Study Hub</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .hero{
+    padding:80px 24px 50px;
+    max-width:960px;
+    margin:0 auto;
+    text-align:center;
+    flex:1;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:560px;
+    margin:0 auto 8px;
+  }
+  .hero p.sub{
+    color:var(--sub);
+    font-size:13px;
+    max-width:500px;
+    margin:0 auto;
+    font-family:var(--mono);
+    opacity:0.7;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+    margin:48px 0 40px;
+    text-align:left;
+  }
+
+  .chapter-label{
+    grid-column:1/-1;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin:10px 0 0;
+    padding-bottom:4px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:0;
+    transition:border-color 0.25s, transform 0.2s;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .card:hover{border-color:var(--accent);transform:translateY(-3px);}
+  .card .top{
+    padding:20px 22px 14px;
+    flex:1;
+  }
+  .card .ch{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h3{
+    margin:0 0 8px;
+    font-size:18px;
+    font-weight:700;
+  }
+  .card p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--sub);
+    line-height:1.5;
+  }
+  .card .modules{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:12px;
+  }
+  .card .modules span{
+    font-family:var(--mono);
+    font-size:10.5px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:2px 8px;
+    border-radius:12px;
+  }
+  .card .footer{
+    border-top:1px solid var(--line);
+    padding:12px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .card .footer .status{
+    font-size:11px;
+    color:var(--sub);
+    font-family:var(--mono);
+  }
+  .card .footer .status .dot{
+    display:inline-block;
+    width:7px;height:7px;
+    border-radius:50%;
+    margin-right:5px;
+  }
+  .card .footer .status .dot.g{background:var(--green);}
+  .card .footer a{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    text-decoration:none;
+    padding:5px 12px;
+    border:1px solid var(--accent);
+    border-radius:6px;
+    transition:0.2s;
+  }
+  .card .footer a:hover{background:var(--accent);color:#000;}
+
+  footer{
+    text-align:center;
+    padding:30px 20px 20px;
+    color:var(--sub);
+    font-size:12px;
+    font-family:var(--mono);
+    border-top:1px solid var(--line);
+    margin-top:auto;
+  }
+
+  @media(max-width:600px){
+    .hero{padding:50px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .grid{grid-template-columns:1fr;margin:32px 0;}
+    .card .top{padding:16px 18px 12px;}
+    .card .footer{padding:10px 18px;flex-direction:column;gap:10px;align-items:stretch;text-align:center;}
+    .card .footer a{display:block;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="tag">BMIT3084 &middot; Semester 3 &middot; Y1</span>
+  <h1>Enterprise Networking</h1>
+  <p class="lead">Study guides for every chapter — built from lecture notes, designed for revision.</p>
+  <p class="sub">8 chapters &middot; B1-level English</p>
+
+  <div class="grid">
+
+    <!-- ============ CHAPTER 1 ============ -->
+    <div class="chapter-label">Chapter 1 — IP Static Routing</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--blue);">claude design</div>
+        <h3 style="color:var(--blue);">IP Static Routing</h3>
+        <p>Static route types, next-hop options, default routes, floating routes, host routes, packet forwarding, and troubleshooting.</p>
+        <div class="modules">
+          <span>SRWE Module 15</span>
+          <span>SRWE Module 16</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="claude_chapter1_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">ds compact</div>
+        <h3 style="color:var(--amber);">IP Static Routing</h3>
+        <p>Downscaled compact version of the Chapter 1 study guide. Covers the same topics in a denser format.</p>
+        <div class="modules">
+          <span>SRWE Module 15</span>
+          <span>SRWE Module 16</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="ds%20Chapter%201%20Study%20Guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 2 ============ -->
+    <div class="chapter-label">Chapter 2 — Single-Area OSPFv2</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--green);">claude design</div>
+        <h3 style="color:var(--green);">Single-Area OSPFv2</h3>
+        <p>OSPF concepts, databases, packet types, 7 states, DR/BDR election, configuration, cost metric, timers, default routes, verification.</p>
+        <div class="modules">
+          <span>ENSA Module 1</span>
+          <span>ENSA Module 2</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="claude_design_chapter2_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">ds compact</div>
+        <h3 style="color:var(--amber);">Single-Area OSPFv2</h3>
+        <p>Downscaled compact version of the Chapter 2 study guide. Covers the same topics in a denser format.</p>
+        <div class="modules">
+          <span>ENSA Module 1</span>
+          <span>ENSA Module 2</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="ds-study-guide-ch2.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 3 ============ -->
+    <div class="chapter-label">Chapter 3 — ACL Concepts &amp; Configuration</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--blue);">study guide</div>
+        <h3 style="color:var(--blue);">ACL Concepts &amp; Configuration</h3>
+        <p>ACL types, wildcard masks, standard and extended IPv4 ACLs, placement rules, and verification.</p>
+        <div class="modules">
+          <span>ENSA Module 4</span>
+          <span>ENSA Module 5</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter3_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 4 ============ -->
+    <div class="chapter-label">Chapter 4 — Network Security Concepts</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--green);">study guide</div>
+        <h3 style="color:var(--green);">Network Security Concepts</h3>
+        <p>Security threats, mitigation techniques, network defence layers, and security best practices for enterprise networks.</p>
+        <div class="modules">
+          <span>ENSA Module 3</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter4_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 5 ============ -->
+    <div class="chapter-label">Chapter 5 — NAT for IPv4</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">study guide</div>
+        <h3 style="color:var(--amber);">NAT for IPv4</h3>
+        <p>NAT operation, static NAT, dynamic NAT, PAT, port forwarding, and troubleshooting NAT configurations.</p>
+        <div class="modules">
+          <span>ENSA Module 6</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter5_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 6 ============ -->
+    <div class="chapter-label">Chapter 6 — DHCPv4</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--blue);">study guide</div>
+        <h3 style="color:var(--blue);">DHCPv4</h3>
+        <p>DHCP operation, configuration, DHCP relay, and troubleshooting DHCP in enterprise networks.</p>
+        <div class="modules">
+          <span>SRWE Module 7</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter6_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 7 ============ -->
+    <div class="chapter-label">Chapter 7 — VPN &amp; IPsec Concepts</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--green);">study guide</div>
+        <h3 style="color:var(--green);">VPN &amp; IPsec Concepts</h3>
+        <p>VPN types, IPsec protocols, tunnel vs transport mode, IKE, and VPN configuration fundamentals.</p>
+        <div class="modules">
+          <span>Module 8</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter7_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 8 ============ -->
+    <div class="chapter-label">Chapter 8 — WAN Concepts</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">study guide</div>
+        <h3 style="color:var(--amber);">WAN Concepts</h3>
+        <p>WAN technologies, serial connections, PPP, MLP, and enterprise WAN design principles.</p>
+        <div class="modules">
+          <span>ENSA Module 7</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter8_study_guide.html">open &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>bmit3084 &middot; enterprise networking &middot; study hub</footer>
+
+</body>
+</html>
