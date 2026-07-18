@@ -1,0 +1,512 @@
+# Chapter 1: IP Static Routing and Troubleshooting
+
+## 1. Learning Objectives
+*   Learn how to **manually configure** paths for data to travel.
+*   Understand the different types of **static routes** (Standard, Default, Floating, Summary, and Host).
+*   Understand how to **identify** next-hop addresses and exit interfaces.
+*   Learn how to **fix connectivity problems** using specific commands.
+
+## 2. Important Terms
+
+| Term | Simple Meaning |
+| :--- | :--- |
+| **Static Route** | A path to a network that an administrator types in manually. |
+| **Directly Connected** | A network that is physically plugged into the router's own port. |
+| **Next-Hop** | The IP address of the next router on the way to the destination. |
+| **Exit Interface** | The physical port on "my" router where data leaves. |
+| **Administrative Distance (AD)** | A "trust" number. Lower numbers are more trusted. |
+| **Gateway of Last Resort** | Another name for a **Default Route**; it's the exit used when no other path is known. |
+
+## 3. Main Concepts
+
+### Static Routing
+*   **What is it?** It is a manual way to tell a router: "To reach Network X, go through Router Y".
+*   **Why is it important?** It uses less CPU and memory than automatic (dynamic) routing and is very secure because the path never changes unless you change it.
+*   **How does it work?** You type a command that includes the destination network, the subnet mask, and where the data should go next (the next-hop or exit interface).
+
+### Default Static Route
+*   **What is it?** A route that matches **all packets**.
+*   **Why is it important?** It handles traffic for any network not already in the routing table, like internet traffic.
+*   **How does it work?** It uses a "quad-zero" address: `0.0.0.0 0.0.0.0`.
+
+### Floating Static Route
+*   **What is it?** A **backup route**.
+*   **Why is it important?** It stays hidden and only appears in the routing table if the main route fails.
+*   **How does it work?** You give it a **higher AD** (like 5 or 10) than the main route (which is usually 1).
+
+## 4. Comparison Tables
+
+### Static Route Identification
+| Feature | Next-Hop Route | Directly Connected | Fully Specified |
+| :--- | :--- | :--- | :--- |
+| **What you provide** | Only the Next-Hop IP. | Only the Exit Interface. | Both the IP and the Interface. |
+| **Router Lookup** | Needs a **recursive lookup** (looks twice). | Very fast (looks once). | Best for Ethernet (multiaccess) links. |
+| **Use case** | Simple point-to-point. | Older serial links. | When you must be very specific. |
+
+## 5. Flowcharts / Diagrams
+
+### How a Router Processes a Packet
+Packet Arrives
+↓
+Router **decapsulates** the packet.
+↓
+Router searches the **Routing Table**.
+↓
+**Match Found?**
+*   **Yes (Static):** Forward to Next-Hop.
+*   **No:** Use **Default Route** (if exists).
+*   **None:** **Drop packet** and send ICMP message back.
+
+## 6. Memory Tips
+*   **Standard Route:** Like a specific address for a friend's house.
+*   **Default Route:** Like the "All Directions" sign at a highway exit.
+*   **Floating Route:** Like a spare tire; you only use it when the main one goes flat.
+*   **AD (Trust):** Lower number = **More Trust**. (Route with AD 1 wins over AD 10).
+
+## 7. Exam Keywords
+*   **Quad-zero** (`0.0.0.0 0.0.0.0`).
+*   **Administrative Distance** (Trust level).
+*   **Recursive Lookup** (Looking twice for an exit).
+*   **Stub Router** (Router with only one neighbor).
+
+## 8. Common Mistakes
+*   **Wrong:** Forgetting to set a higher AD for a **Floating Static Route**.
+*   **Correct:** Always give the backup route a higher number than the primary.
+*   **Wrong:** Typing the router's own interface IP as the next-hop.
+*   **Correct:** The next-hop must be the **IP of the next router**.
+
+## 9. Scenario Questions
+
+**Scenario:** R1 has a main route to the Internet with AD 1 and a backup route with AD 5. The cable for the main route is accidentally cut.
+**Question:** What happens to the backup route?
+**Answer:** It is **automatically added** to the routing table and starts working.
+**Reason:** Floating routes only appear when the primary route (lower AD) disappears from the table.
+
+## 10. Possible Exam Questions
+*   **Define:** What is a **host route**? (A route to one specific IP using a /32 or /128 mask).
+*   **Explain:** Why use a **Summary Static Route**? (To reduce the size of the routing table and save CPU/RAM).
+*   **List:** Name 3 commands to troubleshoot routing. (`ping`, `traceroute`, `show ip route`).
+*   **Differentiate:** Between a **Standard** and a **Default** route.
+
+## 11. Chapter Revision
+
+### Top 10 Facts to Remember
+1.  **Static routes** are manual.
+2.  **Standard AD** for static routes is **1**.
+3.  **Default routes** use `0.0.0.0 0.0.0.0`.
+4.  **Floating routes** are backups.
+5.  **Summarization** saves router memory.
+6.  **Next-hop** only needs the neighbor's IP.
+7.  **Fully specified** needs both IP and interface.
+8.  **Directly connected** routes have an AD of 0 (most trusted).
+9.  `show ip route` displays the whole map.
+10. `traceroute` shows every router in the path.
+
+---
+
+=================================================================================
+
+# Chapter 2: Single-Area OSPF Concepts and Configuration
+
+## 1. Learning Objectives
+*   Understand why **OSPF** is used instead of older protocols like RIP.
+*   Learn how OSPF builds a **map of the network** using three different tables.
+*   Explain the **7 states** OSPF routers go through to become neighbors.
+*   Learn how OSPF chooses the **best path** using "Cost".
+*   Understand how to **manually configure** OSPF on a router.
+
+## 2. Important Terms
+
+| Term | Simple Meaning |
+| :--- | :--- |
+| **OSPF** | Open Shortest Path First. A fast, smart protocol for automatic routing. |
+| **Link** | An interface on a router or a network segment connecting routers. |
+| **Area 0** | The "Backbone" area. In OSPF, all routers must connect here. |
+| **Adjacency** | A fancy word for routers becoming "friends" or neighbors. |
+| **LSA** | Link-State Advertisement. A message containing info about a router's links. |
+| **Convergence** | When all routers have the same, correct map of the network. |
+
+## 3. Main Concepts
+
+### OSPF Databases (The 3 Tables)
+*   **What is it?** OSPF uses three separate lists to keep track of everything.
+*   **Why is it important?** It helps the router organize information before making decisions.
+*   **How does it work?**
+    1.  **Neighbor Table:** List of nearby routers (friends).
+    2.  **Topology Table (LSDB):** A complete map of every router in the area.
+    3.  **Routing Table:** The final list of the **best paths** to every network.
+
+### The Router ID (RID)
+*   **What is it?** A **32-bit name** (looks like an IP) that uniquely identifies a router.
+*   **Why is it important?** It is needed for routers to talk and elect a "leader" (DR).
+*   **How does it work?** The router picks its ID in this order:
+    1.  The name the **administrator typed** (Manual).
+    2.  The **highest IP** on a Loopback interface.
+    3.  The **highest IP** on a physical interface.
+
+### OSPF Metric: Cost
+*   **What is it?** A number OSPF uses to decide which path is "cheaper" (better).
+*   **Why is it important?** Lower cost = Better path.
+*   **How does it work?** OSPF calculates cost based on **bandwidth** (speed). Faster links have a **lower cost**.
+
+## 4. Comparison Tables
+
+### Single-Area vs. Multiarea OSPF
+| Feature | Single-Area | Multiarea |
+| :--- | :--- | :--- |
+| **Area 0** | Used by all routers. | The center (backbone). |
+| **Complexity** | Simple for small networks. | Better for very large networks. |
+| **Router CPU** | High (Processes whole map). | Lower (Calculations stay in one area). |
+| **Summarization** | Not possible. | Can summarize routes between areas. |
+
+### DR vs. BDR vs. DROTHER
+| Role | Meaning | Job |
+| :--- | :--- | :--- |
+| **DR** | Designated Router | The "Leader." Collects and sends all updates. |
+| **BDR** | Backup Designated Router | The "Assistant." Takes over if the DR fails. |
+| **DROTHER** | Neither DR nor BDR | Regular router. Only talks to the DR/BDR. |
+
+## 5. Flowcharts
+
+### The 7 States of OSPF Adjacency
+**Down State** (No Hellos yet)
+↓
+**Init State** (Hello received)
+↓
+**Two-Way State** (Bidirectional talk; DR/BDR elected)
+↓
+**ExStart State** (Deciding who sends info first)
+↓
+**Exchange State** (Comparing lists of networks)
+↓
+**Loading State** (Asking for missing details)
+↓
+**Full State** (All routers are synchronized!)
+
+## 6. Memory Tips
+*   **LSA Hierarchy:** Think of **LSAs** (Advertisements) as the letters, and **LSUs** (Updates) as the envelopes they travel in.
+*   **RID Selection:** Remember "A-L-P" (**A**dmin > **L**oopback > **P**hysical).
+*   **Cost:** Think of it like a **toll road**. You want to pay the **least amount of money** to get to your destination.
+
+## 7. Exam Keywords
+*   **Link-State** (Knowledge of entire network).
+*   **Dijkstra SPF** (The math formula used).
+*   **Passive Interface** (Advertise a network but don't send OSPF talk there).
+*   **Default-Information Originate** (Command to share the internet path).
+
+## 8. Common Mistakes
+*   **Wrong:** Thinking a higher **Cost** is better.
+*   **Correct:** **Lower Cost** is always the winner.
+*   **Wrong:** Forgetting that **Hello and Dead timers** must match between neighbors.
+*   **Correct:** If timers are different, routers will **not** become neighbors.
+
+## 9. Scenario Questions
+
+**Scenario:** R1 and R2 are connected. R1's priority is 100 and R2's priority is 50. Both are rebooted at the same time.
+**Question:** Which router becomes the **DR**?
+**Answer:** **R1**.
+**Reason:** In an election, the router with the **highest priority** wins. If priorities are tied, the highest **Router ID** wins.
+
+**Scenario:** You want to share a default route to the internet with all other OSPF routers.
+**Question:** Which command do you use inside OSPF configuration?
+**Answer:** `default-information originate`.
+**Reason:** This command tells OSPF to propagate the static default route to everyone else.
+
+## 10. Possible Exam Questions
+*   **List:** Name the 5 types of OSPF packets. (Hello, DBD, LSR, LSU, LSAck).
+*   **Differentiate:** What is the difference between an **LSA** and an **LSU**?.
+*   **Describe:** The three criteria for picking a **Router ID** in order.
+*   **Explain:** Why does OSPF use a **Designated Router (DR)** on Ethernet networks? (To reduce the number of adjacencies and limit LSA flooding).
+
+## 11. Chapter Revision
+
+### Top 10 Facts to Remember
+1.  OSPF uses the **Shortest Path First (SPF)** algorithm.
+2.  **Cost** is the metric (based on bandwidth).
+3.  **Area 0** is mandatory for all OSPF networks.
+4.  Routers must be in the **Full state** to be considered converged.
+5.  **Hello packets** are sent every 10 seconds by default.
+6.  The **Dead interval** is 4 times the Hello interval (40 seconds).
+7.  **Administrative Distance** for OSPF is **110**.
+8.  **DR/BDR** elections only happen on multiaccess (Ethernet) links.
+9.  Use `show ip ospf neighbor` to check if your friends are "Full".
+10. `clear ip ospf process` is used to force a new Router ID or election.
+
+---
+
+================================================================================
+
+
+# Chapter 3: Access Control Lists (ACLs)
+
+## 1. Learning Objectives
+*   Explain how **ACLs** filter network traffic.
+*   Understand how **wildcard masks** are used to match IP addresses.
+*   Compare **Standard** and **Extended** IPv4 ACLs.
+*   Learn where to **place ACLs** in a network for the best performance.
+*   Learn how to **configure** and **modify** ACLs using Cisco commands.
+*   Understand how to **secure remote access** (VTY ports) using ACLs.
+
+## 2. Important Terms
+
+| Term | Simple Meaning |
+| :--- | :--- |
+| **ACL** | Access Control List. A list of rules that allows or blocks data packets. |
+| **ACE** | Access Control Entry. One single rule or line in an ACL (also called a statement). |
+| **Packet Filtering** | The process of checking packet headers to decide if they can pass or be dropped. |
+| **Implicit Deny** | A hidden rule at the end of every ACL that blocks all traffic that didn't match a rule. |
+| **Wildcard Mask** | A string of numbers used to tell the router which parts of an IP address to check for a match. |
+| **Inbound ACL** | Rules applied to traffic entering a router interface. |
+| **Outbound ACL** | Rules applied to traffic leaving a router interface. |
+
+## 3. Main Concepts
+
+### Packet Filtering
+*   **What is it?** It is a way to control network access by looking at the information in a packet's header.
+*   **Why is it important?** It provides security, limits traffic to improve performance, and filters traffic based on type (like blocking video or email).
+*   **How does it work?** The router analyzes the packet at Layer 3 (IP addresses) or Layer 4 (Ports and Protocols) and decides to forward or discard it based on your rules.
+
+### The Operating Procedure (The "Rule of First Match")
+*   **What is it?** The way a router reads the list of rules.
+*   **Why is it important?** If you put a general rule before a specific rule, the specific rule will never be read.
+*   **How does it work?**
+    1.  The router reads the ACL from the **top to bottom**.
+    2.  As soon as it finds a **match**, it follows the instruction (Permit or Deny).
+    3.  It stops looking at the rest of the list.
+    4.  If there is **no match** at the end, the packet is automatically **dropped** because of the **Implicit Deny**.
+
+### Wildcard Masking
+*   **What is it?** A 32-bit mask where binary **0 means "match"** and binary **1 means "ignore"**.
+*   **Why is it important?** It allows you to filter one specific host, a whole subnet, or a specific range of IP addresses.
+*   **How does it work?** You calculate it by **subtracting** the subnet mask from `255.255.255.255`.
+    *   *Example:* For a mask of `255.255.255.0`, the wildcard is `0.0.0.255`.
+
+## 4. Comparison Tables
+
+### Standard vs. Extended ACLs
+| Feature | Standard ACL | Extended ACL |
+| :--- | :--- | :--- |
+| **What it checks** | **Source** IPv4 address only. | **Source & Destination** IP, Protocol, and Port numbers. |
+| **Placement** | Close to the **destination**. | Close to the **source**. |
+| **Number Range** | 1–99 and 1300–1999. | 100–199 and 2000–2699. |
+| **Control** | Simple (all or nothing). | Very precise (finer control). |
+
+### Inbound vs. Outbound ACLs
+| Feature | Inbound ACL | Outbound ACL |
+| :--- | :--- | :--- |
+| **Timing** | Filters **before** routing. | Filters **after** routing. |
+| **Benefit** | Saves time if the packet is dropped (no lookup needed). | Filters traffic regardless of which interface it came from. |
+
+## 5. Flowcharts / Diagrams
+
+### ACL Decision Process
+Packet arrives at interface
+↓
+Is there an ACL applied?
+↓
+**Yes** → Check rules from **top to bottom**.
+↓
+**Match found?**
+*   **Yes:** Follow Permit/Deny and **STOP** checking.
+*   **No:** Check next rule.
+↓
+**End of list reached?**
+*   **Yes:** **Implicit Deny** → Packet is **Dropped**.
+
+## 6. Memory Tips
+*   **Wildcard Rule:** **0** = **O**h, I need to match this bit! **1** = **I**gnore this bit.
+*   **Placement Rule:**
+    *   **Standard = Destination** (Think "S.D." - Standard stays at the Destination).
+    *   **Extended = Source** (Think "E.S." - Extended goes to the Source).
+*   **VTY Security:** Use **`access-class`** instead of `access-group` for virtual lines.
+
+## 7. Exam Keywords
+*   **ACE** (Statement).
+*   **Implicit Deny** (Hidden block rule).
+*   **Layer 3 and 4** (Packet filtering levels).
+*   **host** (Matches one IP / wildcard `0.0.0.0`).
+*   **any** (Matches all IPs / wildcard `255.255.255.255`).
+*   **established** (Allows returning web traffic).
+
+## 8. Common Mistakes
+*   **Wrong:** Creating an ACL with only `deny` statements.
+*   **Correct:** You must have **at least one `permit`** statement, or the Implicit Deny will block everything.
+*   **Wrong:** Placing a Standard ACL near the source.
+*   **Correct:** Standard ACLs lack destination info, so they might block traffic to the internet if placed too early. Put them near the **destination**.
+
+## 9. Scenario Questions
+
+**Scenario:** You want to prevent a single computer (192.168.10.10) from reaching the Finance Server, but allow all other computers in the office to use it.
+**Question:** Should you use a Standard or Extended ACL, and where do you place it?
+**Answer:** Use an **Extended ACL** placed **close to the source** (the router the computer is connected to).
+**Reason:** Extended ACLs can block traffic to a specific destination (Finance Server) without blocking that computer's access to the rest of the network.
+
+**Scenario:** You have a new administrator who needs to manage the router using SSH from their home computer.
+**Question:** Which command applies the ACL to the VTY (remote access) lines?
+**Answer:** `access-class`.
+**Reason:** The `ip access-group` command is for physical interfaces; `access-class` is specifically for VTY lines.
+
+## 10. Possible Exam Questions
+*   **Define:** What is an **ACE**?
+*   **Compare:** List two differences between **Standard** and **Extended** ACLs.
+*   **Explain:** Why is an **Inbound ACL** more efficient than an Outbound ACL?
+*   **Differentiate:** Between the **host** and **any** keywords in a wildcard mask.
+*   **How:** How do you calculate a **wildcard mask** for a `/27` network? (Subtract 255.255.255.224 from 255.255.255.255 = 0.0.0.31).
+
+## 11. Chapter Revision
+
+### Top 10 Facts to Remember
+1.  ACLs are read from **top to bottom**.
+2.  The **first match** wins; the rest are ignored.
+3.  **Implicit Deny** exists at the end of every ACL.
+4.  Standard ACLs only check the **source IP**.
+5.  Extended ACLs check **source, destination, protocol, and port**.
+6.  **Wildcard 0** means "must match"; **1** means "ignore".
+7.  Standard ACL numbers: **1-99**; Extended: **100-199**.
+8.  **Named ACLs** are preferred because they are easier to understand.
+9.  Apply ACLs to interfaces using **`ip access-group`**.
+10. Use **`show access-lists`** to see if your rules are actually matching traffic.
+
+### 10-Minute Revision Sheet
+*   **Filter Types:** Standard (Source only) vs Extended (Full details).
+*   **Directions:** In (entering router) vs Out (leaving router).
+*   **Syntax:** `access-list [number] [permit/deny] [source] [wildcard]`.
+*   **VTY Security:** Use a Standard ACL and apply it with `access-class [name] in`.
+*   **Modification:** Use **sequence numbers** to delete (`no 10`) or add specific rules without deleting the whole list.
+
+---
+
+==============================================================================
+
+# Chapter 4: Network Security Concepts
+
+## 1. Learning Objectives
+*   Understand the **current state** of cybersecurity and why it matters.
+*   Identify different **threat actors** (hackers) and their tools.
+*   Describe types of **malware** like viruses, worms, and Trojans.
+*   Explain **common network attacks** such as reconnaissance and DoS.
+*   Understand **IP, TCP, and UDP vulnerabilities**.
+*   Learn **best practices** to protect a network, including the **CIA triad**.
+
+## 2. Important Terms
+
+| Term | Simple Meaning |
+| :--- | :--- |
+| **Asset** | Anything of value to a company (people, data, equipment). |
+| **Vulnerability** | A weakness in a system that can be attacked. |
+| **Threat** | A potential danger to a company's assets or data. |
+| **Exploit** | The "tool" or mechanism used to attack a vulnerability. |
+| **Mitigation** | A counter-measure used to reduce security risks. |
+| **Attack Vector** | The path a hacker takes to enter a network. |
+
+## 3. Main Concepts
+
+### The CIA Triad
+*   **What is it?** The three core goals of network security.
+*   **Why is it important?** It guides organizations in protecting their information systems.
+*   **How does it work?**
+    1.  **Confidentiality:** Only authorized people can see the data.
+    2.  **Integrity:** Data is not changed during transit.
+    3.  **Availability:** Users can access the network whenever they need it.
+
+### Malware (Malicious Software)
+*   **What is it?** Software designed to damage or gain access to a computer.
+*   **Why is it important?** Hackers rely on users to install malware to create security gaps.
+*   **Common Types:**
+    *   **Virus:** Requires a human to run it (like opening an email attachment) to spread.
+    *   **Worm:** Self-replicates and spreads automatically across a network.
+    *   **Trojan Horse:** Looks like a useful program but carries a hidden attack inside.
+
+### Social Engineering
+*   **What is it?** Manipulating people into giving away secret information or doing things they shouldn't.
+*   **Why is it important?** It targets the "weakest link" in security: the human user.
+*   **How does it work?** Hackers use techniques like **phishing** (fake emails) or **pretexting** (pretending to be someone else) to gain trust.
+
+## 4. Comparison Tables
+
+### Types of Hackers
+| Feature | White Hat | Gray Hat | Black Hat |
+| :--- | :--- | :--- | :--- |
+| **Goal** | Improve security (Legal) | Find bugs, then report them | Personal gain or damage |
+| **Ethics** | Ethical | Unethical/Debatable | Criminal |
+| **Action** | Fixes vulnerabilities. | May report after attacking. | Attacks for profit. |
+
+### DoS vs. DDoS Attacks
+| Feature | DoS (Denial of Service) | DDoS (Distributed DoS) |
+| :--- | :--- | :--- |
+| **Source** | One single source. | Multiple coordinated sources. |
+| **Method** | Flooding a host with traffic. | Uses a network of "zombies". |
+| **Detection** | Easier to identify source. | Very difficult to stop or block. |
+
+## 5. Flowcharts / Diagrams
+
+### How DNS Tunneling Works
+Data split into chunks
+↓
+Chunks hidden in DNS queries
+↓
+Queries sent to ISP, then to Hacker's server
+↓
+Hacker's server sends commands back in DNS responses
+↓
+Infected computer executes commands.
+
+## 6. Memory Tips
+*   **CIA:** **C**onfidentiality (Secret), **I**ntegrity (Untouched), **A**vailability (Always there).
+*   **Worm vs Virus:** A **Worm** crawls on its own (no help); a **Virus** needs a person to open it.
+*   **Hats:** **White** = Good guy (Hero); **Black** = Bad guy (Villain); **Gray** = Somewhere in the middle.
+
+## 7. Exam Keywords
+*   **Attack Vector** (Path to access).
+*   **Zombies** (Computers in a DDoS).
+*   **Phishing** (Fake emails).
+*   **ARP Cache Poisoning** (Redirecting traffic).
+*   **SYN Flood** (TCP attack).
+
+## 8. Common Mistakes
+*   **Wrong:** Thinking internal threats are less dangerous than external ones.
+*   **Correct:** **Internal threats** cause more damage because users already have physical access.
+*   **Wrong:** Thinking a "Virus" and a "Worm" are the same thing.
+*   **Correct:** A **Virus** needs human action to spread; a **Worm** spreads by itself.
+
+## 9. Scenario Questions
+
+**Scenario:** An employee finds a USB drive in the parking lot and plugs it into their work computer. Suddenly, files start being encrypted and a message demands payment.
+**Question:** What type of malware is this, and what social engineering technique was used?
+**Answer:** This is **Ransomware**. The technique is **Baiting**.
+**Reason:** Baiting uses curiosity (the lost drive) to trick someone into installing malware.
+
+**Scenario:** A hacker sends a fake email to a CFO pretending to be the bank, asking for account credentials.
+**Question:** Is this Phishing or Spear Phishing?
+**Answer:** **Spear Phishing**.
+**Reason:** Regular **phishing** is sent to many people; **spear phishing** is a targeted attack on a specific individual or role.
+
+## 10. Possible Exam Questions
+*   **Define:** What is a **Rootkit**? (Malware that gains admin access and hides its presence).
+*   **Compare:** What is the difference between **Vulnerability** and **Risk**?.
+*   **Explain:** How does a **TCP SYN Flood** attack work?.
+*   **List:** Name three data loss vectors. (Email, unencrypted devices, removable media).
+*   **Describe:** The **Defense-in-Depth** approach to security.
+
+## 11. Chapter Revision
+
+### Top 10 Facts to Remember
+1.  **Internal threats** are the most dangerous.
+2.  **Mitigation** means reducing risk.
+3.  **White Hat** hackers are legal and ethical.
+4.  **Worms** don't need human help to spread.
+5.  **Ransomware** locks your files for money.
+6.  **Social Engineering** manipulates people, not computers.
+7.  **DoS attacks** crash services by flooding them.
+8.  **IP spoofing** involves faking a source address.
+9.  **ARP poisoning** is used for Man-in-the-Middle attacks.
+10. The **CIA triad** is the foundation of security.
+
+### 10-Minute Revision Sheet
+*   **Core Goals:** Confidentiality, Integrity, Availability.
+*   **Malware:** Virus (needs human), Worm (self-spread), Trojan (hidden), Ransomware (pay money).
+*   **Social Engineering:** Phishing (Email), Baiting (USB), Tailgating (Following someone).
+*   **TCP/UDP:** SYN Flood (half-open connections), UDP Flood (exhausts bandwidth).
+*   **Devices:** **Firewall** (Access policy), **IPS** (Detects/Stops patterns), **ESA** (Email security).
+
+***

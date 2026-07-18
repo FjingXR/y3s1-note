@@ -1,0 +1,495 @@
+Cloud Architecting - Week 8
+20 Questions
+
+NAME :
+
+CLASS :
+
+DATE  :
+
+1.
+
+You are designing an ecommerce web application that will scale to hundreds of
+
+thousands of concurrent users. Which database technology is best suited to hold the
+
+session state in this example?
+
+A
+
+C
+
+Amazon Simple Storage Service (Amazon
+
+S3)
+
+B
+
+Amazon DynamoDB
+
+Amazon Redshift
+
+D
+
+Amazon Relational Database Service
+
+(Amazon RDS)
+
+2.
+
+You need to find an item in an Amazon DynamoDB table using an attribute other than the
+
+item's primary key. Which of the following operations should you use?
+
+A
+
+C
+
+Scan
+
+Query
+
+B
+
+D
+
+GetItem
+
+PutItem
+
+3.
+
+In Amazon DynamoDB, What does the query operation enable you to do?
+
+A
+
+C
+
+All of the above
+
+Query a table using partition key and an
+
+optional sort key filter
+
+B
+
+D
+
+Query any secondary indexes that exist
+
+for a table
+
+Efficiently retrieve items from a table or
+
+secondary index
+
+4. Which AWS Cloud service is best suited for analysing your data by using standard
+
+structured query language (SQL) and your existing business intelligence (BI) tools?
+
+A
+
+C
+
+Amazon Redshift
+
+Amazon S3 Glacier
+
+B
+
+D
+
+Amazon DynamoDB
+
+Amazon RDS
+
+5.
+
+In Amazon DynamoDB, an attribute is ______.
+
+A
+
+C
+
+a collection of tables
+
+a collection of items
+
+B
+
+D
+
+a fundamental data element
+
+a collection of attributes
+
+6.
+
+If you are developing an application that requires a database with extremely fast
+
+performance, fast scalability, and flexibility in the database scheme, which service should
+
+you consider?
+
+Amazon DynamoDB
+
+Amazon Redshift
+
+A
+
+C
+
+B
+
+D
+
+Amazon ElastiCache
+
+Amazon Relational Database Service
+(Amazon RDS)
+
+7. Which of the following use cases is appropriate for using Amazon Relational Database
+
+Service (Amazon RDS)?
+
+A
+
+C
+
+Complex transactions
+
+Massive read/write rates
+
+B
+
+D
+
+All of above
+
+Simple GET or PUT requests
+
+8.
+
+A company has an application, which consists of a .NET layer that connects to a MySQL
+
+database. They want to move this application on to AWS and use AWS features such as
+
+high availability and automated backups. Which of the following would be an ideal
+
+database for this use case
+
+A
+
+C
+
+Amazon RDS
+
+Amazon DynamoDB
+
+B
+
+D
+
+Amazon Redshift
+
+Amazon Aurora
+
+9.
+
+Amazon RDS automatically patches the database software and backs up your database,
+
+storing the backups for a user-defined retention period and enabling point-in-time
+recovery.
+
+A
+
+False
+
+B
+
+True
+
+10. What should you consider when choosing a database type?
+
+A
+
+C
+
+E
+
+High available
+
+Data access period
+
+All of the above
+
+B
+
+D
+
+Data size
+
+Query frequency
+
+11. Which statement describes AWS Identity and Access Management (IAM) users?
+
+A
+
+C
+
+IAM user names can represent a
+collection of individuals.
+
+Every IAM user name is unique across all
+
+AWS accounts.
+
+B
+
+D
+
+IAM users are used to control access to a
+specific AWS resource.
+
+Every IAM user for an account must have
+
+unique name.
+
+12.
+
+How can you grant the same level of permissions to multiple users within an account?
+
+A
+
+C
+
+Apply an IAM policy to an IAM group.
+
+Create an organisation in AWS
+
+Organisations.
+
+B
+
+D
+
+Create a resource-based policy.
+
+Apply an IAM policy to an IAM role.
+
+13. Which statements describe AWS IAM roles? (Select TWO.)
+
+A
+
+C
+
+They can be assumed by individual,
+
+applications, and services.
+
+They provide temporary security
+credentials.
+
+B
+
+D
+
+They are uniquely associated to an
+
+individual.
+
+They provide permanent security
+credentials.
+
+14. Which statement describes a resource-based policy?
+
+A
+
+C
+
+It is attached to a user or group.
+
+It can be an AWS managed policy.
+
+B
+
+D
+
+It can be applied to any AWS resource.
+
+It is always an inline policy.
+
+15.
+
+How does AWS IAM evaluate policy?
+
+It checks for explicit allow statements
+
+It checks for explicit deny statements
+
+A
+
+before it checks for explicit deny
+
+B
+
+before it checks for explicit allow
+
+statements.
+
+statements.
+
+C
+
+An explicit deny statement does not
+
+override an explicit allow statement.
+
+if there is no explicit deny statement or
+
+D
+
+explicit allow statement, user will have
+
+access by default.
+
+16.
+
+A team of developers needs access to several services and resources in a VPC for 9
+
+months. How can you use AWS IAM to enable access for them?
+
+A
+
+C
+
+Create a single IAM user for the
+developer team and attach the required
+IAM policies.
+
+Create an IAM user for each developer,
+
+put them all in an IAM group, and attach
+the required IAM policies to the IAM
+group.
+
+B
+
+D
+
+Create an IAM user for each developer,
+and attach the required IAM policies to
+each IAM user.
+
+Create a single IAM user for the
+
+developer team, place it in an IAM group,
+and attach the required IAM policies to
+the IAM group.
+
+17.
+
+How does identity federation increase security for an application that is built in AWS?
+
+The application can synchronised users'
+
+Users can use single sign-on (SSO) to
+
+A
+
+C
+
+user names and passwords in AWS IAM
+with their social media accounts.
+
+Users can use their IAM accounts to log
+
+in to on-premises systems.
+
+B
+
+D
+
+access the application through an
+existing authenticated identity.
+
+The browser can establish a trust
+relationship with the application to
+
+bypass the need for multi-factor
+authentication (MFA).
+
+18. Which services can you use to enable identity federation for your applications that are
+
+built in AWS? (Select TWO.)
+
+Amazon Cognito
+
+AWS Key Management Service (AWS
+
+KMS)
+
+A
+
+C
+
+B
+
+D
+
+AWS WAF
+
+AWS Security Token Service (AWS STS)
+
+19. What service helps you centrally mange billing; control access, compliance and security;
+
+and share resources across multiple AWS accounts?
+
+A
+
+C
+
+20.
+
+A
+
+C
+
+AWS Control Tower
+
+Amazon VPC peering
+
+B
+
+D
+
+AWS IAM
+
+AWS Organisations
+
+A technology company's employees log in to their AWS accounts through AWS IAM users.
+They have admin access and access to the root users. Which resource can prevent them
+
+from deleting the AWS CloudTrail logs?
+
+A service control policy (SCP) that is
+
+attached to the organisational unit (OU)
+
+IAM users with admin access can
+
+override the S3 bucket policies.
+
+B
+
+D
+
+Amazon S3 bucket policy that is attached
+
+to logging buckets
+
+An IAM policy that is attached to each
+
+IAM user
+
+

@@ -1,0 +1,47 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - heading "Login" [level=2] [ref=e3]
+    - generic [ref=e4]:
+      - table [ref=e5]:
+        - rowgroup [ref=e6]:
+          - row "System PostgreSQL" [ref=e7]:
+            - rowheader "System" [ref=e8]
+            - cell "PostgreSQL" [ref=e9]:
+              - combobox [ref=e10]:
+                - option "MySQL"
+                - option "SQLite 3"
+                - option "SQLite 2"
+                - option "PostgreSQL" [selected]
+                - option "Oracle (beta)"
+                - option "MS SQL (beta)"
+                - option "MongoDB (alpha)"
+                - option "Elasticsearch (beta)"
+          - row "Server 127.0.0.1" [ref=e11]:
+            - rowheader "Server" [ref=e12]
+            - cell "127.0.0.1" [ref=e13]:
+              - textbox "hostname[:port]" [ref=e14]:
+                - /placeholder: localhost
+                - text: 127.0.0.1
+          - row "Username philler" [ref=e15]:
+            - rowheader "Username" [ref=e16]
+            - cell "philler" [ref=e17]:
+              - textbox [active] [ref=e18]: philler
+          - row "Password" [ref=e19]:
+            - rowheader "Password" [ref=e20]
+            - cell [ref=e21]:
+              - textbox [ref=e22]
+          - row "Database class_replacement" [ref=e23]:
+            - rowheader "Database" [ref=e24]
+            - cell "class_replacement" [ref=e25]:
+              - textbox [ref=e26]: class_replacement
+      - paragraph [ref=e27]:
+        - button "Login" [ref=e28]
+        - generic [ref=e29]:
+          - checkbox "Permanent login" [ref=e30]
+          - text: Permanent login
+  - heading "Adminer 4.8.1" [level=1] [ref=e32]:
+    - link "Adminer" [ref=e33] [cursor=pointer]:
+      - /url: https://www.adminer.org/
+    - text: 4.8.1
+    - link:
+      - /url: https://www.adminer.org/#download

@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="88UwLw5WV7DU6nowV0s-">
+    <mxGraphModel dx="1046" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="NnqI2wI02wr_C6howxT0-3" edge="1" parent="1" source="NnqI2wI02wr_C6howxT0-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="NnqI2wI02wr_C6howxT0-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NnqI2wI02wr_C6howxT0-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;[Project Manager / Leader]&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;(Poong Foo Jing)&lt;/font&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="60" width="215" x="365" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NnqI2wI02wr_C6howxT0-5" edge="1" parent="1" source="NnqI2wI02wr_C6howxT0-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="NnqI2wI02wr_C6howxT0-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NnqI2wI02wr_C6howxT0-7" edge="1" parent="1" source="NnqI2wI02wr_C6howxT0-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="NnqI2wI02wr_C6howxT0-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NnqI2wI02wr_C6howxT0-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Helvetica&quot;&gt;[&lt;span style=&quot;color: rgb(0, 0, 0); background-color: transparent; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;&quot; id=&quot;docs-internal-guid-17cd2f60-7fff-4d24-c937-837bb831e371&quot;&gt;Full-Stack Developer&lt;/span&gt;]&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Helvetica&quot;&gt;(Chong Ye Keh)&lt;/font&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="60" width="215" x="365" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="NnqI2wI02wr_C6howxT0-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="&lt;p align=&quot;center&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;[&lt;span style=&quot;font-family: Arial, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;&quot;&gt;UI/UX Front-End Developer]&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;(Alvin Chong)&lt;/font&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="215" x="145" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="NnqI2wI02wr_C6howxT0-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="&lt;p&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;[&lt;span style=&quot;font-family: Arial, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Database Admin &amp;amp; Risk Specialist&lt;/span&gt;&lt;/span&gt;]&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;(Chai Zhen Yi)&lt;/font&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="215" x="585" y="330" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

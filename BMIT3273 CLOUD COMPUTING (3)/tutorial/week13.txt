@@ -1,0 +1,283 @@
+Cloud Architecting - Week 13
+10 Questions
+
+NAME :
+
+CLASS :
+
+DATE  :
+
+1. What are characteristics of components in a microservice architecture? (Select THREE.)
+
+A
+
+C
+
+Hidden implementation
+
+Specialised function
+
+2. What is a container?
+
+B
+
+D
+
+HTTP(S) communication
+
+Independence from other components
+
+A
+
+C
+
+A portable package of code and libraries B
+
+A virtual storage location in the cloud
+
+An operating system that runs a virtual
+
+machine
+
+D
+
+A method of operating system
+
+virtualisation
+
+3. What is the most effective use of Amazon Elastic Container Service (Amazon ECS) when
+
+refactoring a monolithic application to use a microservice architecture?
+
+Refactor the application and centralise
+
+A
+
+common functions to create a smaller
+
+B
+
+code footprint.
+
+Port the application to a new image and
+
+C
+
+run it in a container that Amazon ECS
+
+D
+
+manages.
+
+Create services that each provide a
+
+distinct function of the application, and
+
+run each service in a single container that
+
+ECS manages.
+
+Create services that each provide a
+
+distinct function of the application, and
+
+run each service in a separate container
+
+that Amazon ECS manages.
+
+4. What is AWS Fargate?
+
+A
+
+C
+
+A service that enables you to run
+
+containers without needing to mange
+servers or clusters
+
+A tool for developing software that use
+
+field-programmable gate arrays (FPGA)
+
+B
+
+D
+
+A service that seamlessly extends AWS
+
+services to edge devices
+
+A fully manned service for orchestrating
+
+container cluster
+
+5. What is serverless architecture in AWS?
+
+A
+
+C
+
+An architecture where you dod not
+
+provision or mange infrastructure
+
+An architecture that uses microservices
+
+instead of monolithic servers
+
+B
+
+D
+
+An architecture that only uses managed
+
+services
+
+An architecture that does not use any on-
+
+premises servers
+
+6. What are benefits of serverless computing in Amazon AWS? (Select THREE.)
+
+A
+
+C
+
+Lower total cost of ownership
+
+Less complicated software architecture
+
+B
+
+D
+
+Ability to build microservice applications
+
+More focus on the application
+
+7.
+
+How can you scale AWS Lambda functions to ensure high availability?
+
+A
+
+C
+
+Do nothing special because functions
+
+scale automatically
+
+B
+
+Enable automatic scaling in the function
+
+Launch functions in Auto Scaling groups D
+
+Provision enough function instances. to
+
+meet the maximum predicted load
+
+8.
+
+An environmental science organisation wants to provide HTTPS read-only access to its
+sensors and databases to any users around the world. The goal is enabling users to
+
+create their own custom real-time data visualisations to help improve climate science.
+
+Which solution is efficient and secure?
+
+A
+
+C
+
+Create a public interface to the sensors
+and database by using Amazon API
+
+Gateway.
+
+Create user accounts in the
+organisations' system to allow access.
+
+B
+
+D
+
+Create web proxies servers on Amazon
+EC2 instances in an Auto Scaling group,
+
+which is served by an ELB.
+
+Create a microservices architecture by
+using Amazon ECS.
+
+9. Which workloads are supported by AWS Step Functions? (Select THREE.)
+
+A
+
+C
+
+Deploy different kinds of infrastructure
+
+that are based on variables
+
+Coordinate multi-step analytics and
+
+machine learning workflows
+
+B
+
+D
+
+Update inventory and initiate shipment
+
+when a customer purchases an item on
+an e-commerce site
+
+Consolidate data from multiple
+
+databases when the costs for an AWS
+account exceed a threshold
+
+10. What is a serverless solution for creating a simple web form?
+
+A
+
+C
+
+Host website assets in a container in an
+
+Amazon ECS cluster, use an Amazon
+DynamoDB table, and use server-side
+
+scripts to interact with the database.
+
+Host static assets in an Amazon S3
+
+bucket, use an Amazon RDS database,
+
+B
+
+and use Amazon API Gateway and AWS
+
+Lambda functions to interact with the
+
+database.
+
+Host static assets in Amazon S3 bucket,
+
+Host website assets in a container in an
+
+use Amazon DynamoDB table, and use
+
+Amazon API Gateway and AWS Lambda
+functions to interact with the database.
+
+D
+
+Amazon ECS cluster, use an Amazon RDS
+
+database, and use server-side scripts to
+interact with the database.
+
+

@@ -1,0 +1,303 @@
+Cloud Architecting - Week 12
+10 Questions
+
+NAME :
+
+CLASS :
+
+DATE  :
+
+1. Which statement describes the difference between tightly and loosely coupled
+
+architecture?
+
+Tightly coupled architectures are most
+
+A
+
+likely to fail than loosely couple
+
+B
+
+architecture
+
+Loosely coupled architecture must use
+
+Company in a tightly couple architecture
+
+are highly dependent on each other, but
+
+they are not highly dependent in a
+loosely coupled architecture.
+
+Tightly coupling any part of an
+architecture means that the entire
+
+C
+
+managed services, and tightly coupled
+
+D
+
+architecture is tightly coupled, but this
+
+architecture do not have this limitation.
+
+principle does not apply to a loosely
+
+couple architecture.
+
+2. Which phrase describe Amazon Simple Queue Service (Amazon SQS)? (Select THREE.)
+
+A
+
+Use a pull mechanism
+
+B
+
+Support email and text messaging
+
+C
+
+Stores and encrypts messages until they
+
+are processed and deleted
+
+Enables you to decouple and scale
+
+D
+
+microservices, distributed systems, and
+
+serverless applications
+
+3. Which scenarios indicate that you should use an Amazon Simple Queue Service (Amazon
+
+SQS) standard queue? (Select TWO.)
+
+A
+
+C
+
+A message might need to be delivered
+more than once.
+
+Message prioritisation is necessary.
+
+B
+
+D
+
+A message must be processed only once.
+
+Messages can be sent in any order.
+
+4.
+
+A fleet of Amazon EC2 instances process videos that users upload. Which function can
+
+Amazon SQS perform in this application?
+
+A
+
+C
+
+The application writes the video files to
+
+The application places job messages in
+
+an SQS queue. EC2 instances with
+
+available processing capacity pull the
+next video from the queue.
+
+B
+
+an SQS queue. EC2 instances with
+
+available processing capacity pull the
+next job message from the queue.
+
+EC2 instance put edited video files in an
+
+An SQS queue receives messages from
+
+SQS queue. The application retrieve the
+videos from the queue.
+
+D
+
+the application and notifies all available
+EC2 instances that videos are available.
+
+5. What is Amazon Simple Notification Service (Amazon SNS)?
+
+A fully managed messaging service for
+
+both system-to-system and application-
+
+to-people (A2P) Communication, which
+
+use publish/subscribe (pub/sub) patterns
+
+A flexible and scalable outbound and
+
+inbound marketing Communications
+
+service that use email, SMS, push, or
+
+B
+
+D
+
+A
+
+C
+
+A cost-effective, flexible and scalable
+
+email service that enables developers to
+send email from within any application
+
+A serverless event bus that enables easy
+
+connection of applications by using data
+
+from your own applications, integrated
+
+voice communication channels
+
+SaaS applications, and AWS services
+
+6. What are some use cases for Amazon Simple Notification Service (Amazon SNS)? (Select
+
+THREE.)
+
+Sent a push notification to mobile
+
+applications when a new software
+update is available.
+
+Notify multiple systems that user input is
+
+really for processing.
+
+A
+
+C
+
+B
+
+D
+
+Hold input until it can be processed in
+
+the order it was received.
+
+Sent a text message to systems
+
+operators when unusual activity has
+been detected.
+
+7. What are some features of Amazon Simple Notification Service (Amazon SNS)? (Select
+
+THREE.)
+
+A
+
+C
+
+Message delivery to a URL
+
+Message deliver to an Amazon SQS
+
+queue
+
+8. What is Amazon MQ?
+
+A
+
+C
+
+Message query service
+
+Identity broker service
+
+B
+
+D
+
+B
+
+D
+
+Guaranteed message delivery
+
+Support for encryption
+
+Message broker service
+
+Managed queue service
+
+9. What is a good use case for Amazon MQ?
+
+Migrating an existing on-premises
+
+A
+
+application that uses Apache ActiveMQ to
+
+B
+
+communicate between mircoservices
+
+Uploading a standalone static website to
+
+AWS
+
+C
+
+Decoupling components in a new cloud-
+
+native application
+
+D
+
+Connecting a VPC to an on-premises
+
+network
+
+10.
+
+Two AWS Lambda functions must simultaneously process PDF files when they are
+
+uploaded to S3 bucket. The S3 event notification allow only one action when the PDF files
+are uploaded. Which solution provides the simplest and most efficient way to trigger both
+
+Lambda functions?
+
+A
+
+C
+
+Send the S3 event to SNS topic that both
+
+Lambda functions subscribe to.
+
+Send the S3 event to SQS queue that
+
+both Lambda functions poll.
+
+B
+
+D
+
+Sent the S3 event to an Amazon MQ for
+
+distribution to both Lambda functions.
+
+Upload two copies of each PDF file by
+
+using different object key prefixes.
+
+

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storage Block Guide</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,sans-serif;background:#0f172a;color:#e2e8f0;padding:16px}
+  .wrap{max-width:960px;margin:0 auto}
+
+  .hero{text-align:center;padding:24px 0 16px;border-bottom:2px solid #38bdf8;margin-bottom:16px}
+  .hero h1{font-size:1.8rem;background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .badge{background:#1e40af;color:#93c5fd;padding:3px 12px;border-radius:20px;font-size:.75rem}
+
+  .tabs{display:flex;gap:3px;background:#1e293b;padding:5px;border-radius:10px;margin:12px 0;flex-wrap:wrap}
+  .tab-btn{flex:1;padding:8px 12px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:.8rem;border-radius:7px;cursor:pointer;transition:.2s;min-width:70px;text-align:center}
+  .tab-btn:hover{color:#e2e8f0;background:#334155}
+  .tab-btn.active{background:#38bdf8;color:#0f172a}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+
+  .card{background:#1e293b;border-radius:10px;padding:16px;margin-bottom:10px;border:1px solid #334155}
+  .card h2{font-size:1rem;color:#38bdf8;margin-bottom:8px}
+  .card p,.card li{font-size:.8rem;color:#cbd5e1}
+  ul{padding-left:16px}li{margin-bottom:2px}
+
+  .tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:.7rem;font-weight:600;margin:1px}
+  .t-blue{background:#1e3a5f;color:#93c5fd}
+  .t-green{background:#14532d;color:#86efac}
+  .t-purple{background:#3b0764;color:#d8b4fe}
+  .t-orange{background:#7c2d12;color:#fdba74}
+  .t-red{background:#7f1d1d;color:#fca5a5}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+  table{width:100%;border-collapse:collapse;font-size:.75rem;margin:8px 0}
+  th{background:#334155;color:#e2e8f0;padding:5px 8px;text-align:left;font-weight:600}
+  td{padding:5px 8px;border-bottom:1px solid #334155;color:#cbd5e1}
+
+  .box{padding:10px 14px;border-radius:0 7px 7px 0;margin:8px 0;font-size:.8rem}
+  .box-info{border-left:3px solid #38bdf8;background:linear-gradient(135deg,#1e3a5f,#1a2332)}
+  .box-warn{border-left:3px solid #f59e0b;background:linear-gradient(135deg,#451a03,#1a2332)}
+  .box-ok{border-left:3px solid #22c55e;background:linear-gradient(135deg,#052e16,#1a2332)}
+
+  .arch{display:flex;flex-direction:column;align-items:center;gap:4px;margin:12px 0}
+  .arch-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+  .ab{padding:6px 12px;border-radius:6px;font-size:.7rem;font-weight:600;text-align:center}
+  .a1{background:#1e3a5f;color:#93c5fd;border:1px solid #3b82f6}
+  .a2{background:#14532d;color:#86efac;border:1px solid #22c55e}
+  .a3{background:#7c2d12;color:#fdba74;border:1px solid #f97316}
+  .a4{background:#3b0764;color:#d8b4fe;border:1px solid #a855f7}
+  .a5{background:#7f1d1d;color:#fca5a5;border:1px solid #ef4444}
+  .a6{background:#1e1b4b;color:#c4b5fd;border:1px solid #6366f1}
+  .arw{color:#475569;font-size:.8rem}
+
+  .cb label{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;cursor:pointer;border-radius:5px;font-size:.8rem;color:#cbd5e1}
+  .cb label:hover{background:#1a2332}
+  .cb input{width:16px;height:16px;accent-color:#38bdf8;margin-top:2px;flex-shrink:0}
+  .cb input:checked+span{text-decoration:line-through;opacity:.5}
+
+  .bar{height:5px;background:#334155;border-radius:3px;overflow:hidden;margin:12px 0}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#818cf8);border-radius:3px;transition:.5s}
+
+  @media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="badge">BMIS2113 · Storage Block · 40% Individual</span>
+  <h1>Storage Building Block</h1>
+  <p style="color:#94a3b8;font-size:.85rem">Before you write Part B & C · Comet Retail Store</p>
+</div>
+
+<div class="wrap">
+<div class="bar"><div class="fill" id="progFill"></div></div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-t="overview">⚡ TL;DR</button>
+  <button class="tab-btn" data-t="cheat">📖 Cheatsheet</button>
+  <button class="tab-btn" data-t="partb">🔍 Part B</button>
+  <button class="tab-btn" data-t="partc">🚀 Part C</button>
+  <button class="tab-btn" data-t="todo">✅ Todo</button>
+</div>
+
+<!-- TAB: OVERVIEW -->
+<div class="tab-content active" id="t-overview">
+  <div class="card">
+    <h2>Your Job in 30 Seconds</h2>
+    <div class="grid-2">
+      <div>
+        <p><strong>Part B (~1 pg table)</strong></p>
+        <p>Analyse Comet's current storage. 3 columns:</p>
+        <p style="font-size:.75rem;color:#94a3b8">Existing → Issues → Impact</p>
+      </div>
+      <div>
+        <p><strong>Part C (~2 pg table)</strong></p>
+        <p>Propose solutions. 3 columns:</p>
+        <p style="font-size:.75rem;color:#94a3b8">Solution → Justification → Alignment</p>
+      </div>
+    </div>
+    <div class="box-ok" style="margin-top:8px">
+      <strong>Company:</strong> Comet Retail Store · 10 outlets Sabah/Sarawak · HQ Kota Kinabalu · POS + inventory + online shop
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What Comet Currently Has (Your Starting Point)</h2>
+    <div style="font-size:.8rem;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px">
+      <span>💾 DAS internal SATA HDDs</span>
+      <span>🛡️ RAID 5 everywhere</span>
+      <span>📀 Weekly USB backup (on-site)</span>
+      <span>❌ No snapshots/replication</span>
+      <span>📂 Single tier (all same disk)</span>
+      <span>⚠️ Reactive capacity (no monitoring)</span>
+      <span>🔓 Unencrypted data at rest</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Your 7 Proposals (Overview)</h2>
+    <div class="grid-3">
+      <div><span class="tag t-blue">① SAN + FC</span><br><span style="font-size:.7rem;color:#94a3b8">Replace DAS</span></div>
+      <div><span class="tag t-green">② RAID 10 SSDs</span><br><span style="font-size:.7rem;color:#94a3b8">For DB LUNs</span></div>
+      <div><span class="tag t-purple">③ 3-2-1 Backup</span><br><span style="font-size:.7rem;color:#94a3b8">VTL + LTO-9</span></div>
+      <div><span class="tag t-purple">④ Snapshots+Replication</span><br><span style="font-size:.7rem;color:#94a3b8">To Kuching</span></div>
+      <div><span class="tag t-orange">⑤ Auto Tiering</span><br><span style="font-size:.7rem;color:#94a3b8">3 tiers</span></div>
+      <div><span class="tag t-blue">⑥ Monitoring</span><br><span style="font-size:.7rem;color:#94a3b8">Forecasting</span></div>
+      <div><span class="tag t-red">⑦ SED Encryption</span><br><span style="font-size:.7rem;color:#94a3b8">PDPA</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: CHEATSHEET -->
+<div class="tab-content" id="t-cheat">
+  <div class="card">
+    <h2>Storage Models</h2>
+    <table>
+      <tr><th>Type</th><th>Best for</th><th>Your use</th></tr>
+      <tr><td>DAS</td><td>Single server</td><td>Comet's current (bad)</td></tr>
+      <tr><td>SAN (FC/iSCSI)</td><td>Centralized, HA</td><td>✅ Primary recommendation</td></tr>
+      <tr><td>NAS</td><td>File sharing</td><td>Can supplement SAN</td></tr>
+      <tr><td>Object Storage</td><td>Archives/cloud</td><td>Off-site backup option</td></tr>
+      <tr><td>SDS</td><td>Virtualized pool</td><td>Budget alternative</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>RAID Penalties</h2>
+      <table>
+        <tr><th>RAID</th><th>Penalty</th><th>Use</th></tr>
+        <tr><td>10</td><td><strong>2x</strong></td><td>✅ DB (POS/inventory)</td></tr>
+        <tr><td>5</td><td>4x</td><td>Warm data</td></tr>
+        <tr><td>6</td><td>6x</td><td>Cold/archives</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Key Acronyms</h2>
+      <table>
+        <tr><td>RPO</td><td>Max data loss (time)</td></tr>
+        <tr><td>RTO</td><td>Time to recover</td></tr>
+        <tr><td>IOPS</td><td>I/O operations/sec</td></tr>
+        <tr><td>LUN</td><td>Logical disk unit</td></tr>
+        <tr><td>HBA</td><td>Host bus adapter</td></tr>
+        <tr><td>VTL</td><td>Virtual tape library</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Disk Types</h2>
+    <table>
+      <tr><th>Type</th><th>IOPS</th><th>Cost</th><th>Your tier</th></tr>
+      <tr><td>SAS SSD</td><td>~100K</td><td>$$$</td><td>Tier 1 (hot DB)</td></tr>
+      <tr><td>SAS HDD</td><td>~200</td><td>$$</td><td>Tier 2 (warm)</td></tr>
+      <tr><td>NL-SAS HDD</td><td>~120</td><td>$</td><td>Tier 3 (cold/backup)</td></tr>
+      <tr><td>LTO-9 Tape</td><td>200 MB/s</td><td>$</td><td>Off-site archive</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>Backup Schemes</h2>
+      <table>
+        <tr><th>Type</th><th>Speed</th><th>Storage</th></tr>
+        <tr><td>Full</td><td>Fast</td><td>High</td></tr>
+        <tr><td>Incremental</td><td>Slow</td><td>Low</td></tr>
+        <tr><td>Differential</td><td>Medium</td><td>Medium</td></tr>
+        <tr><td>CDP</td><td>Instant</td><td>Expensive</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>GFS Retention</h2>
+      <p style="font-size:.75rem">Daily (Son) → Weekly (Father) → Monthly (Grandfather)</p>
+      <p style="font-size:.75rem;color:#94a3b8">Mention this in backup proposal</p>
+    </div>
+  </div>
+
+  <div class="box-warn"><strong>Must mention:</strong> PDPA 2010 (Malaysia data protection law) · 3-2-1 rule · Sync vs Async replication trade-off</div>
+</div>
+
+<!-- TAB: PART B -->
+<div class="tab-content" id="t-partb">
+  <div class="card">
+    <h2>Part B: Existing → Issues → Impact</h2>
+    <p style="font-size:.8rem">7 rows. 3 columns. ~1 page.</p>
+    <table>
+      <tr><th>#</th><th>Existing</th><th>Issue</th><th>Impact</th></tr>
+      <tr><td>1</td><td>DAS internal SATA HDDs</td><td>No central mgmt, siloed</td><td>Manual migration, admin overhead</td></tr>
+      <tr><td>2</td><td>RAID 5 on all servers</td><td>4x write penalty</td><td>Slow POS peak hours, inventory lag</td></tr>
+      <tr><td>3</td><td>Weekly USB backup on-site</td><td>7-day RPO, no off-site</td><td>1 week data loss risk; fire=total loss</td></tr>
+      <tr><td>4</td><td>No snapshots/replication</td><td>No corruption protection</td><td>DB corruption = days to restore</td></tr>
+      <tr><td>5</td><td>Single disk tier</td><td>I/O contention</td><td>POS slow during batch jobs</td></tr>
+      <tr><td>6</td><td>Reactive capacity</td><td>No forecasting</td><td>Emergency buys, unplanned downtime</td></tr>
+      <tr><td>7</td><td>Unencrypted data</td><td>PDPA non-compliance</td><td>Legal risk, warranty data leaks</td></tr>
+    </table>
+    <div class="box-warn" style="margin-top:8px">Also mention <strong>internal constraints:</strong> small IT team (2-3), budget, KK centralized, Sabah/Sarawak logistics</div>
+  </div>
+</div>
+
+<!-- TAB: PART C -->
+<div class="tab-content" id="t-partc">
+  <div class="card">
+    <h2>Part C: Solution → Justification → Alignment</h2>
+    <p style="font-size:.8rem">7 proposal rows. 3 columns. ~2 pages.</p>
+    <div class="box-ok">
+      <strong>Alignment = hardest column.</strong> Must cover ALL 3: <span class="tag t-blue">Company constraints</span> <span class="tag t-orange">Malaysian market</span> <span class="tag t-green">Business value</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Proposal Architecture</h2>
+    <div class="arch">
+      <div class="arch-row">
+        <div class="ab a1">T1: SAS SSD<br>RAID 10</div>
+        <div class="ab a2">T2: SAS HDD<br>RAID 5</div>
+        <div class="ab a3">T3: NL-SAS<br>RAID 6</div>
+      </div>
+      <div class="arw">⬆ Auto tiering ⬆</div>
+      <div class="arch-row"><div class="ab a6">SAN Controller (Dual FC · 16 Gbps)</div></div>
+      <div class="arch-row">
+        <div class="ab a6">Hourly Snapshots</div>
+        <div class="ab a4">Async Replication → Kuching (15min)</div>
+      </div>
+      <div class="arch-row">
+        <div class="ab a4">VTL Backup (Daily)</div>
+        <div class="ab a4">LTO-9 Tape (Off-site)</div>
+      </div>
+      <div class="arch-row">
+        <div class="ab a5">SED Encryption</div>
+        <div class="ab a6">Monitoring + Forecasting</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>Alignment Cheatsheet</h2>
+      <table>
+        <tr><th>Constraint</th><th>Say this</th></tr>
+        <tr><td>Small IT team</td><td>Centralized SAN mgmt, auto alerts</td></tr>
+        <tr><td>KK centralized</td><td>SAN fits single-HQ model</td></tr>
+        <tr><td>Sabah-Sarawak</td><td>Async replication tolerates latency</td></tr>
+        <tr><td>Festive peaks</td><td>RAID 10 handles write bursts</td></tr>
+        <tr><td>PDPA 2010</td><td>SEDs + CDE = compliance</td></tr>
+        <tr><td>Budget</td><td>Tiering = 70% perf at 50% cost</td></tr>
+        <tr><td>Procurement lag</td><td>Forecasting prevents emergency buys</td></tr>
+        <tr><td>Retail competition</td><td>Faster checkout, 24/7 uptime</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Key Numbers to Drop</h2>
+      <table>
+        <tr><td>FC speed</td><td>16 Gbps</td></tr>
+        <tr><td>SAS SSD</td><td>960 GB, ~100K IOPS</td></tr>
+        <tr><td>NL-SAS</td><td>4 TB, ~120 IOPS</td></tr>
+        <tr><td>LTO-9</td><td>18 TB native, 30yr life</td></tr>
+        <tr><td>RPO (backup)</td><td>24 hr (was 7 days)</td></tr>
+        <tr><td>RPO (replication)</td><td>15 min</td></tr>
+        <tr><td>RTO (VTL restore)</td><td>4-6 hr (was 2-3 days)</td></tr>
+        <tr><td>RAID 10 penalty</td><td>2x vs RAID 5's 4x</td></tr>
+        <tr><td>Checkout time</td><td>20s vs 45s before</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: TODO -->
+<div class="tab-content" id="t-todo">
+  <div class="card"><h2>Checklist</h2></div>
+
+  <div class="card cb">
+    <p style="font-weight:600;font-size:.85rem;color:#38bdf8">📋 Part B</p>
+    <label><input type="checkbox" onchange="up()"><span>DAS + SATA HDDs (no centralization)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>RAID 5 penalty (4x) → slow POS</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Weekly USB backup → 7-day RPO</span></label>
+    <label><input type="checkbox" onchange="up()"><span>No snapshots/replication</span></label>
+    <label><input type="checkbox" onchange="up()"><span>No tiering (I/O contention)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Reactive capacity (emergency buys)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Unencrypted (PDPA risk)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Mentioned constraints (small IT, budget, geography)</span></label>
+  </div>
+
+  <div class="card cb">
+    <p style="font-weight:600;font-size:.85rem;color:#22c55e">📋 Part C</p>
+    <label><input type="checkbox" onchange="up()"><span>SAN with dual FC controllers</span></label>
+    <label><input type="checkbox" onchange="up()"><span>RAID 10 on SAS SSDs for DB</span></label>
+    <label><input type="checkbox" onchange="up()"><span>3-2-1 backup (VTL + LTO-9 + GFS)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Hourly snapshots + async replication</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Auto tiering (T1 SSD / T2 SAS / T3 NL-SAS)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Monitoring + capacity forecasting</span></label>
+    <label><input type="checkbox" onchange="up()"><span>SED encryption + CDE</span></label>
+    <label><input type="checkbox" onchange="up()"><span>All 3 alignment angles covered each row</span></label>
+  </div>
+
+  <div class="card cb">
+    <p style="font-weight:600;font-size:.85rem;color:#f59e0b">📋 Technical depth</p>
+    <label><input type="checkbox" onchange="up()"><span>Used specific numbers (GB, IOPS, Gbps)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>RAID penalties correct (2/4/6)</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Terms: LUN, HBA, RPO, RTO, VTL, SED, CDE</span></label>
+    <label><input type="checkbox" onchange="up()"><span>Sync vs async explained</span></label>
+    <label><input type="checkbox" onchange="up()"><span>PDPA 2010 cited</span></label>
+    <label><input type="checkbox" onchange="up()"><span>APA references (5-7 sources)</span></label>
+  </div>
+
+  <div style="text-align:center;padding:10px;color:#94a3b8;font-size:.85rem">
+    Progress: <span id="cCount">0</span>/<span id="cTotal">26</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'))
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'))
+    b.classList.add('active')
+    document.getElementById('t-'+b.dataset.t).classList.add('active')
+  })
+})
+function up(){
+  const c=document.querySelectorAll('.cb input')
+  const k=document.querySelectorAll('.cb input:checked')
+  document.getElementById('cCount').textContent=k.length
+  document.getElementById('cTotal').textContent=c.length
+  document.getElementById('progFill').style.width=(k.length/c.length*100)+'%'
+}
+up()
+</script>
+</body>
+</html>

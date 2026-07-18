@@ -1,0 +1,481 @@
+Cloud Architecting - Week 9
+20 Questions
+
+NAME :
+
+CLASS :
+
+DATE  :
+
+1. Which of the following is not one of the four areas of the Performance Efficiency pillar of
+
+the AWS Well-Architected Framework?
+
+A
+
+C
+
+Traceability
+
+Monitoring
+
+B
+
+D
+
+Tradeoffs
+
+Selection
+
+2. Which of the following is a principle when designing cloud-based systems?
+
+A
+
+C
+
+Make infrequent, large batch changes
+
+Build tightly-coupled components
+
+B
+
+D
+
+Use as many services as possible
+
+Assume everything will fail
+
+3. Which of the following are pillars of the AWS Well-Architected Framework? (Choose three)
+
+A
+
+C
+
+Persistence
+
+Operational Excellence
+
+B
+
+D
+
+Cost Optimization
+
+Security
+
+4. Which design principles are recommended when considering performance efficiency?
+
+(Choose 2)
+
+A
+
+C
+
+Analyze and attribute expenditure
+
+Match supply with demand
+
+B
+
+D
+
+Use serverless architecture
+
+Democratize advanced technologies
+
+5.
+
+AWS Trusted Advisor provides insight regarding which five categories of an AWS account?
+
+A
+
+C
+
+Performance, cost optimization, access
+
+control, connectivity, security
+
+Performance, cost optimization, security,
+fault tolerance, service limits
+
+B
+
+D
+
+Security, access control, high availability,
+
+performance, service limits
+
+Security, fault tolerance, high availability,
+connectivity, service limits
+
+6.
+
+The AWS Well-Architected Framework is organized into how many pillars?
+
+A
+
+C
+
+None of the above
+
+3
+
+B
+
+D
+
+4
+
+5
+
+7.
+
+After you move to the AWS Cloud, you want to ensure that the right security settings are
+
+put in place.Which online tool can assist in security compliance?
+
+A
+
+C
+
+AWS Support
+
+AWS Trusted Advisor
+
+B
+
+D
+
+Amazon CloudWatch
+
+Amazon Kinesis
+
+8. Which of the following is a measure of your system's ability to provide functionality when
+
+desired by the user?
+
+A
+
+C
+
+Fault Tolerance
+
+Performance efficiency
+
+B
+
+D
+
+Availability
+
+Reliability
+
+9. What is defined as the ability for a system to remain operational even if some of the
+
+components of that system fail?
+
+A
+
+C
+
+High availability
+
+High durability
+
+B
+
+Fault tolerance
+
+10. Which of the following best describes a system that can withstand some measures of
+
+degradation, experiences minimal downtime, and requires minimal human intervention?
+
+A
+
+C
+
+Elastic
+
+Fault-tolerant
+
+B
+
+D
+
+Scalable
+
+High available
+
+11. Which statement about Amazon EC2 Auto Scaling is accurate?
+
+A
+
+C
+
+It requires the customer to purchase
+
+Reserved Instances.
+
+B
+
+It can only launch new Amazon EC2
+
+instances based on a schedule.
+
+It can launch Amazon EC2 instances in
+
+multiple Availability Zones.
+
+It can launch Amazon EC2 instances, but
+
+D
+
+customers must terminate instances
+
+after they they are no longer needed.
+
+12.
+
+You detected that the demand on a fleet of Amazon EC2 instances in an Auto Scaling
+
+group increases by a set amount each day. Which type of scaling is the most appropriate
+for this scenario?
+
+A
+
+C
+
+Manual
+
+Scheduled
+
+B
+
+D
+
+Dynamic
+
+Predictive
+
+13.
+
+A fleet of Amazon EC2 instances are launched in an Auto Scaling group behind an Elastic
+
+Load Balancing load balancer. The EC2 instances must maintain 50 percent average CPU
+utilisation. Which type of scaling provides the simplest way to achieve the requirement?
+
+A
+
+C
+
+Manual scaling
+
+Target tracking scaling
+
+B
+
+D
+
+Simple scaling
+
+Step scaling
+
+14.
+
+How do you vertically scale an Amazon RDS database?
+
+A
+
+C
+
+By changing the instance class
+
+By sharding the database
+
+B
+
+D
+
+By adding read replicas
+
+By creating dedicated read and write
+
+nodes
+
+15.
+
+How do you horizontally scale an Amazon Aurora database?
+
+A
+
+C
+
+By increasing the size of the buffer cache
+
+configuration
+
+B
+
+By changing the instance type
+
+By creating Amazon CloudWatch alarms D
+
+By adding Aurora Replica instances
+
+16.
+
+How does Amazon DynamoDB perform automatic scaling?
+
+A
+
+C
+
+It adds and removes database instances
+
+in response to changes in traffic.
+
+It adjusts the provisioned throughput
+
+capacity in response to traffic patterns.
+
+B
+
+D
+
+It changes the instance type in response
+
+to changes in processing load.
+
+It adds read replicas in response to
+
+increased read demand.
+
+17.
+
+A fleet of Amazon EC2 instances launch in an Auto Scaling group. The instances run an
+
+application that uses a custom protocol on TCP port 42000. Connections from client
+systems on the internet must balance across the instances. Which load balancing solution
+ensures the highest availability?
+
+A
+
+C
+
+Round-robin dns
+
+Instance-based load balancer
+
+B
+
+D
+
+Network Load Balancer
+
+Application Load Balancer
+
+18.
+
+Users in location A connect to an application in Region A. Users in location B connect to
+the same application in Region B. If the application in Region A becomes unhealthy,
+clients in location A must be redirected to the application in Region B. Which solution can
+
+meet this requirements?
+
+A
+
+C
+
+Use an Application Load Balancer with
+
+Amazon CloudWatch alarms.
+
+Use latency-based routing in Amazon
+
+Route 53 with Amazon CloudWatch
+alarms.
+
+B
+
+D
+
+Use geoproximity routing and a Network
+Load Balancer that is attached to both
+
+Regions.
+
+Use geolocation routing with failover
+records in Amazon Route 53.
+
+19.
+
+A company must build a highly available website that uses server-side scripts to serve
+dynamic HTML. Which solution provides the highest availability for the least cost and
+
+complexity?
+
+A second web server is deployed in
+
+A
+
+C
+
+another Region. Amazon Route 53 uses
+failover routing for disaster recovery
+
+B
+
+Amazon S3 hosts the website. DNS name
+resolution points to the S3 bucket.
+
+(DR).
+
+An Auto Scaling group launches Amazon
+
+An Auto Scaling group launches Amazon
+
+EC2 instances, which are served by an
+Application Load Balancer. DNS name
+
+D
+
+EC2 instances, which are served by a
+Network Load Balancer. Amazon Route
+
+resolution points to the load balancer.
+
+53 uses latency-based routing.
+
+20.
+
+You have created an AWS account for your own personal development and testing. You
+
+want your account to stay within the AWS Free Tier and to not generate unexpected
+costs. Which approach will work and requires the least effort?
+
+A
+
+C
+
+Create an Amazon CloudWatch metric to
+monitor account billing and limit it to $0.
+
+B
+
+Log in to the AWS Management Console
+each month and check your billing
+
+dashboard.
+
+Create an Amazon CloudWatch alarm to
+sent you an email message when the
+account billing exceeds $0.
+
+D
+
+Create a service control policy (SCP) to
+restrict all service that are not included in
+the AWS Free Tier.
+
+

@@ -1,0 +1,316 @@
+- generic [active] [ref=f65e1]:
+  - generic [ref=f65e2]:
+    - img "TAR UMT" [ref=f65e4] [cursor=pointer]
+    - generic [ref=f65e5]:
+      - link "Dashboard" [ref=f65e6] [cursor=pointer]:
+        - /url: "#"
+      - link "My Timetable" [ref=f65e7] [cursor=pointer]:
+        - /url: "#"
+      - link "Cohort Timetables" [ref=f65e8] [cursor=pointer]:
+        - /url: "#"
+      - link "Replacement Arrangement" [ref=f65e9] [cursor=pointer]:
+        - /url: "#"
+      - link "Reports" [ref=f65e10] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f65e11]:
+      - button "Toggle theme" [ref=f65e12] [cursor=pointer]:
+        - img [ref=f65e13]
+      - button "Notifications" [ref=f65e19] [cursor=pointer]:
+        - img [ref=f65e20]
+        - generic [ref=f65e23]: "3"
+      - generic [ref=f65e24]:
+        - generic [ref=f65e25]:
+          - generic [ref=f65e26]: KL
+          - generic [ref=f65e27]:
+            - generic [ref=f65e28]: Kylian Mbappe
+            - generic [ref=f65e29]: Lecturer
+        - button "Logout" [ref=f65e30] [cursor=pointer]:
+          - img [ref=f65e31]
+  - generic [ref=f65e34]:
+    - generic [ref=f65e35]:
+      - button "Previous week" [ref=f65e36] [cursor=pointer]: ‹
+      - combobox [ref=f65e37] [cursor=pointer]:
+        - option "Week 9 · 18 Aug – 24 Aug 2026"
+        - option "Week 10 · 25 Aug – 31 Aug 2026"
+        - option "Week 11 · 01 Sep – 07 Sep 2026" [selected]
+      - button "Next week" [ref=f65e38] [cursor=pointer]: ›
+      - generic [ref=f65e39]: 202605 Semester (Monday, 15-Jun-2026 ~ Sunday, 20-Sep-2026)
+    - table [ref=f65e42]:
+      - rowgroup [ref=f65e43]:
+        - row "Day / Time 8:00 AM 8:30 AM 8:30 AM 9:00 AM 9:00 AM 9:30 AM 9:30 AM 10:00 AM 10:00 AM 10:30 AM 10:30 AM 11:00 AM 11:00 AM 11:30 AM 11:30 AM 12:00 PM 12:00 PM 12:30 PM 12:30 PM 1:00 PM 1:00 PM 1:30 PM 1:30 PM 2:00 PM 2:00 PM 2:30 PM 2:30 PM 3:00 PM 3:00 PM 3:30 PM 3:30 PM 4:00 PM 4:00 PM 4:30 PM 4:30 PM 5:00 PM 5:00 PM 5:30 PM 5:30 PM 6:00 PM 6:00 PM 6:30 PM 6:30 PM 7:00 PM" [ref=f65e44]:
+          - columnheader "Day / Time" [ref=f65e45]
+          - columnheader "8:00 AM 8:30 AM" [ref=f65e46]:
+            - generic [ref=f65e47]: 8:00 AM
+            - generic [ref=f65e48]: 8:30 AM
+          - columnheader "8:30 AM 9:00 AM" [ref=f65e49]:
+            - generic [ref=f65e50]: 8:30 AM
+            - generic [ref=f65e51]: 9:00 AM
+          - columnheader "9:00 AM 9:30 AM" [ref=f65e52]:
+            - generic [ref=f65e53]: 9:00 AM
+            - generic [ref=f65e54]: 9:30 AM
+          - columnheader "9:30 AM 10:00 AM" [ref=f65e55]:
+            - generic [ref=f65e56]: 9:30 AM
+            - generic [ref=f65e57]: 10:00 AM
+          - columnheader "10:00 AM 10:30 AM" [ref=f65e58]:
+            - generic [ref=f65e59]: 10:00 AM
+            - generic [ref=f65e60]: 10:30 AM
+          - columnheader "10:30 AM 11:00 AM" [ref=f65e61]:
+            - generic [ref=f65e62]: 10:30 AM
+            - generic [ref=f65e63]: 11:00 AM
+          - columnheader "11:00 AM 11:30 AM" [ref=f65e64]:
+            - generic [ref=f65e65]: 11:00 AM
+            - generic [ref=f65e66]: 11:30 AM
+          - columnheader "11:30 AM 12:00 PM" [ref=f65e67]:
+            - generic [ref=f65e68]: 11:30 AM
+            - generic [ref=f65e69]: 12:00 PM
+          - columnheader "12:00 PM 12:30 PM" [ref=f65e70]:
+            - generic [ref=f65e71]: 12:00 PM
+            - generic [ref=f65e72]: 12:30 PM
+          - columnheader "12:30 PM 1:00 PM" [ref=f65e73]:
+            - generic [ref=f65e74]: 12:30 PM
+            - generic [ref=f65e75]: 1:00 PM
+          - columnheader "1:00 PM 1:30 PM" [ref=f65e76]:
+            - generic [ref=f65e77]: 1:00 PM
+            - generic [ref=f65e78]: 1:30 PM
+          - columnheader "1:30 PM 2:00 PM" [ref=f65e79]:
+            - generic [ref=f65e80]: 1:30 PM
+            - generic [ref=f65e81]: 2:00 PM
+          - columnheader "2:00 PM 2:30 PM" [ref=f65e82]:
+            - generic [ref=f65e83]: 2:00 PM
+            - generic [ref=f65e84]: 2:30 PM
+          - columnheader "2:30 PM 3:00 PM" [ref=f65e85]:
+            - generic [ref=f65e86]: 2:30 PM
+            - generic [ref=f65e87]: 3:00 PM
+          - columnheader "3:00 PM 3:30 PM" [ref=f65e88]:
+            - generic [ref=f65e89]: 3:00 PM
+            - generic [ref=f65e90]: 3:30 PM
+          - columnheader "3:30 PM 4:00 PM" [ref=f65e91]:
+            - generic [ref=f65e92]: 3:30 PM
+            - generic [ref=f65e93]: 4:00 PM
+          - columnheader "4:00 PM 4:30 PM" [ref=f65e94]:
+            - generic [ref=f65e95]: 4:00 PM
+            - generic [ref=f65e96]: 4:30 PM
+          - columnheader "4:30 PM 5:00 PM" [ref=f65e97]:
+            - generic [ref=f65e98]: 4:30 PM
+            - generic [ref=f65e99]: 5:00 PM
+          - columnheader "5:00 PM 5:30 PM" [ref=f65e100]:
+            - generic [ref=f65e101]: 5:00 PM
+            - generic [ref=f65e102]: 5:30 PM
+          - columnheader "5:30 PM 6:00 PM" [ref=f65e103]:
+            - generic [ref=f65e104]: 5:30 PM
+            - generic [ref=f65e105]: 6:00 PM
+          - columnheader "6:00 PM 6:30 PM" [ref=f65e106]:
+            - generic [ref=f65e107]: 6:00 PM
+            - generic [ref=f65e108]: 6:30 PM
+          - columnheader "6:30 PM 7:00 PM" [ref=f65e109]:
+            - generic [ref=f65e110]: 6:30 PM
+            - generic [ref=f65e111]: 7:00 PM
+      - rowgroup [ref=f65e112]:
+        - row "Mon 01 Sep 2026 BMIT6767(L) B103 10:00 AM - 12:00 PM BMIT1234(T) B104 2:00 PM - 3:30 PM" [ref=f65e113]:
+          - cell "Mon 01 Sep 2026" [ref=f65e114]:
+            - generic [ref=f65e115]: Mon
+            - generic [ref=f65e116]: 01 Sep 2026
+          - cell [ref=f65e117]
+          - cell [ref=f65e119]
+          - cell [ref=f65e121]
+          - cell [ref=f65e123]
+          - cell "BMIT6767(L) B103 10:00 AM - 12:00 PM" [ref=f65e125]:
+            - generic [ref=f65e126] [cursor=pointer]:
+              - generic [ref=f65e127]: BMIT6767(L)
+              - generic [ref=f65e128]: B103
+              - generic [ref=f65e129]: 10:00 AM - 12:00 PM
+          - cell [ref=f65e130]
+          - cell [ref=f65e132]
+          - cell [ref=f65e134]
+          - cell [ref=f65e136]
+          - cell "BMIT1234(T) B104 2:00 PM - 3:30 PM" [ref=f65e138]:
+            - generic [ref=f65e139] [cursor=pointer]:
+              - generic [ref=f65e140]: BMIT1234(T)
+              - generic [ref=f65e141]: B104
+              - generic [ref=f65e142]: 2:00 PM - 3:30 PM
+          - cell [ref=f65e143]
+          - cell [ref=f65e145]
+          - cell [ref=f65e147]
+          - cell [ref=f65e149]
+          - cell [ref=f65e151]
+          - cell [ref=f65e153]
+          - cell [ref=f65e155]
+        - row "Tue 02 Sep 2026 BMIT5678(L) B105 8:00 AM - 10:00 AM BMIT5678(T) B105 3:00 PM - 4:30 PM (Replaced for 31-Aug-2026)" [ref=f65e157]:
+          - cell "Tue 02 Sep 2026" [ref=f65e158]:
+            - generic [ref=f65e159]: Tue
+            - generic [ref=f65e160]: 02 Sep 2026
+          - cell "BMIT5678(L) B105 8:00 AM - 10:00 AM" [ref=f65e161]:
+            - generic [ref=f65e162] [cursor=pointer]:
+              - generic [ref=f65e163]: BMIT5678(L)
+              - generic [ref=f65e164]: B105
+              - generic [ref=f65e165]: 8:00 AM - 10:00 AM
+          - cell [ref=f65e166]
+          - cell [ref=f65e168]
+          - cell [ref=f65e170]
+          - cell [ref=f65e172]
+          - cell [ref=f65e174]
+          - cell [ref=f65e176]
+          - cell [ref=f65e178]
+          - cell [ref=f65e180]
+          - cell [ref=f65e182]
+          - cell [ref=f65e184]
+          - cell "BMIT5678(T) B105 3:00 PM - 4:30 PM (Replaced for 31-Aug-2026)" [ref=f65e186]:
+            - generic [ref=f65e187] [cursor=pointer]:
+              - generic [ref=f65e188]: BMIT5678(T)
+              - generic [ref=f65e189]: B105
+              - generic [ref=f65e190]: 3:00 PM - 4:30 PM
+              - generic [ref=f65e191]: (Replaced for 31-Aug-2026)
+          - cell [ref=f65e192]
+          - cell [ref=f65e194]
+          - cell [ref=f65e196]
+          - cell [ref=f65e198]
+          - cell [ref=f65e200]
+        - row "Wed 03 Sep 2026 BMIT9012(L) B106 9:00 AM - 11:00 AM BMIT9012(T) B106 2:00 PM - 4:00 PM (Replaced for 26-Aug-2026)" [ref=f65e202]:
+          - cell "Wed 03 Sep 2026" [ref=f65e203]:
+            - generic [ref=f65e204]: Wed
+            - generic [ref=f65e205]: 03 Sep 2026
+          - cell [ref=f65e206]
+          - cell [ref=f65e208]
+          - cell "BMIT9012(L) B106 9:00 AM - 11:00 AM" [ref=f65e210]:
+            - generic [ref=f65e211] [cursor=pointer]:
+              - generic [ref=f65e212]: BMIT9012(L)
+              - generic [ref=f65e213]: B106
+              - generic [ref=f65e214]: 9:00 AM - 11:00 AM
+          - cell [ref=f65e215]
+          - cell [ref=f65e217]
+          - cell [ref=f65e219]
+          - cell [ref=f65e221]
+          - cell [ref=f65e223]
+          - cell [ref=f65e225]
+          - cell "BMIT9012(T) B106 2:00 PM - 4:00 PM (Replaced for 26-Aug-2026)" [ref=f65e227]:
+            - generic [ref=f65e228] [cursor=pointer]:
+              - generic [ref=f65e229]: BMIT9012(T)
+              - generic [ref=f65e230]: B106
+              - generic [ref=f65e231]: 2:00 PM - 4:00 PM
+              - generic [ref=f65e232]: (Replaced for 26-Aug-2026)
+          - cell [ref=f65e233]
+          - cell [ref=f65e235]
+          - cell [ref=f65e237]
+          - cell [ref=f65e239]
+          - cell [ref=f65e241]
+          - cell [ref=f65e243]
+        - row "Thu 04 Sep 2026 Public Holiday BMIT5555(L) B110 10:00 AM - 12:00 PM BMIT6666(T) B111 1:00 PM - 2:30 PM" [ref=f65e245]:
+          - cell "Thu 04 Sep 2026 Public Holiday" [ref=f65e246]:
+            - generic [ref=f65e247]: Thu
+            - generic [ref=f65e248]: 04 Sep 2026
+            - generic [ref=f65e249]: Public Holiday
+          - cell [ref=f65e250]
+          - cell [ref=f65e252]
+          - cell [ref=f65e254]
+          - cell [ref=f65e256]
+          - cell "BMIT5555(L) B110 10:00 AM - 12:00 PM" [ref=f65e258]:
+            - generic [ref=f65e259] [cursor=pointer]:
+              - generic [ref=f65e260]: BMIT5555(L)
+              - generic [ref=f65e261]: B110
+              - generic [ref=f65e262]: 10:00 AM - 12:00 PM
+          - cell [ref=f65e263]
+          - cell [ref=f65e265]
+          - cell "BMIT6666(T) B111 1:00 PM - 2:30 PM" [ref=f65e267]:
+            - generic [ref=f65e268] [cursor=pointer]:
+              - generic [ref=f65e269]: BMIT6666(T)
+              - generic [ref=f65e270]: B111
+              - generic [ref=f65e271]: 1:00 PM - 2:30 PM
+          - cell [ref=f65e272]
+          - cell [ref=f65e274]
+          - cell [ref=f65e276]
+          - cell [ref=f65e278]
+          - cell [ref=f65e280]
+          - cell [ref=f65e282]
+          - cell [ref=f65e284]
+          - cell [ref=f65e286]
+          - cell [ref=f65e288]
+        - row "Fri 05 Sep 2026 BMIT3456(L) B103 8:00 AM - 10:00 AM BMIT3456(T) B103 10:30 AM - 12:00 PM" [ref=f65e290]:
+          - cell "Fri 05 Sep 2026" [ref=f65e291]:
+            - generic [ref=f65e292]: Fri
+            - generic [ref=f65e293]: 05 Sep 2026
+          - cell "BMIT3456(L) B103 8:00 AM - 10:00 AM" [ref=f65e294]:
+            - generic [ref=f65e295] [cursor=pointer]:
+              - generic [ref=f65e296]: BMIT3456(L)
+              - generic [ref=f65e297]: B103
+              - generic [ref=f65e298]: 8:00 AM - 10:00 AM
+          - cell [ref=f65e299]
+          - cell "BMIT3456(T) B103 10:30 AM - 12:00 PM" [ref=f65e301]:
+            - generic [ref=f65e302] [cursor=pointer]:
+              - generic [ref=f65e303]: BMIT3456(T)
+              - generic [ref=f65e304]: B103
+              - generic [ref=f65e305]: 10:30 AM - 12:00 PM
+          - cell [ref=f65e306]
+          - cell [ref=f65e308]
+          - cell [ref=f65e310]
+          - cell [ref=f65e312]
+          - cell [ref=f65e314]
+          - cell [ref=f65e316]
+          - cell [ref=f65e318]
+          - cell [ref=f65e320]
+          - cell [ref=f65e322]
+          - cell [ref=f65e324]
+          - cell [ref=f65e326]
+          - cell [ref=f65e328]
+          - cell [ref=f65e330]
+          - cell [ref=f65e332]
+        - row "Sat 06 Sep 2026 BMIT7890(L) B201 9:00 AM - 11:00 AM BMIT9999(T) B202 2:00 PM - 3:30 PM (PENDING)" [ref=f65e334]:
+          - cell "Sat 06 Sep 2026" [ref=f65e335]:
+            - generic [ref=f65e336]: Sat
+            - generic [ref=f65e337]: 06 Sep 2026
+          - cell [ref=f65e338]
+          - cell [ref=f65e340]
+          - cell "BMIT7890(L) B201 9:00 AM - 11:00 AM" [ref=f65e342]:
+            - generic [ref=f65e343] [cursor=pointer]:
+              - generic [ref=f65e344]: BMIT7890(L)
+              - generic [ref=f65e345]: B201
+              - generic [ref=f65e346]: 9:00 AM - 11:00 AM
+          - cell [ref=f65e347]
+          - cell [ref=f65e349]
+          - cell [ref=f65e351]
+          - cell [ref=f65e353]
+          - cell [ref=f65e355]
+          - cell [ref=f65e357]
+          - cell "BMIT9999(T) B202 2:00 PM - 3:30 PM (PENDING)" [ref=f65e359]:
+            - generic [ref=f65e360] [cursor=pointer]:
+              - generic [ref=f65e361]: BMIT9999(T)
+              - generic [ref=f65e362]: B202
+              - generic [ref=f65e363]: 2:00 PM - 3:30 PM
+              - generic [ref=f65e364]: (PENDING)
+          - cell [ref=f65e365]
+          - cell [ref=f65e367]
+          - cell [ref=f65e369]
+          - cell [ref=f65e371]
+          - cell [ref=f65e373]
+          - cell [ref=f65e375]
+          - cell [ref=f65e377]
+        - row "Sun 07 Sep 2026" [ref=f65e379]:
+          - cell "Sun 07 Sep 2026" [ref=f65e380]:
+            - generic [ref=f65e381]: Sun
+            - generic [ref=f65e382]: 07 Sep 2026
+          - cell [ref=f65e383]
+          - cell [ref=f65e385]
+          - cell [ref=f65e387]
+          - cell [ref=f65e389]
+          - cell [ref=f65e391]
+          - cell [ref=f65e393]
+          - cell [ref=f65e395]
+          - cell [ref=f65e397]
+          - cell [ref=f65e399]
+          - cell [ref=f65e401]
+          - cell [ref=f65e403]
+          - cell [ref=f65e405]
+          - cell [ref=f65e407]
+          - cell [ref=f65e409]
+          - cell [ref=f65e411]
+          - cell [ref=f65e413]
+          - cell [ref=f65e415]
+          - cell [ref=f65e417]
+          - cell [ref=f65e419]
+          - cell [ref=f65e421]
+          - cell [ref=f65e423]
+          - cell [ref=f65e425]
+    - generic [ref=f65e427]:
+      - generic [ref=f65e428]: Normal Class
+      - generic [ref=f65e430]: Replacement
+      - generic [ref=f65e432]: Pending Approval
+      - generic [ref=f65e434]: Public Holiday / Conflict

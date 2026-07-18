@@ -1,0 +1,12 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - button "Back" [ref=e2] [cursor=pointer]
+    - generic [ref=e5]
+  - button "Toggle theme" [ref=e8] [cursor=pointer]:
+    - img [ref=e9]
+  - generic [ref=e11]:
+    - generic [ref=e12]
+    - generic [ref=e20]: Select an available (green) time slot
+    - table [ref=e23]
+    - generic [ref=e244]
+    - generic [ref=e259]

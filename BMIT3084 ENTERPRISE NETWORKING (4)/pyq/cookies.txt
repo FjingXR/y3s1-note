@@ -1,0 +1,6 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.eprints.tarc.edu.my	TRUE	/	FALSE	0	eprints_session%3Aeprints.tarc.edu.my	790186c5d86d374c413e3bb21c68a2df
+.eprints.tarc.edu.my	TRUE	/	TRUE	0	secure_eprints_session%3Aeprints.tarc.edu.my	f146732a0e1ca9dbc65252369e56edd9

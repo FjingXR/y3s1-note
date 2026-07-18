@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 1 — IP Static Routing | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --nexthop:#4da3ff;
+    --directconn:#f5a623;
+    --fullyspec:#3ecf8e;
+    --danger:#ff6b6b;
+    --accent:#7c8cff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ===== TOP NAV ===== */
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  /* packet animation */
+  .track{
+    max-width:640px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .router-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .packet{
+    animation:hop 4s linear infinite;
+  }
+  @keyframes hop{
+    0%{transform:translateX(0px);}
+    30%{transform:translateX(210px);}
+    33%{transform:translateX(210px);}
+    63%{transform:translateX(420px);}
+    66%{transform:translateX(420px);}
+    100%{transform:translateX(420px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .packet{animation:none;transform:translateX(420px);}
+  }
+
+  /* ===== SECTIONS ===== */
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{
+    font-size:26px;
+    margin:0 0 6px;
+    font-weight:700;
+  }
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  /* CLI blocks */
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  /* comparison table */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+
+  /* type cards - route types */
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--nexthop);}
+  .card.amber{border-top-color:var(--directconn);}
+  .card.green{border-top-color:var(--fullyspec);}
+  .card h4{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
+  }
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+
+  /* callout boxes */
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--nexthop);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--fullyspec);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--nexthop);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--fullyspec);}
+  .callout p{margin:0;color:var(--text);}
+
+  /* flow steps */
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  /* practice questions */
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:none;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--fullyspec);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.show{display:block;}
+
+  /* summary box */
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--fullyspec);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  /* AD comparison badges */
+  .adrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
+  .adbadge{
+    background:var(--panel2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 14px;
+    font-family:var(--mono);
+    font-size:13px;
+    flex:1;
+    min-width:130px;
+  }
+  .adbadge .n{font-size:22px;font-weight:700;color:var(--accent);}
+  .adbadge .l{color:var(--sub);font-size:11px;text-transform:uppercase;}
+
+  /* footer */
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  /* module tag pill */
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  /* ---------- MOBILE VIEW ---------- */
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+
+    /* nav scrolls sideways, never breaks layout */
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+
+    /* sections keep side padding on phones */
+    section{padding:28px 16px;}
+
+    /* hero text shrinks */
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+
+    /* hide packet animation on very small screens */
+    .track{max-width:90%;margin:24px auto 0;}
+
+    /* wrap padding */
+    .wrap{padding:0 14px;}
+
+    /* any multi-col grid collapses to 1 col */
+    .cardgrid{grid-template-columns:1fr;}
+
+    /* flow steps stack vertically with a left accent bar */
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    .flowstep .arrow{display:none;}
+
+    /* tables scroll sideways instead of overflowing */
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+
+    /* code / CLI blocks stay readable and scroll horizontally */
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+
+    /* bigger touch targets for quiz answers / toggles */
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    details summary{padding:12px 0;}
+
+    /* smaller headings */
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+
+    /* AD badges stack full width */
+    .adrow{flex-direction:column;}
+    .adbadge{min-width:0;text-align:center;}
+
+    /* summary box tighter */
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+
+    /* callout boxes */
+    .callout{padding:12px 14px;font-size:13px;}
+
+    /* section borders */
+    section{border-top-width:2px;}
+
+    /* footer */
+    footer{padding:30px 16px 16px;font-size:11px;}
+  }
+
+  /* very small phones */
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch1/&gt;</span>
+  <a href="#m15-1">15.1 Types</a>
+  <a href="#m15-2">15.2 Config</a>
+  <a href="#m15-3">15.3 Default</a>
+  <a href="#m15-4">15.4 Floating</a>
+  <a href="#m15-5">15.5 Host</a>
+  <a href="#m16-1">16.1 Forwarding</a>
+  <a href="#m16-2">16.2 Troubleshoot</a>
+  <a href="#final">Final Summary</a>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT3084 · Enterprise Networking · SRWE v7.0</span>
+  <h1>Chapter 1 — Static Routing</h1>
+  <p class="lead">Module 15 (IP Static Routing) + Module 16 (Troubleshoot Static and Default Routes). Zero-to-understanding guide, built only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 640 90">
+      <text x="20" y="30" class="router-label" text-anchor="middle">PC1</text>
+      <circle cx="20" cy="55" r="14" fill="none" stroke="#8b96a5" stroke-width="1.5"/>
+      <text x="230" y="30" class="router-label" text-anchor="middle">R1</text>
+      <rect x="212" y="43" width="36" height="24" rx="4" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="440" y="30" class="router-label" text-anchor="middle">R2</text>
+      <rect x="422" y="43" width="36" height="24" rx="4" fill="none" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="600" y="30" class="router-label" text-anchor="middle">PC3</text>
+      <circle cx="600" cy="55" r="14" fill="none" stroke="#8b96a5" stroke-width="1.5"/>
+      <line x1="34" y1="55" x2="212" y2="55" stroke="#2a3441" stroke-width="2"/>
+      <line x1="248" y1="55" x2="422" y2="55" stroke="#2a3441" stroke-width="2"/>
+      <line x1="458" y1="55" x2="586" y2="55" stroke="#2a3441" stroke-width="2"/>
+      <g class="packet">
+        <rect x="20" y="47" width="16" height="16" rx="3" fill="#7c8cff"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ MODULE 15 INTRO ============ -->
+<section id="m15-0">
+<span class="modpill">MODULE 15</span>
+<h2>What is a static route?</h2>
+<p><b style="color:var(--text)">Static route</b> = a route you type in yourself. The router does not learn it automatically. You (the admin) tell the router: "to reach this network, go this way."</p>
+
+<div class="callout note">
+<b>Why use static routes?</b>
+<p>Static routes are often used <b>even when</b> a dynamic routing protocol (like OSPF) is running. They are simple, predictable, and use no extra CPU or bandwidth for updates.</p>
+</div>
+
+<h3>4 types of static routes (by purpose)</h3>
+<table>
+<tr><th>Type</th><th>What it does</th></tr>
+<tr><td><code>Standard static route</code></td><td>Route to one specific network</td></tr>
+<tr><td><code>Default static route</code></td><td>Route that matches <b>any</b> destination not in the table</td></tr>
+<tr><td><code>Floating static route</code></td><td>Backup route, only used if primary route fails</td></tr>
+<tr><td><code>Summary static route</code></td><td>One route that represents many smaller networks</td></tr>
+</table>
+
+<div class="quiz-box">
+<h4>Quick check</h4>
+<div class="q-item">
+<div class="q-text">Q1. True or False — a static route is learned automatically by the router.</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">False. A static route must be manually typed in by the network administrator.</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 15.1 ============ -->
+<section id="m15-1">
+<span class="eyebrow">Topic 15.1</span>
+<h2>Static routes — the 3 next-hop options</h2>
+<p>When you type a static route, you must tell the router <b style="color:var(--text)">how to reach the next router</b>. There are 3 ways:</p>
+
+<div class="cardgrid">
+<div class="card blue">
+<h4>Next-hop static route</h4>
+<p>Only the next router's IP address is given. The router works out the exit interface itself.</p>
+<div class="cli">R1(config)# ip route 172.16.1.0 255.255.255.0 <span class="hi">172.16.2.2</span></div>
+</div>
+<div class="card amber">
+<h4>Directly connected static route</h4>
+<p>Only the exit interface is given. Best only for point-to-point serial links.</p>
+<div class="cli">R1(config)# ip route 172.16.1.0 255.255.255.0 <span class="hi">s0/1/0</span></div>
+</div>
+<div class="card green">
+<h4>Fully specified static route</h4>
+<p>Both exit interface AND next-hop IP are given. Needed for multiaccess (Ethernet) links.</p>
+<div class="cli">R1(config)# ip route 172.16.1.0 255.255.255.0 <span class="hi">g0/0/1 172.16.2.2</span></div>
+</div>
+</div>
+
+<div class="callout warn">
+<b>Common mistake</b>
+<p>Using only the exit interface (directly connected style) on an <b>Ethernet</b> interface. This can cause extra ARP work and inefficiency. Best practice on Ethernet: use next-hop IP, or fully specified.</p>
+</div>
+
+<h3>Command syntax (memorize this)</h3>
+<div class="cli">
+<span class="cmt"># IPv4</span>
+Router(config)# ip route <span class="hi">network-address subnet-mask</span> {ip-address | exit-intf} [distance]
+
+<span class="cmt"># IPv6</span>
+Router(config)# ipv6 route <span class="hi">ipv6-prefix/prefix-length</span> {ipv6-address | exit-intf} [distance]
+</div>
+
+<div class="callout tip">
+<b>IPv6 special rule</b>
+<p>If the next-hop is a <b>link-local address</b> (starts with fe80::), you MUST use fully specified route (exit interface + address). Link-local addresses are not in the IPv6 routing table, so the router needs the interface to know which link it's on.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. Which static route type should you avoid on a multiaccess Ethernet network, and use only on point-to-point serial links?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Directly connected static route (using only the exit interface).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. Write the command for a next-hop static route to 192.168.5.0/24 via next hop 10.0.0.1.</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>ip route 192.168.5.0 255.255.255.0 10.0.0.1</code></div>
+</div>
+</div>
+</section>
+
+<!-- ============ 15.2 ============ -->
+<section id="m15-2">
+<span class="eyebrow">Topic 15.2</span>
+<h2>Configure IP static routes</h2>
+<p>This topic just applies the 3 route types with real IPv4 and IPv6 examples.</p>
+
+<h3>IPv4 next-hop example (R1 → R2 → 3 remote networks)</h3>
+<div class="cli">R1(config)# ip route 172.16.1.0 255.255.255.0 172.16.2.2
+R1(config)# ip route 192.168.1.0 255.255.255.0 172.16.2.2
+R1(config)# ip route 192.168.2.0 255.255.255.0 172.16.2.2</div>
+
+<h3>IPv6 next-hop example</h3>
+<div class="cli">R1(config)# ipv6 unicast-routing
+R1(config)# ipv6 route 2001:db8:acad:1::/64 2001:db8:acad:2::2
+R1(config)# ipv6 route 2001:db8:cafe:1::/64 2001:db8:acad:2::2
+R1(config)# ipv6 route 2001:db8:cafe:2::/64 2001:db8:acad:2::2</div>
+
+<div class="callout note">
+<b>Remember</b>
+<p><code>ipv6 unicast-routing</code> must be enabled globally before any IPv6 routing works.</p>
+</div>
+
+<h3>Verify commands</h3>
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>show ip route static</code></td><td>Show only static routes in table</td></tr>
+<tr><td><code>show ip route <i>network</i></code></td><td>Show route detail for one network</td></tr>
+<tr><td><code>show running-config | section ip route</code></td><td>Show static route config lines</td></tr>
+<tr><td><code>ping</code> / <code>traceroute</code></td><td>Test reachability and path</td></tr>
+</table>
+<p style="font-size:13px;color:var(--sub)">For IPv6, just replace <code>ip</code> with <code>ipv6</code> in these commands.</p>
+
+<div class="quiz-box">
+<h4>Practice question</h4>
+<div class="q-item">
+<div class="q-text">Q1. What command shows ONLY the static routes currently active in the routing table?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>show ip route static</code> (or <code>show ipv6 route static</code> for IPv6)</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 15.3 ============ -->
+<section id="m15-3">
+<span class="eyebrow">Topic 15.3</span>
+<h2>Default static routes</h2>
+<p>A <b style="color:var(--text)">default route</b> matches <b>every</b> destination that is not already in the routing table. Think of it as "if you don't know where else to send it, send it here."</p>
+
+<div class="callout note">
+<b>Real-world example</b>
+<p>Your home router does not know every website's exact route. Instead, it has ONE default route pointing to your ISP. Any traffic not matching a local rule goes to the ISP. This is exactly what an edge router or stub router does.</p>
+</div>
+
+<h3>Command syntax</h3>
+<div class="cli">
+<span class="cmt"># IPv4 — called a "quad-zero route"</span>
+Router(config)# ip route <span class="hi">0.0.0.0 0.0.0.0</span> {ip-address | exit-intf}
+
+<span class="cmt"># IPv6</span>
+Router(config)# ipv6 route <span class="hi">::/0</span> {ipv6-address | exit-intf}
+</div>
+
+<h3>Example</h3>
+<div class="cli">R1(config)# ip route 0.0.0.0 0.0.0.0 172.16.2.2
+R1(config)# ipv6 route ::/0 2001:db8:acad:2::2</div>
+
+<div class="callout tip">
+<b>Exam key point — the mask</b>
+<p><code>0.0.0.0</code> mask = 0 bits must match = matches everything.<br>
+<code>::/0</code> = same idea for IPv6, 0 prefix bits required.<br>
+This is why it's called the "Gateway of Last Resort" — used only when nothing more specific matches.</p>
+</div>
+
+<p><b>How to spot it in <code>show ip route</code>:</b> look for an asterisk <code>*</code> next to the code <code>S</code> — that marks the candidate default route selected as Gateway of Last Resort.</p>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What is the IPv4 default static route command syntax called informally?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">A "quad-zero route" — because it uses <code>0.0.0.0 0.0.0.0</code>.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. In the routing table, how do you identify which static route is the default route?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">It has an asterisk (*) next to the "S" code, and appears as "Gateway of Last Resort".</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 15.4 ============ -->
+<section id="m15-4">
+<span class="eyebrow">Topic 15.4</span>
+<h2>Floating static routes</h2>
+<p>A <b style="color:var(--text)">floating static route</b> is a backup route. It only gets used if the main (primary) route goes down.</p>
+
+<h3>The trick: Administrative Distance (AD)</h3>
+<p>AD = how trustworthy a route source is. <b>Lower AD = more preferred.</b></p>
+
+<div class="adrow">
+<div class="adbadge"><span class="n">0</span><br><span class="l">Connected route</span></div>
+<div class="adbadge"><span class="n">1</span><br><span class="l">Static route (default)</span></div>
+<div class="adbadge"><span class="n">110</span><br><span class="l">OSPF</span></div>
+<div class="adbadge"><span class="n">120</span><br><span class="l">RIP</span></div>
+</div>
+
+<div class="callout warn">
+<b>Key idea</b>
+<p>To make a static route "float" (act as backup), give it a <b>higher</b> AD number than the primary route. Then the router only uses it when the better (lower AD) route disappears.</p>
+</div>
+
+<h3>Example: primary + floating default route</h3>
+<div class="cli">R1(config)# ip route 0.0.0.0 0.0.0.0 172.16.2.2
+R1(config)# ip route 0.0.0.0 0.0.0.0 10.10.10.2 <span class="hi">5</span>
+
+R1(config)# ipv6 route ::/0 2001:db8:acad:2::2
+R1(config)# ipv6 route ::/0 2001:db8:feed:10::2 <span class="hi">5</span></div>
+<p style="font-size:13px;color:var(--sub)">The last number (5) is the AD. Because default static route AD is normally 1, the route with AD 5 is less preferred — it only appears in the routing table if R2 (the primary path) fails.</p>
+
+<h3>What happens if R2 fails?</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">R2 shuts down (or its interfaces go down).</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt">R1 generates <b>syslog messages</b> about the link going down.</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt">R1's routing table automatically switches to the floating (backup) route.</div></div>
+</div>
+
+<h3>Summary static route (bonus — route summarization)</h3>
+<p>Combines several small static routes into <b>one</b> route. Saves memory, CPU, and speeds up lookups.</p>
+<div class="callout note">
+<b>2 conditions to summarize</b>
+<p>1. Networks must be continuous (able to combine into one address block).<br>
+2. All routes must use the same exit interface or next-hop IP.</p>
+</div>
+
+<h3>Worked example — summarize 192.168.1.0, 192.168.2.0, 192.168.3.0</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">Write network addresses in binary.</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt">Find where all 3 addresses stop matching (from left to right) — that's the summary boundary.</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt">Count matching bits = <b>22</b> → mask is <code>/22</code> = <code>255.255.252.0</code></div></div>
+<div class="flowstep"><div class="num">4</div><div class="txt">Copy the 22 matching bits, fill rest with 0 → network address = <code>192.168.0.0</code></div></div>
+<div class="flowstep"><div class="num">5</div><div class="txt">Final command: <code>ip route 192.168.0.0 255.255.252.0 s0/2/1</code></div></div>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. What is the default Administrative Distance for a static route?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">1 (very trustworthy — more preferred than dynamic protocols like OSPF at 110).</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. To make a static route a floating backup route, should its AD number be higher or lower than the primary route?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Higher. A higher AD number = less preferred = only used as backup.</div>
+</div>
+<div class="q-item">
+<div class="q-text">Q3. Summarize these networks: 10.1.0.0/24, 10.1.1.0/24 into one route.</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Both share the first 23 bits → <code>10.1.0.0/23</code> (mask 255.255.254.0)</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 15.5 ============ -->
+<section id="m15-5">
+<span class="eyebrow">Topic 15.5</span>
+<h2>Static host routes</h2>
+<p>A <b style="color:var(--text)">host route</b> points to <b>one single device</b>, not a whole network.</p>
+
+<table>
+<tr><th>IP version</th><th>Mask / prefix</th><th>Meaning</th></tr>
+<tr><td>IPv4</td><td><code>255.255.255.255</code> (/32)</td><td>Exactly one host</td></tr>
+<tr><td>IPv6</td><td><code>/128</code></td><td>Exactly one host</td></tr>
+</table>
+
+<h3>3 ways a host route appears in the routing table</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt"><b>Automatically installed</b> — Cisco IOS installs a "local host route" (marked <code>L</code>) whenever you configure an IP address on an interface.</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt"><b>Static host route</b> — you manually configure it to reach one specific device (e.g. a server).</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt"><b>Learned automatically</b> via other methods — covered in later courses.</div></div>
+</div>
+
+<h3>Example: static host route to a server</h3>
+<div class="cli">Branch(config)# ip route 209.165.200.238 255.255.255.255 198.51.100.2
+Branch(config)# ipv6 route 2001:db8:acad:2::238/128 2001:db8:acad:1::2</div>
+
+<div class="callout warn">
+<b>IPv6 link-local next hop rule</b>
+<p>If using a link-local address as next hop, you MUST specify the interface type and number. This is because link-local addresses can repeat on many different links — the router needs to know exactly which interface to use.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice question</h4>
+<div class="q-item">
+<div class="q-text">Q1. What subnet mask makes an IPv4 route a "host route"?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>255.255.255.255</code> (/32) — matches only that exact one IP address.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Module 15 summary — IP static routing</h4>
+<ul>
+<li>4 static route types: standard, default, floating, summary</li>
+<li>3 next-hop styles: next-hop, directly connected, fully specified</li>
+<li>Command: <code>ip route network mask {ip | exit-intf} [distance]</code></li>
+<li>Default route = <code>0.0.0.0 0.0.0.0</code> (IPv4) or <code>::/0</code> (IPv6) — matches everything</li>
+<li>Floating route = same destination, higher AD number, used as backup only</li>
+<li>Host route = /32 (IPv4) or /128 (IPv6) — points to exactly one device</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ MODULE 16 ============ -->
+<section id="m16-1">
+<span class="modpill">MODULE 16</span>
+<span class="eyebrow">Topic 16.1</span>
+<h2>How a router processes a packet with static routes</h2>
+<p>This is the step-by-step journey of one packet from PC1 to PC3, across R1 → R2 → R3.</p>
+
+<h3>Decision logic at every router</h3>
+<div class="cardgrid">
+<div class="card green">
+<h4>Match found</h4>
+<p>Router uses the static route to find next-hop IP or exit interface, then forwards the packet.</p>
+</div>
+<div class="card amber">
+<h4>No specific match</h4>
+<p>Router uses the default static route (if one is configured).</p>
+</div>
+<div class="card blue" style="border-top-color:var(--danger)">
+<h4>No match at all</h4>
+<p>Router drops the packet and sends an ICMP "destination unreachable" message back to the source.</p>
+</div>
+</div>
+
+<h3>Full journey: PC1 → R1 → R2 → R3 → PC3</h3>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">PC1 sends the packet to its <b>default gateway</b> (R1).</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt">R1 receives it, <b>decapsulates</b> (removes frame header), checks routing table.</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt">R1 finds a match, re-encapsulates into a new frame, forwards out S0/1/0 to R2.</div></div>
+<div class="flowstep"><div class="num">4</div><div class="txt">R2 does the exact same process — decapsulate, check table, forward to R3.</div></div>
+<div class="flowstep"><div class="num">5</div><div class="txt">R3 receives packet, and sees destination matches its <b>directly connected</b> interface (PC3's LAN).</div></div>
+<div class="flowstep"><div class="num">6</div><div class="txt">R3 checks its <b>ARP table</b> for PC3's MAC address. If missing, R3 sends an ARP request.</div></div>
+<div class="flowstep"><div class="num">7</div><div class="txt">PC3 replies with its MAC address via ARP reply.</div></div>
+<div class="flowstep"><div class="num">8</div><div class="txt">R3 builds a new frame (dest MAC = PC3, source MAC = R3's interface) and sends it. PC3 receives the packet.</div></div>
+</div>
+
+<div class="callout note">
+<b>Key exam point</b>
+<p>The <b>IP address never changes</b> hop to hop — only the <b>Layer 2 frame</b> (MAC addresses) changes at every router along the path. This is the core idea of "de-encapsulate, route, re-encapsulate."</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice question</h4>
+<div class="q-item">
+<div class="q-text">Q1. What does a router do if the destination IP does not match ANY entry in the routing table (and there is no default route)?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">The router drops the packet and sends an ICMP message back to the source.</div>
+</div>
+</div>
+</section>
+
+<section id="m16-2">
+<span class="eyebrow">Topic 16.2</span>
+<h2>Troubleshoot static and default routes</h2>
+<p>Networks fail for many normal reasons — an interface goes down, an ISP link drops, links get overloaded, or (very common!) the admin typed a wrong config.</p>
+
+<h3>Troubleshooting toolkit</h3>
+<table>
+<tr><th>Command</th><th>What it tells you</th></tr>
+<tr><td><code>ping</code></td><td>Tests Layer 3 connectivity. Extended ping gives more options.</td></tr>
+<tr><td><code>traceroute</code></td><td>Shows the hop-by-hop path to destination using ICMP.</td></tr>
+<tr><td><code>show ip route</code></td><td>Displays the full routing table — check for missing/wrong entries.</td></tr>
+<tr><td><code>show ip interface brief</code></td><td>Shows interface status (up/down) and IP address.</td></tr>
+<tr><td><code>show cdp neighbors</code></td><td>Shows directly connected Cisco devices — confirms Layer 1/2 works.</td></tr>
+</table>
+
+<h3>Worked troubleshooting case</h3>
+<p>Scenario: PC1 cannot reach PC3.</p>
+<div class="flow">
+<div class="flowstep"><div class="num">1</div><div class="txt">Extended ping from R1's G0/0/0 to PC3 → <b style="color:var(--danger)">fails</b>.</div></div>
+<div class="flowstep"><div class="num">2</div><div class="txt">Ping from R1's S0/1/0 to R2 → <b style="color:var(--fullyspec)">success</b>.</div></div>
+<div class="flowstep"><div class="num">3</div><div class="txt">Ping from R1's S0/1/0 to R3 → <b style="color:var(--fullyspec)">success</b>.</div></div>
+<div class="flowstep"><div class="num">4</div><div class="txt">So R1 is fine. Problem must be at R2 → check <code>show ip route</code> on R2.</div></div>
+<div class="flowstep"><div class="num">5</div><div class="txt">R2's route to 172.16.3.0/24 is wrong (points via 192.168.1.1 instead of correctly to R3's real path).</div></div>
+<div class="flowstep"><div class="num">6</div><div class="txt">Remove the incorrect route, add the correct one: <code>ip route 172.16.3.0 255.255.255.0 172.16.2.1</code></div></div>
+</div>
+
+<div class="callout tip">
+<b>Troubleshooting method (exam-friendly)</b>
+<p>Work outward hop by hop from the source. Ping each router along the path one at a time. The first router that <b>fails</b> to reach the next hop is where the problem is.</p>
+</div>
+
+<div class="quiz-box">
+<h4>Practice questions</h4>
+<div class="q-item">
+<div class="q-text">Q1. Which command shows directly connected Cisco devices and confirms Layer 1/2 connectivity?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer"><code>show cdp neighbors</code></div>
+</div>
+<div class="q-item">
+<div class="q-text">Q2. What is the general strategy for isolating a routing problem across multiple routers?</div>
+<button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+<div class="q-answer">Test connectivity hop by hop (ping each router in sequence) — the first failure point tells you where the misconfiguration is.</div>
+</div>
+</div>
+
+<div class="summary">
+<h4>Module 16 summary — troubleshooting</h4>
+<ul>
+<li>Router logic: match → forward | no match, default exists → use default | no match at all → drop + ICMP</li>
+<li>IP address stays the same across hops; only Layer 2 frame (MAC) changes each hop</li>
+<li>Last router uses ARP to find destination host's MAC address</li>
+<li>Troubleshoot in order: ping → traceroute → show ip route → show ip interface brief → show cdp neighbors</li>
+<li>Isolate the fault by testing hop by hop from source outward</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ FINAL EXAM SUMMARY ============ -->
+<section id="final">
+<span class="eyebrow">Revision</span>
+<h2>Chapter 1 — full exam cheat sheet</h2>
+
+<h3>Command syntax to memorize</h3>
+<div class="cli">
+ip route <span class="hi">network-address subnet-mask</span> {ip-address | exit-intf} [distance]
+ipv6 route <span class="hi">prefix/prefix-length</span> {ipv6-address | exit-intf} [distance]
+
+<span class="cmt"># default route</span>
+ip route 0.0.0.0 0.0.0.0 {ip-address | exit-intf}
+ipv6 route ::/0 {ipv6-address | exit-intf}
+
+<span class="cmt"># host route (/32 or /128)</span>
+ip route 209.165.200.238 255.255.255.255 198.51.100.2
+</div>
+
+<h3>Comparison table — all static route concepts</h3>
+<table>
+<tr><th>Concept</th><th>Mask/Prefix</th><th>Purpose</th></tr>
+<tr><td>Standard route</td><td>normal subnet mask</td><td>Reach one specific network</td></tr>
+<tr><td>Default route</td><td>0.0.0.0/0 or ::/0</td><td>Match anything unmatched (gateway of last resort)</td></tr>
+<tr><td>Floating route</td><td>same as primary</td><td>Backup path (higher AD number)</td></tr>
+<tr><td>Summary route</td><td>shorter mask (fewer bits)</td><td>Combine multiple routes into one</td></tr>
+<tr><td>Host route</td><td>/32 or /128</td><td>Reach exactly one device</td></tr>
+</table>
+
+<h3>Common mistakes to avoid in exam</h3>
+<ul>
+<li>Forgetting <code>ipv6 unicast-routing</code> before configuring IPv6 static routes</li>
+<li>Using directly connected style (exit-interface only) on Ethernet — should use next-hop IP instead</li>
+<li>Forgetting the floating route needs a <b>higher</b> AD, not lower</li>
+<li>Confusing host route mask: it's /32 for IPv4, /128 for IPv6 — not /24 or /64</li>
+<li>Forgetting link-local IPv6 next-hop needs the exit interface specified too</li>
+</ul>
+
+<div class="summary">
+<h4>One-paragraph recap</h4>
+<ul>
+<li>Static routes are manually configured paths. 4 types: standard, default, floating, summary.</li>
+<li>3 ways to specify next hop: next-hop IP, exit interface, or both (fully specified).</li>
+<li>Default routes use all-zero mask and catch any unmatched traffic (Gateway of Last Resort).</li>
+<li>Floating routes are backups — set with a higher Administrative Distance.</li>
+<li>Host routes (/32 or /128) point to one exact device, not a network.</li>
+<li>Packet forwarding: router de-encapsulates, checks table, re-encapsulates, forwards — MAC changes each hop, IP stays the same.</li>
+<li>Troubleshooting = test hop by hop with ping/traceroute, then confirm with show ip route, show ip interface brief, show cdp neighbors.</li>
+</ul>
+</div>
+</section>
+
+</div>
+
+<footer>bmit3084 · enterprise networking · chapter 1 study guide · generated for revision</footer>
+
+</body>
+</html>

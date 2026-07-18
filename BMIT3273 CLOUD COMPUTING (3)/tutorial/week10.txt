@@ -1,0 +1,475 @@
+Cloud Architecting - Week 10
+20 Questions
+
+NAME :
+
+CLASS :
+
+DATE  :
+
+1. Which of the following AWS tools help your application scale up or down based on
+
+demand? (Choose two)
+
+A
+
+C
+
+AWS CloudFormation
+
+Elastic Load Balancing
+
+B
+
+D
+
+Amazon EC2 Auto Scaling
+
+Availability Zone
+
+2. Which service would you use to send alerts based on Amazon CloudWatch alarms?
+
+A
+
+C
+
+AWS CloudTrail
+
+AWS Trusted Advisor
+
+B
+
+D
+
+Amazon Simple Notification Service
+
+(Amazon SNS)
+
+Amazon Route 53
+
+3. Which of the following are characteristics of Amazon EC2 Auto Scaling? (Choose three)
+
+A
+
+C
+
+Enforces a minimum number of running
+
+Amazon EC2 instances
+
+B
+
+Launches instances from a specified
+
+Amazon Machine Image (AMI)
+
+Responds to changing conditions by
+
+adding or terminating instances
+
+D
+
+Only supports dynamic scaling
+
+4. Which of the following must be configured on an Elastic Load Balancing load balancer to
+
+expect incoming traffic
+
+A
+
+C
+
+A listener
+
+An instance
+
+B
+
+D
+
+A port
+
+A network interface
+
+5. Which of the following elements are used to create an Amazon EC2 Auto Scaling launch
+
+configuration? (Choose three.)
+
+A
+
+C
+
+Instance type
+
+Load balancer
+
+B
+
+D
+
+Amazon Elastic Block Store (Amazon EBS)
+
+volumes
+
+Amazon Machine Image (AMI)
+
+6. Which of the following services can help you collect important metrics from Amazon
+
+Relational Database Service (Amazon RDS) and Amazon Elastic Compute Cloud (Amazon
+
+EC2) instances?
+
+A
+
+C
+
+Amazon CloudWatch
+
+Amazon CloudSearch
+
+B
+
+D
+
+AWS CloudTrail
+
+Amazon CloudFront
+
+7. Which of the following are elements of an Auto Scaling group? (Choose three)
+
+A
+
+C
+
+Health checks
+
+Minimum size
+
+B
+
+D
+
+Maximum size
+
+Desired capacity
+
+8.
+
+There is an audit at your company and they need to have a log of all access to AWS
+
+resources in the account. Which of the following services can assist in providing these
+
+details?
+
+A
+
+C
+
+Amazon Simple Notification Service
+
+(Amazon SNS)
+
+B
+
+Amazon CloudWatch
+
+Amazon Elastic Compute Cloud (Amazon
+
+EC2)
+
+D
+
+AWS CloudTrail
+
+9.
+
+In Elastic Load Balancing, when the load balancer detects an unhealthy target, which of
+
+the following are true? (Choose three.)
+
+A
+
+C
+
+Route traffic to a healthy target
+
+Resume routing traffic when it detects
+
+that the target is healthy again
+
+B
+
+D
+
+Stops routing traffic to that target
+
+Triggers an alarm
+
+10. What are the three types of load balancers that Elastic Load Balancing offers?
+
+A
+
+C
+
+Compute Load Balancer
+
+Classic Load Balancer
+
+B
+
+D
+
+Network Load Balancer
+
+Application Load Balancer
+
+11. What are some reasons to use automation to provision resources? (Select TWO.)
+
+A
+
+C
+
+Automation requirement for creating
+some resources
+
+B
+
+Lack of version control with manual
+processes
+
+Alignment with reliability design principle D
+
+Greater expense with manual processes
+
+12. What is AWS CloudFormation?
+
+An AWS service that you can use to
+
+A
+
+create, model, and manage AWS
+
+resources
+
+C
+
+A package of all the Information that is
+
+needed to launch Amazon EC2 instance
+
+B
+
+D
+
+A template that describes your
+
+infrastructure
+
+A description of best practices for
+
+designing an AWS implementation
+
+13. What is the AWS CloudFormation Designer?
+
+A
+
+C
+
+A source code repository for AWS
+
+CloudFormation templates
+
+B
+
+A collection of reusable templates
+
+A tool for automating deployments
+
+D
+
+A graphical design interface for creating
+AWS CloudFormation templates
+
+14. Which option is a good way to preview changes before implementing AWS
+
+CloudFormation Designer?
+
+A
+
+C
+
+Run Update Stack.
+
+Visually inspect the template.
+
+B
+
+D
+
+Run Detect Drift.
+
+Create a change set.
+
+15.
+
+You want to quickly set up a secure implementation of an Amazon FSx for Windows File
+
+Server that follows AWS best practices. Which solution should you use?
+
+A
+
+C
+
+An AWS CloudFormation template that
+
+you downloaded from the internet
+
+B
+
+AWS CloudFormation Designer
+
+An AWS Quick Start
+
+D
+
+an Amazon Machine Image (AMI) on AWS
+Marketplace
+
+16.
+
+A fleet of Amazon EC2 instances require application patches on a regular schedule. Which
+approach is the most efficient?
+
+A
+
+Create a scheduled task on each instance
+
+to download patches.
+
+B
+
+Create a maintenance window in AWS
+
+System Manager.
+
+C
+
+Update the AWS CloudFormation stack. D
+
+Use an Amazon CloudWatch alarm to
+
+regularly relaunch instances by using a
+patched AMI.
+
+17. What does AWS OpsWorks do? (Select THREE.)
+
+A
+
+C
+
+Provides managed Puppet instances
+
+B
+
+Automates containerised application
+
+deployment at scale
+
+Automates server configuration,
+deployment, and management
+
+D
+
+Provides managed Chef instances
+
+18. What is AWS Elastic Beanstalk?
+
+A
+
+C
+
+An easy-to-use cloud platform that offers
+you everything that you need to build an
+application or website, and a cost-
+
+B
+
+A set of tools and services that enable
+mobile and frontend web developers to
+build secure, scalable, full-stack
+
+effective, monthly plan
+
+applications that are powered by AWS
+
+A serverless compute engine for
+
+containers that works with both Amazon
+ECS and EKS
+
+D
+
+An easy-to-use service for deploying and
+scaling web applications and services
+that are developed with common web
+
+development languages and platforms
+
+19.
+
+A company wants to deploy their simple website in AWS. It consists of HTML, server-side
+PHP code, and client-side JavaScript code. The website must be highly available to a global
+audience. What can you create that will provide the simplest method to bring the site
+
+online quickly?
+
+A
+
+C
+
+An AWS OpsWorks stack that deploys a
+
+highly available architecture in a VPC
+
+A load-balanced environment in AWS
+
+Elastic Beanstalk
+
+B
+
+D
+
+An AWS CloudFormation stack that
+deploys a highly available architecture in
+a VPC
+
+An Amazon S3 bucket with static web
+
+hosting
+
+20.
+
+Several On-Demand Instances in Amazon EC2 must launch at random times and run for
+
+limited durations. They must have application and package configurations that are
+determined at launch time. Which solution provides the most efficient way to
+
+automatically build these Instances?
+
+A
+
+C
+
+AWS OpsWorks
+
+AWS CloudFormation
+
+B
+
+D
+
+AWS Elastic Beanstalk
+
+Amazon Machine Image (AMI)
+
+

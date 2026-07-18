@@ -1,0 +1,446 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e2]:
+    - paragraph [ref=f2e3]:
+      - link "PostgreSQL" [ref=f2e4] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1
+      - text: »
+      - link "127.0.0.1" [ref=f2e5] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler
+      - text: »
+      - link "class_replacement" [ref=f2e6] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=
+      - text: "» Schema: public"
+    - 'heading "Schema: public" [level=2] [ref=f2e7]'
+    - paragraph [ref=f2e8]:
+      - link "Alter schema" [ref=f2e9] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&scheme=
+      - link "Database schema" [ref=f2e10] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&schema=
+    - heading "Tables and views" [level=3] [ref=f2e11]
+    - generic [ref=f2e12]:
+      - group "Search data in tables (10)" [ref=f2e13]:
+        - generic [ref=f2e14]: Search data in tables (10)
+        - generic [ref=f2e15]:
+          - searchbox [ref=f2e16]
+          - button "Search" [ref=f2e17]
+      - table [ref=f2e19]:
+        - rowgroup [ref=f2e20]:
+          - row "Table Engine Collation Data Length? Index Length? Data Free Auto Increment Rows? Comment?" [ref=f2e21]:
+            - cell [ref=f2e22]:
+              - checkbox [ref=f2e23]
+            - rowheader "Table" [ref=f2e24]
+            - cell "Engine" [ref=f2e25]
+            - cell "Collation" [ref=f2e26]
+            - cell "Data Length?" [ref=f2e27]:
+              - text: Data Length
+              - link "?" [ref=f2e28] [cursor=pointer]:
+                - /url: https://www.postgresql.org/docs/18/functions-admin.html#FUNCTIONS-ADMIN-DBOBJECT
+                - superscript [ref=f2e29]: "?"
+            - cell "Index Length?" [ref=f2e30]:
+              - text: Index Length
+              - link "?" [ref=f2e31] [cursor=pointer]:
+                - /url: https://www.postgresql.org/docs/18/functions-admin.html#FUNCTIONS-ADMIN-DBOBJECT
+                - superscript [ref=f2e32]: "?"
+            - cell "Data Free" [ref=f2e33]
+            - cell "Auto Increment" [ref=f2e34]
+            - cell "Rows?" [ref=f2e35]:
+              - text: Rows
+              - link "?" [ref=f2e36] [cursor=pointer]:
+                - /url: https://www.postgresql.org/docs/18/catalog-pg-class.html#CATALOG-PG-CLASS
+                - superscript [ref=f2e37]: "?"
+            - cell "Comment?" [ref=f2e38]:
+              - text: Comment
+              - link "?" [ref=f2e39] [cursor=pointer]:
+                - /url: https://www.postgresql.org/docs/18/functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE
+                - superscript [ref=f2e40]: "?"
+        - rowgroup [ref=f2e41]:
+          - row "cache table 8,192 40,960 ? ? -1" [ref=f2e42]:
+            - cell "cache" [ref=f2e43]:
+              - checkbox "cache" [ref=f2e44]
+            - rowheader "cache" [ref=f2e45]:
+              - link "cache" [ref=f2e46] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=cache
+            - cell "table" [ref=f2e47]
+            - cell [ref=f2e48]
+            - cell "8,192" [ref=f2e49]:
+              - link "8,192" [ref=f2e50] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=cache
+            - cell "40,960" [ref=f2e51]:
+              - link "40,960" [ref=f2e52] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=cache
+            - cell "?" [ref=f2e53]:
+              - link "?" [ref=f2e54] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=cache
+            - cell "?" [ref=f2e55]:
+              - link "?" [ref=f2e56] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=cache
+            - cell "-1" [ref=f2e57]:
+              - link "-1" [ref=f2e58] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=cache
+            - cell [ref=f2e59]
+          - row "cache_locks table 0 24,576 ? ? -1" [ref=f2e60]:
+            - cell "cache_locks" [ref=f2e61]:
+              - checkbox "cache_locks" [ref=f2e62]
+            - rowheader "cache_locks" [ref=f2e63]:
+              - link "cache_locks" [ref=f2e64] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=cache_locks
+            - cell "table" [ref=f2e65]
+            - cell [ref=f2e66]
+            - cell "0" [ref=f2e67]:
+              - link "0" [ref=f2e68] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=cache_locks
+            - cell "24,576" [ref=f2e69]:
+              - link "24,576" [ref=f2e70] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=cache_locks
+            - cell "?" [ref=f2e71]:
+              - link "?" [ref=f2e72] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=cache_locks
+            - cell "?" [ref=f2e73]:
+              - link "?" [ref=f2e74] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=cache_locks
+            - cell "-1" [ref=f2e75]:
+              - link "-1" [ref=f2e76] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=cache_locks
+            - cell [ref=f2e77]
+          - row "failed_jobs table 0 32,768 ? ? -1" [ref=f2e78]:
+            - cell "failed_jobs" [ref=f2e79]:
+              - checkbox "failed_jobs" [ref=f2e80]
+            - rowheader "failed_jobs" [ref=f2e81]:
+              - link "failed_jobs" [ref=f2e82] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=failed_jobs
+            - cell "table" [ref=f2e83]
+            - cell [ref=f2e84]
+            - cell "0" [ref=f2e85]:
+              - link "0" [ref=f2e86] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=failed_jobs
+            - cell "32,768" [ref=f2e87]:
+              - link "32,768" [ref=f2e88] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=failed_jobs
+            - cell "?" [ref=f2e89]:
+              - link "?" [ref=f2e90] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=failed_jobs
+            - cell "?" [ref=f2e91]:
+              - link "?" [ref=f2e92] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=failed_jobs
+            - cell "-1" [ref=f2e93]:
+              - link "-1" [ref=f2e94] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=failed_jobs
+            - cell [ref=f2e95]
+          - row "job_batches table 0 16,384 ? ? -1" [ref=f2e96]:
+            - cell "job_batches" [ref=f2e97]:
+              - checkbox "job_batches" [ref=f2e98]
+            - rowheader "job_batches" [ref=f2e99]:
+              - link "job_batches" [ref=f2e100] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=job_batches
+            - cell "table" [ref=f2e101]
+            - cell [ref=f2e102]
+            - cell "0" [ref=f2e103]:
+              - link "0" [ref=f2e104] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=job_batches
+            - cell "16,384" [ref=f2e105]:
+              - link "16,384" [ref=f2e106] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=job_batches
+            - cell "?" [ref=f2e107]:
+              - link "?" [ref=f2e108] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=job_batches
+            - cell "?" [ref=f2e109]:
+              - link "?" [ref=f2e110] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=job_batches
+            - cell "-1" [ref=f2e111]:
+              - link "-1" [ref=f2e112] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=job_batches
+            - cell [ref=f2e113]
+          - row "jobs table 0 24,576 ? ? -1" [ref=f2e114]:
+            - cell "jobs" [ref=f2e115]:
+              - checkbox "jobs" [ref=f2e116]
+            - rowheader "jobs" [ref=f2e117]:
+              - link "jobs" [ref=f2e118] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=jobs
+            - cell "table" [ref=f2e119]
+            - cell [ref=f2e120]
+            - cell "0" [ref=f2e121]:
+              - link "0" [ref=f2e122] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=jobs
+            - cell "24,576" [ref=f2e123]:
+              - link "24,576" [ref=f2e124] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=jobs
+            - cell "?" [ref=f2e125]:
+              - link "?" [ref=f2e126] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=jobs
+            - cell "?" [ref=f2e127]:
+              - link "?" [ref=f2e128] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=jobs
+            - cell "-1" [ref=f2e129]:
+              - link "-1" [ref=f2e130] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=jobs
+            - cell [ref=f2e131]
+          - row "migrations table 8,192 16,384 ? ? -1" [ref=f2e132]:
+            - cell "migrations" [ref=f2e133]:
+              - checkbox "migrations" [ref=f2e134]
+            - rowheader "migrations" [ref=f2e135]:
+              - link "migrations" [ref=f2e136] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=migrations
+            - cell "table" [ref=f2e137]
+            - cell [ref=f2e138]
+            - cell "8,192" [ref=f2e139]:
+              - link "8,192" [ref=f2e140] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=migrations
+            - cell "16,384" [ref=f2e141]:
+              - link "16,384" [ref=f2e142] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=migrations
+            - cell "?" [ref=f2e143]:
+              - link "?" [ref=f2e144] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=migrations
+            - cell "?" [ref=f2e145]:
+              - link "?" [ref=f2e146] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=migrations
+            - cell "-1" [ref=f2e147]:
+              - link "-1" [ref=f2e148] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=migrations
+            - cell [ref=f2e149]
+          - row "passkeys table 0 32,768 ? ? -1" [ref=f2e150]:
+            - cell "passkeys" [ref=f2e151]:
+              - checkbox "passkeys" [ref=f2e152]
+            - rowheader "passkeys" [ref=f2e153]:
+              - link "passkeys" [ref=f2e154] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=passkeys
+            - cell "table" [ref=f2e155]
+            - cell [ref=f2e156]
+            - cell "0" [ref=f2e157]:
+              - link "0" [ref=f2e158] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=passkeys
+            - cell "32,768" [ref=f2e159]:
+              - link "32,768" [ref=f2e160] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=passkeys
+            - cell "?" [ref=f2e161]:
+              - link "?" [ref=f2e162] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=passkeys
+            - cell "?" [ref=f2e163]:
+              - link "?" [ref=f2e164] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=passkeys
+            - cell "-1" [ref=f2e165]:
+              - link "-1" [ref=f2e166] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=passkeys
+            - cell [ref=f2e167]
+          - row "password_reset_tokens table 0 16,384 ? ? -1" [ref=f2e168]:
+            - cell "password_reset_tokens" [ref=f2e169]:
+              - checkbox "password_reset_tokens" [ref=f2e170]
+            - rowheader "password_reset_tokens" [ref=f2e171]:
+              - link "password_reset_tokens" [ref=f2e172] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=password_reset_tokens
+            - cell "table" [ref=f2e173]
+            - cell [ref=f2e174]
+            - cell "0" [ref=f2e175]:
+              - link "0" [ref=f2e176] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=password_reset_tokens
+            - cell "16,384" [ref=f2e177]:
+              - link "16,384" [ref=f2e178] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=password_reset_tokens
+            - cell "?" [ref=f2e179]:
+              - link "?" [ref=f2e180] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=password_reset_tokens
+            - cell "?" [ref=f2e181]:
+              - link "?" [ref=f2e182] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=password_reset_tokens
+            - cell "-1" [ref=f2e183]:
+              - link "-1" [ref=f2e184] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=password_reset_tokens
+            - cell [ref=f2e185]
+          - row "sessions table 16,384 90,112 ? ? 16" [ref=f2e186]:
+            - cell "sessions" [ref=f2e187]:
+              - checkbox "sessions" [ref=f2e188]
+            - rowheader "sessions" [ref=f2e189]:
+              - link "sessions" [ref=f2e190] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=sessions
+            - cell "table" [ref=f2e191]
+            - cell [ref=f2e192]
+            - cell "16,384" [ref=f2e193]:
+              - link "16,384" [ref=f2e194] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=sessions
+            - cell "90,112" [ref=f2e195]:
+              - link "90,112" [ref=f2e196] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=sessions
+            - cell "?" [ref=f2e197]:
+              - link "?" [ref=f2e198] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=sessions
+            - cell "?" [ref=f2e199]:
+              - link "?" [ref=f2e200] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=sessions
+            - cell "16" [ref=f2e201]:
+              - link "16" [ref=f2e202] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=sessions
+            - cell [ref=f2e203]
+          - row "users table 0 24,576 ? ? -1" [ref=f2e204]:
+            - cell "users" [ref=f2e205]:
+              - checkbox "users" [ref=f2e206]
+            - rowheader "users" [ref=f2e207]:
+              - link "users" [ref=f2e208] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=users
+            - cell "table" [ref=f2e209]
+            - cell [ref=f2e210]
+            - cell "0" [ref=f2e211]:
+              - link "0" [ref=f2e212] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=users
+            - cell "24,576" [ref=f2e213]:
+              - link "24,576" [ref=f2e214] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&indexes=users
+            - cell "?" [ref=f2e215]:
+              - link "?" [ref=f2e216] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&edit=users
+            - cell "?" [ref=f2e217]:
+              - link "?" [ref=f2e218] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&auto_increment=1&create=users
+            - cell "-1" [ref=f2e219]:
+              - link "-1" [ref=f2e220] [cursor=pointer]:
+                - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=users
+            - cell [ref=f2e221]
+          - row "10 in total C.UTF-8 32,768 319,488 0" [ref=f2e222]:
+            - cell [ref=f2e223]
+            - columnheader "10 in total" [ref=f2e224]
+            - cell [ref=f2e225]
+            - cell "C.UTF-8" [ref=f2e226]
+            - cell "32,768" [ref=f2e227]
+            - cell "319,488" [ref=f2e228]
+            - cell "0" [ref=f2e229]
+      - group "Selected (0)" [ref=f2e232]:
+        - generic [ref=f2e233]: Selected (0)
+        - generic [ref=f2e234]:
+          - button "Vacuum" [disabled] [ref=f2e235]
+          - button "Optimize" [disabled] [ref=f2e236]
+          - button "Truncate" [disabled] [ref=f2e237]
+          - button "Drop" [disabled] [ref=f2e238]
+          - paragraph [ref=f2e239]:
+            - text: "Move to other database:"
+            - combobox [ref=f2e240]:
+              - option "information_schema"
+              - option "pg_catalog"
+              - option "pg_toast"
+              - option "public" [selected]
+            - button "Move" [disabled] [ref=f2e241]
+    - paragraph [ref=f2e242]:
+      - link "Create table" [ref=f2e243] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=
+      - link "Create view" [ref=f2e244] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&view=
+    - heading "Routines" [level=3] [ref=f2e245]
+    - paragraph [ref=f2e246]:
+      - link "Create function" [ref=f2e247] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&function=
+    - heading "Sequences" [level=3] [ref=f2e248]
+    - table [ref=f2e249]:
+      - rowgroup [ref=f2e250]:
+        - row "Name" [ref=f2e251]:
+          - columnheader "Name" [ref=f2e252]
+      - rowgroup [ref=f2e253]:
+        - row "failed_jobs_id_seq" [ref=f2e254]:
+          - columnheader "failed_jobs_id_seq" [ref=f2e255]:
+            - link "failed_jobs_id_seq" [ref=f2e256] [cursor=pointer]:
+              - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sequence=failed_jobs_id_seq
+        - row "jobs_id_seq" [ref=f2e257]:
+          - columnheader "jobs_id_seq" [ref=f2e258]:
+            - link "jobs_id_seq" [ref=f2e259] [cursor=pointer]:
+              - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sequence=jobs_id_seq
+        - row "migrations_id_seq" [ref=f2e260]:
+          - columnheader "migrations_id_seq" [ref=f2e261]:
+            - link "migrations_id_seq" [ref=f2e262] [cursor=pointer]:
+              - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sequence=migrations_id_seq
+        - row "passkeys_id_seq" [ref=f2e263]:
+          - columnheader "passkeys_id_seq" [ref=f2e264]:
+            - link "passkeys_id_seq" [ref=f2e265] [cursor=pointer]:
+              - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sequence=passkeys_id_seq
+        - row "users_id_seq" [ref=f2e266]:
+          - columnheader "users_id_seq" [ref=f2e267]:
+            - link "users_id_seq" [ref=f2e268] [cursor=pointer]:
+              - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sequence=users_id_seq
+    - paragraph [ref=f2e269]:
+      - link "Create sequence" [ref=f2e270] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sequence=
+    - heading "User types" [level=3] [ref=f2e271]
+    - paragraph [ref=f2e272]:
+      - link "Create type" [ref=f2e273] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&type=
+  - paragraph [ref=f2e274]:
+    - button "Logout" [ref=f2e275]
+  - generic [ref=f2e276]:
+    - heading "Adminer 4.8.1" [level=1] [ref=f2e277]:
+      - link "Adminer" [ref=f2e278] [cursor=pointer]:
+        - /url: https://www.adminer.org/
+      - text: 4.8.1
+      - link:
+        - /url: https://www.adminer.org/#download
+    - paragraph [ref=f2e280]:
+      - text: "DB:"
+      - combobox [ref=f2e281]:
+        - option
+        - option "class_replacement" [selected]
+        - option "postgres"
+        - option "template0"
+        - option "template1"
+        - option "test1"
+      - text: "Schema:"
+      - combobox [ref=f2e282]:
+        - option
+        - option "information_schema"
+        - option "pg_catalog"
+        - option "pg_toast"
+        - option "public" [selected]
+    - paragraph [ref=f2e283]:
+      - link "SQL command" [ref=f2e284] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&sql=
+      - link "Import" [ref=f2e285] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&import=
+      - link "Export" [ref=f2e286] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&dump=
+      - link "Create table" [ref=f2e287] [cursor=pointer]:
+        - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&create=
+    - list [ref=f2e288]:
+      - listitem [ref=f2e289]:
+        - link "select" [ref=f2e290] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=cache
+        - link "cache" [ref=f2e291] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=cache
+      - listitem [ref=f2e292]:
+        - link "select" [ref=f2e293] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=cache_locks
+        - link "cache_locks" [ref=f2e294] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=cache_locks
+      - listitem [ref=f2e295]:
+        - link "select" [ref=f2e296] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=failed_jobs
+        - link "failed_jobs" [ref=f2e297] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=failed_jobs
+      - listitem [ref=f2e298]:
+        - link "select" [ref=f2e299] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=job_batches
+        - link "job_batches" [ref=f2e300] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=job_batches
+      - listitem [ref=f2e301]:
+        - link "select" [ref=f2e302] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=jobs
+        - link "jobs" [ref=f2e303] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=jobs
+      - listitem [ref=f2e304]:
+        - link "select" [ref=f2e305] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=migrations
+        - link "migrations" [ref=f2e306] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=migrations
+      - listitem [ref=f2e307]:
+        - link "select" [ref=f2e308] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=passkeys
+        - link "passkeys" [ref=f2e309] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=passkeys
+      - listitem [ref=f2e310]:
+        - link "select" [ref=f2e311] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=password_reset_tokens
+        - link "password_reset_tokens" [ref=f2e312] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=password_reset_tokens
+      - listitem [ref=f2e313]:
+        - link "select" [ref=f2e314] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=sessions
+        - link "sessions" [ref=f2e315] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=sessions
+      - listitem [ref=f2e316]:
+        - link "select" [ref=f2e317] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&select=users
+        - link "users" [ref=f2e318] [cursor=pointer]:
+          - /url: adminer.php?pgsql=127.0.0.1&username=philler&db=class_replacement&ns=public&table=users

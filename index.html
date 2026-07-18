@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y3S1 — TARUMT Degree Notes</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#151b23; --panel2:#1b2330; --line:#2a3441;
+    --text:#e6edf3; --sub:#8b96a5; --accent:#7c8cff;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --green:#3ecf8e; --amber:#f5a623; --blue:#4da3ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--sans); line-height:1.6;
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .hero{
+    padding:70px 24px 40px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(124,140,255,0.05),transparent);
+  }
+  .hero h1{
+    font-size:clamp(26px,4.5vw,40px);
+    font-weight:700; letter-spacing:-0.5px;
+    margin-bottom:6px;
+  }
+  .hero .sub{
+    color:var(--sub); font-size:15px;
+    font-family:var(--mono);
+  }
+
+  .container{max-width:900px;margin:0 auto;padding:40px 20px;flex:1;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:16px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    transition:border-color 0.25s, transform 0.2s;
+    text-decoration:none;
+    color:var(--text);
+    display:flex;
+    flex-direction:column;
+  }
+  .card:hover{border-color:var(--accent);transform:translateY(-3px);}
+
+  .card .code{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.5px;
+    margin-bottom:4px;
+  }
+  .card h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--sub);line-height:1.5;flex:1;}
+  .card .credits{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--sub);
+    opacity:0.6;
+    margin-top:10px;
+  }
+  .card .folders{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-top:10px;
+  }
+  .card .folders span{
+    font-family:var(--mono);
+    font-size:10px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:2px 8px;
+    border-radius:10px;
+  }
+
+  .card.c1 .code{color:var(--blue);}
+  .card.c1 h3{color:var(--blue);}
+  .card.c2 .code{color:var(--green);}
+  .card.c2 h3{color:var(--green);}
+  .card.c3 .code{color:var(--amber);}
+  .card.c3 h3{color:var(--amber);}
+  .card.c4 .code{color:#f472b6;}
+  .card.c4 h3{color:#f472b6;}
+  .card.c5 .code{color:#34d399;}
+  .card.c5 h3{color:#34d399;}
+  .card.c6 .code{color:#fb923c;}
+  .card.c6 h3{color:#fb923c;}
+
+  .syllabus-section{
+    margin-top:40px;
+    border-top:1px solid var(--line);
+    padding-top:28px;
+  }
+  .syllabus-section h2{
+    font-size:16px;
+    font-family:var(--mono);
+    color:var(--accent);
+    margin-bottom:14px;
+  }
+  .syllabus-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .syllabus-list a{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 14px;
+    transition:0.2s;
+  }
+  .syllabus-list a:hover{color:var(--accent);border-color:var(--accent);}
+
+  footer{
+    text-align:center;
+    padding:30px 20px 20px;
+    color:var(--sub);
+    font-size:12px;
+    font-family:var(--mono);
+    border-top:1px solid var(--line);
+  }
+
+  @media(max-width:600px){
+    .hero{padding:50px 16px 30px;}
+    .container{padding:24px 14px;}
+    .grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Y3S1 — TARUMT Degree Notes</h1>
+  <p class="sub">Year 3 · Semester 1 · Bachelor of Information Technology</p>
+</div>
+
+<div class="container">
+
+<div class="grid">
+
+  <a class="card c1" href="BMIT3084%20ENTERPRISE%20NETWORKING%20(4)/lecture%20note/html/index.html">
+    <div class="code">BMIT3084</div>
+    <h3>Enterprise Networking</h3>
+    <p>Routing, switching, OSPF, ACLs, NAT, DHCP, VPN, WAN — with interactive study guides per chapter.</p>
+    <div class="folders">
+      <span>lecture note</span>
+      <span>study guides</span>
+      <span>tutorial</span>
+      <span>past year</span>
+    </div>
+    <div class="credits">4 credits</div>
+  </a>
+
+  <a class="card c2" href="BMCS3404%20PROJECT%20I%20(4)/">
+    <div class="code">BMCS3404</div>
+    <h3>Project I</h3>
+    <p>Final year project — functional specs, proposals, drafts, and the TARUMT Class Replacement System.</p>
+    <div class="folders">
+      <span>proposal</span>
+      <span>draft</span>
+      <span>reference</span>
+      <span>final</span>
+    </div>
+    <div class="credits">4 credits</div>
+  </a>
+
+  <a class="card c3" href="BMIS2113%20INFORMATION%20TECHNOLOGY%20INFRASTRUCTURE%20(3)/">
+    <div class="code">BMIS2113</div>
+    <h3>Information Technology Infrastructure</h3>
+    <p>IT infrastructure, hardware, networking fundamentals, and assignment work.</p>
+    <div class="folders">
+      <span>assignment</span>
+      <span>logo</span>
+    </div>
+    <div class="credits">3 credits</div>
+  </a>
+
+  <a class="card c4" href="BMIT2073%20MOBILE%20APPLICATION%20DEVELOPMENT%20(3)/">
+    <div class="code">BMIT2073</div>
+    <h3>Mobile Application Development</h3>
+    <p>Mobile app development — lectures, practical sessions, assignments, and study guides.</p>
+    <div class="folders">
+      <span>lecture</span>
+      <span>practical</span>
+      <span>assignment</span>
+      <span>study guide</span>
+    </div>
+    <div class="credits">3 credits</div>
+  </a>
+
+  <a class="card c5" href="BMIT3273%20CLOUD%20COMPUTING%20(3)/">
+    <div class="code">BMIT3273</div>
+    <h3>Cloud Computing</h3>
+    <p>Cloud architecture, lecture notes, labs, tutorials, quizzes, and certification prep.</p>
+    <div class="folders">
+      <span>lecture</span>
+      <span>lab</span>
+      <span>tutorial</span>
+      <span>quiz</span>
+    </div>
+    <div class="credits">3 credits</div>
+  </a>
+
+  <a class="card c6" href="BMSE3153%20SOFTWARE%20PROJECT%20MANAGEMENT%20(3)/">
+    <div class="code">BMSE3153</div>
+    <h3>Software Project Management</h3>
+    <p>SPM lectures, study guides, assignments, and tutorial work for the semester.</p>
+    <div class="folders">
+      <span>lecture</span>
+      <span>study guide</span>
+      <span>assignment</span>
+      <span>tutorial</span>
+    </div>
+    <div class="credits">3 credits</div>
+  </a>
+
+</div>
+
+<div class="syllabus-section">
+  <h2>Syllabus Documents</h2>
+  <div class="syllabus-list">
+    <a href="syllabus/BMIT3084%20Enterprise%20Networking%206-4.pdf">BMIT3084 — Enterprise Networking</a>
+    <a href="syllabus/BMIT3273%20Cloud%20Computing%20.pdf">BMIT3273 — Cloud Computing</a>
+    <a href="syllabus/BMIT2073%20Mobile%20Application%20Development%207-3.pdf">BMIT2073 — Mobile Application Development</a>
+    <a href="syllabus/BMIS2113%20Information%20Technology%20Infrastructure%205-5.pdf">BMIS2113 — IT Infrastructure</a>
+    <a href="syllabus/BMSE3153%20Software%20Project%20Management%205-5.pdf">BMSE3153 — Software Project Management</a>
+    <a href="syllabus/">📁 all syllabuses</a>
+  </div>
+</div>
+
+</div>
+
+<footer>Y3S1 · TARUMT · Bachelor of Information Technology</footer>
+
+</body>
+</html>

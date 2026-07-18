@@ -1,0 +1,216 @@
+This study guide is designed for beginners. It uses only the information from your lecture notes for Chapters 1, 2, and 3.
+
+---
+
+# CHAPTER 1: INTRODUCTION TO MOBILE DEVELOPMENT & DART
+
+# Mobile Operating Systems (OS)
+
+## What is it?
+*   Software that manages a mobile device.
+*   The two main ones are **Android** and **iOS**.
+
+## Why is it important?
+*   It is the foundation of the phone. Every app must run on an OS.
+
+## Key Points
+*   **Android**: Uses **Linux kernel** and is **Open Source**.
+*   **iOS**: Uses **Unix kernel** and is used for Apple devices.
+*   Other examples: Tizen, KaiOS, Harmony OS, and Fuchsia.
+
+## Easy Memory
+The OS is like the "boss" of the phone that tells the hardware what to do.
+
+## Common Exam Questions
+*   **State** the kernel used by Android and iOS.
+*   **List** three mobile operating systems other than Android and iOS.
+
+---
+
+# Types of Mobile Apps
+
+## What is it?
+*   There are three ways to build apps: **Native**, **Hybrid**, and **Mobile Web**.
+
+## Why is it important?
+*   Different methods cost different amounts of money and have different speeds.
+
+## Key Points
+*   **Native**: Built for one OS. It is the **fastest** but has a **high cost**.
+*   **Mobile Web**: A website that looks like an app. **Low cost** but needs the **internet**.
+*   **Hybrid**: A mix of both. Uses a **single codebase** for multiple platforms.
+
+## Comparison Table
+| Criteria | Native | Hybrid | Mobile Web |
+| :--- | :--- | :--- | :--- |
+| **Cost** | High | Low | Low |
+| **Performance** | Fast | Depends on Network | Depends on Network |
+| **Code** | Multiple codebase | Single codebase | Single codebase |
+| **Device Access** | Wide (Full) | Limited | Very Limited |
+
+## Scenario Questions
+**Scenario:** A company wants to build a complex game with high-speed graphics. They have a large budget. Which method should they use?
+*   **Correct Answer:** Native.
+*   **Why:** Games need "Fast" performance and "Wide" access to device features.
+*   **Why others are wrong:** Hybrid and Web depend on network speed and are slower.
+
+---
+
+# Flutter and Architecture
+
+## What is it?
+*   An **SDK** (Software Development Kit) created by **Google**.
+*   Uses the **Dart** language to build apps for Android, iOS, Web, and Desktop.
+
+## Why is it important?
+*   It allows **Cross-platform** development (one code for many phones) and has **Hot Reload** (see changes instantly).
+
+## Key Points
+Flutter has three layers:
+1.  **Framework (Dart)**: Top layer where we code widgets and animations.
+2.  **Engine (C/C++)**: Middle layer for graphics, text layout, and network.
+3.  **Embedder**: Bottom layer that talks to the specific phone OS (Android/iOS).
+
+## Common Exam Questions
+*   **Explain** the purpose of the Flutter Engine.
+*   **List** four key features of Flutter.
+
+---
+
+# Dart Programming Basics
+
+## What is it?
+*   An **Object-oriented** and **Strongly typed** language used by Flutter.
+
+## Key Points
+*   **int**: For whole numbers (e.g., 5).
+*   **double**: For decimals (e.g., 3.14).
+*   **String**: For text (e.g., "Hello").
+*   **bool**: For true/false.
+*   **async/await**: Used for tasks that take time (like fetching data) so the app doesn't freeze.
+
+---
+
+# Final Revision: Chapter 1
+*   **Top 10 Facts:**
+    1. Android is Linux-based.
+    2. iOS is Unix-based.
+    3. Native apps are the fastest.
+    4. Mobile web apps are the cheapest.
+    5. Flutter was made by Google.
+    6. Flutter uses the Dart language.
+    7. "Hot Reload" is a key Flutter feature.
+    8. Flutter Engine is written in C++.
+    9. `int` is for whole numbers.
+    10. `async` handles long-running tasks.
+*   **Common Mistakes:** Thinking Flutter is a language (It is an SDK; Dart is the language).
+*   **Summary:** Chapter 1 covers how apps are built, the OS they run on, and the Flutter/Dart tools we use.
+
+---
+
+# CHAPTER 2: APP LIFECYCLE & NAVIGATION
+
+# Route and Navigator
+
+## What is it?
+*   **Route**: In Flutter, a screen or page is called a route.
+*   **Navigator**: A widget that manages these screens.
+
+## Why is it important?
+*   It allows users to move between different parts of the app.
+
+## Key Points
+*   Navigation is like a **Stack**.
+*   **push()**: Adds a new screen to the **top** of the stack.
+*   **pop()**: Removes the current screen to go **back**.
+
+## Easy Memory
+Think of a stack of plates. You "push" a new plate on top and "pop" the top one off to see the one below.
+
+---
+
+# App Lifecycle States
+
+## What is it?
+*   The different "modes" an app goes through while running or sitting in the background.
+
+## Key Points
+1.  **Resumed**: The app is **visible** and the user is using it.
+2.  **Inactive**: A brief transition (like a phone call coming in).
+3.  **Paused**: The app is in the **background** and not visible.
+4.  **Detached**: The app is closed or not running.
+
+## Common Exam Questions
+*   **Differentiate** between the Resumed and Paused states.
+*   **State** what actions should be taken in the Paused state.
+
+---
+
+# Final Revision: Chapter 2
+*   **Keywords:** Route, Navigator, Stack, Push, Pop, Lifecycle.
+*   **Fact:** In Flutter, a route is just a **widget**.
+*   **Mistake:** Thinking "Inactive" and "Paused" are the same (Inactive is a short transition; Paused is hidden in the background).
+
+---
+
+# CHAPTER 3: USER INTERFACES & STATE
+
+# Widgets
+
+## What is it?
+*   The basic building blocks of a Flutter UI.
+*   They define **Appearance**, **Layout**, and **Behavior**.
+
+## Why is it important?
+*   Everything you see in a Flutter app is a widget.
+
+## Key Points
+*   **Customizable**: You can change their properties (color, size).
+*   **Reusable**: You can use the same widget code many times.
+*   **Hierarchy**: Widgets are nested inside each other like a tree.
+
+---
+
+# Basic UI Widgets
+
+## Key Points
+*   **Scaffold**: Provides the basic structure (like an AppBar or body).
+*   **Row / Column**: Used for layout (Row is horizontal, Column is vertical).
+*   **TextField**: Lets the user type text.
+*   **ElevatedButton**: A button the user can tap.
+
+---
+
+# State Management
+
+## What is it?
+*   Managing data that **changes** over time (like a counter or a shopping cart).
+
+## Comparison Table
+| Type | Purpose | How it is managed |
+| :--- | :--- | :--- |
+| **Ephemeral (Widget) State** | Local data for **one** widget. | `StatefulWidget` and `setState`. |
+| **App State** | Shared data for the **entire app**. | Libraries like **Provider**. |
+
+## Scenario Questions
+**Scenario:** A user changes the theme of the whole app from Light to Dark mode. What kind of state is this?
+*   **Correct Answer:** App State.
+*   **Why:** It affects the "entire app," not just one button or screen.
+*   **Why others are wrong:** Ephemeral state is only for one widget, like a single page number.
+
+---
+
+# Navigation Principles
+
+## Key Points
+1.  **Fixed start destination**: Every app starts on the same screen.
+2.  **Stack of destinations**: History is kept in a stack.
+3.  **Up button never exits**: The "Up" button should only move within the app, not close it.
+
+---
+
+# Final Revision: Chapter 3
+*   **Fact:** Widgets are **immutable** (they don't change, they are replaced).
+*   **Fact:** `setState` is used for **local** changes.
+*   **Keyword:** Scaffold, Provider, Ephemeral, App State.
+*   **Summary:** Chapter 3 explains how to build the look of the app (Widgets) and how to handle data (State).

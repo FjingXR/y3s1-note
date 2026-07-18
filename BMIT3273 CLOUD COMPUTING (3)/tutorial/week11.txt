@@ -1,0 +1,271 @@
+NAME :
+
+CLASS :
+
+DATE  :
+
+Cloud Architecting - Week 11
+10 Questions
+
+1. What is caching?
+
+A
+
+C
+
+An in-memory database
+
+B
+
+A high-speed data storage layer
+
+A global network for content distribution D
+
+A way to store passwords
+
+2. Which types of data should you cache?
+
+A
+
+C
+
+Specialised data that is needed by a
+
+subnet of users
+
+Static data that is frequently accessed
+
+3. What is a benefit of caching?
+
+A
+
+C
+
+Load balancing the application
+
+Increase application reliability
+
+4. What does Amazon CloudFront enable?
+
+A
+
+C
+
+Bidirectional caching between users and
+
+an origin host
+
+Automatic creation of a time-to-live value D
+
+B
+
+D
+
+B
+
+D
+
+B
+
+Data that can be retrieved quickly with
+
+simple queries
+
+Dynamic generated web content
+
+Reduced response latency
+
+Decreased costs
+
+Transactional processing with an in-
+
+memory database
+
+Multi-tiered and regional caching of
+
+content
+
+5.
+
+How does Amazon CloudFront use edge locations?
+
+A
+
+C
+
+It caches local content at edge location. it
+deliver the cached content to clients
+
+through the edge location that requires
+the fewest network hops to reach those
+
+B
+
+clients.
+
+It caches all content from an origin
+
+distribution at the edge location, and
+
+delivers the content to clients through
+the fast edge location.
+
+It caches Regional data at Regional edge
+locations, and delivers the content to
+
+clients through their Regional edge
+
+locations.
+
+It caches frequently accessed content at
+edge locations. It delivers the cached
+
+D
+
+content to clients through the edge
+
+location with the lowest latency to those
+clients.
+
+6. Where is the application session data cached when using sticky sessions?
+
+A
+
+C
+
+Elastic Load Balancing load balancer
+
+Web server
+
+B
+
+D
+
+Web browser
+
+Amazon CloudFront
+
+7. Which statement best describes an efficient way to deliver on-demand steaming content
+
+by using Amazon CloudFront?
+
+A
+
+C
+
+A best practice is to create video
+
+segments and store them in an Amazon
+S3 bucket. Then, use CloudFront to cache
+
+the segments.
+
+A best practice is to create distributions
+
+B
+
+for each Region where you serve
+
+streaming content.
+
+CloudFront does not work with steaming
+content.
+
+A best practice is to create separate
+
+D
+
+origin server for each Region where you
+
+serve streaming content.
+
+8. What is Amazon DynamoDB Accelerator (DAX)?
+
+A feature of DynamoDB that
+
+A
+
+automatically adjusts read/write capacity
+
+B
+
+to handle load
+
+A feature of DynamoDB that enables fast
+lookup of items by using secondary keys
+
+C
+
+9.
+
+A fully managed, highly available, in-
+
+memory cache for DynamoDB
+
+D
+
+A fully managed, highly available cache
+
+that is backed by DynamoDB
+
+How can an application use Amazon ElastiCache to improve database read performance?
+(Select TWO.)
+
+Read data from the database first and
+
+Replicate the database in ElastiCache,
+
+A
+
+write the most frequently read data to
+
+B
+
+and direct all reads to ElastiCache and all
+
+ElastiCache.
+
+writes to the database.
+
+C
+
+Write data to ElastiCache whenever the
+application writes to the database.
+
+Read data from ElastiCache first and
+
+D
+
+write to ElastiCache when a cache miss
+
+occurs.
+
+10. Which role does Amazon CloudFront play in protecting against distributed denial of
+
+service (DDOS) attacks?
+
+A
+
+C
+
+Performs deep packet inspection to
+
+detect attacks
+
+B
+
+Route traffic through edge locations
+
+Control traffic by the source IP addresses
+
+of requests
+
+Restricts traffic by geography to help
+
+D
+
+block attacks that originate from specific
+
+countries
+
+
