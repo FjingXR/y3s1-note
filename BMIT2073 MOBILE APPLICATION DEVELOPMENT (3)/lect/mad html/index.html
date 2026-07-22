@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BMIT2073 — Mobile Application Development | Study Hub</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --teal:#4dd0e1;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .hero{
+    padding:80px 24px 50px;
+    max-width:960px;
+    margin:0 auto;
+    text-align:center;
+    flex:1;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:560px;
+    margin:0 auto 8px;
+  }
+  .hero p.sub{
+    color:var(--sub);
+    font-size:13px;
+    max-width:500px;
+    margin:0 auto;
+    font-family:var(--mono);
+    opacity:0.7;
+  }
+
+  .schedule{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin:24px auto 0;
+    flex-wrap:wrap;
+    max-width:700px;
+  }
+  .sched-item{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 14px;
+    text-align:center;
+    min-width:130px;
+  }
+  .sched-item .sched-date{
+    display:block;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:2px;
+  }
+  .sched-item .sched-label{
+    display:block;
+    font-size:13px;
+    color:var(--text);
+    font-weight:600;
+  }
+  .sched-item .sched-week{
+    display:block;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--sub);
+    margin-top:2px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+    margin:48px 0 40px;
+    text-align:left;
+  }
+
+  .chapter-label{
+    grid-column:1/-1;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin:10px 0 0;
+    padding-bottom:4px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:0;
+    transition:border-color 0.25s, transform 0.2s;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .card:hover{border-color:var(--accent);transform:translateY(-3px);}
+  .card .top{
+    padding:20px 22px 14px;
+    flex:1;
+  }
+  .card .ch{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h3{
+    margin:0 0 8px;
+    font-size:18px;
+    font-weight:700;
+  }
+  .card p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--sub);
+    line-height:1.5;
+  }
+  .card .modules{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:12px;
+  }
+  .card .modules span{
+    font-family:var(--mono);
+    font-size:10.5px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:2px 8px;
+    border-radius:12px;
+  }
+  .card .footer{
+    border-top:1px solid var(--line);
+    padding:12px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .card .footer .status{
+    font-size:11px;
+    color:var(--sub);
+    font-family:var(--mono);
+  }
+  .card .footer .status .dot{
+    display:inline-block;
+    width:7px;height:7px;
+    border-radius:50%;
+    margin-right:5px;
+  }
+  .card .footer .status .dot.g{background:var(--green);}
+  .card .footer a{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    text-decoration:none;
+    padding:5px 12px;
+    border:1px solid var(--accent);
+    border-radius:6px;
+    transition:0.2s;
+  }
+  .card .footer a:hover{background:var(--accent);color:#000;}
+  .card .footer .disabled{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    padding:5px 12px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    opacity:0.5;
+    cursor:default;
+    user-select:none;
+  }
+
+  footer{
+    text-align:center;
+    padding:30px 20px 20px;
+    color:var(--sub);
+    font-size:12px;
+    font-family:var(--mono);
+    border-top:1px solid var(--line);
+    margin-top:auto;
+  }
+
+  @media(max-width:600px){
+    .hero{padding:50px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .schedule{gap:6px;}
+    .sched-item{min-width:0;flex:1 1 calc(50% - 6px);padding:8px 10px;}
+    .sched-item .sched-date{font-size:10px;}
+    .sched-item .sched-label{font-size:12px;}
+    .grid{grid-template-columns:1fr;margin:32px 0;}
+    .card .top{padding:16px 18px 12px;}
+    .card .footer{padding:10px 18px;flex-direction:column;gap:10px;align-items:stretch;text-align:center;}
+    .card .footer a{display:block;}
+  }
+
+  /* ===== COLLAPSIBLE INTRO ===== */
+  .intro{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin:36px 0 0;
+    overflow:hidden;
+    text-align:left;
+  }
+  .intro > summary{
+    cursor:pointer;
+    list-style:none;
+    padding:16px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:0.5px;
+    user-select:none;
+  }
+  .intro > summary::-webkit-details-marker{display:none;}
+  .intro > summary:hover{background:var(--panel2);}
+  .intro > summary .chev{
+    transition:transform 0.25s;
+    color:var(--sub);
+    font-size:12px;
+  }
+  .intro[open] > summary .chev{transform:rotate(90deg);}
+  .intro .intro-body{
+    padding:4px 22px 22px;
+    border-top:1px solid var(--line);
+  }
+  .intro .intro-body p{
+    color:var(--sub);
+    font-size:14.5px;
+    line-height:1.7;
+    margin:14px 0 0;
+  }
+  .intro .intro-body p:first-child{margin-top:16px;}
+  .intro .intro-body b{color:var(--text);}
+  .intro .intro-body .kbd{
+    font-family:var(--mono);
+    font-size:12px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    padding:1px 6px;
+    border-radius:4px;
+    color:#ffd479;
+  }
+
+  @media(max-width:600px){
+    .intro > summary{padding:14px 18px;font-size:12px;}
+    .intro .intro-body{padding:4px 18px 18px;}
+    .intro .intro-body p{font-size:13.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="tag">BMIT2073 &middot; Semester 3 &middot; Y3</span>
+  <h1>Mobile Application Development</h1>
+  <p class="lead">Study guides for every chapter — built from lecture notes, designed for revision.</p>
+  <p class="sub">11 chapters &middot; Flutter &amp; Dart</p>
+
+  <div class="schedule">
+    <div class="sched-item">
+      <span class="sched-date">31 Jul (Fri) · 1:30–3:30pm</span>
+      <span class="sched-label">Written Test</span>
+      <span class="sched-week">Week 7</span>
+    </div>
+    <div class="sched-item">
+      <span class="sched-date">TBD</span>
+      <span class="sched-label">Practical Test</span>
+      <span class="sched-week">~Week 9</span>
+    </div>
+    <div class="sched-item">
+      <span class="sched-date">TBD</span>
+      <span class="sched-label">Assignment Submit</span>
+      <span class="sched-week">~Week 12</span>
+    </div>
+    <div class="sched-item">
+      <span class="sched-date">TBD</span>
+      <span class="sched-label">Assignment Demo</span>
+      <span class="sched-week">~Week 12/13</span>
+    </div>
+  </div>
+
+  <details class="intro" open>
+    <summary>About this subject <span class="chev">&#9654;</span></summary>
+    <div class="intro-body">
+      <p><b>BMIT2073 — Mobile Application Development (MAD)</b> is a third-year semester subject that teaches you how to build real mobile apps from scratch using <b>Flutter</b> and the <b>Dart</b> programming language.</p>
+      <p>Flutter is Google's cross-platform UI toolkit — with a <b>single Dart codebase</b> you can ship apps to Android, iOS, the web, and desktop. It does not use platform-native widgets; instead it paints every pixel itself via the Skia rendering engine, giving you consistent UI and full control across devices.</p>
+      <p>Across the 11 chapters you'll move from the fundamentals — the mobile OS landscape, app types (native vs hybrid vs web), Dart syntax — through building user interfaces, managing state, and handling data, all the way to location services, device sensors, and finally packaging and publishing your app to the stores.</p>
+      <p>These study guides are built directly from the lecture notes and structured for revision. Use the <span class="kbd">&larr; back</span> links inside each chapter to return here, and the <span class="kbd">open &rarr;</span> buttons to jump into a topic. Click the arrow above to hide this intro anytime.</p>
+    </div>
+  </details>
+
+  <div class="grid">
+
+    <!-- ============ MOCK TEST ============ -->
+    <div class="chapter-label">Mock Test — Question Paper Walkthrough</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--accent);">mock test</div>
+        <h3 style="color:var(--accent);">Mock Test Walkthrough</h3>
+        <p>Interactive question paper walkthrough with answers, visualizations, and practice questions. Built from lecture slides.</p>
+        <div class="modules">
+          <span>Q1</span>
+          <span>Q2</span>
+          <span>All parts</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="claude_mock_test_walkthrough.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--pink);">mock test</div>
+        <h3 style="color:var(--pink);">Mock Test (Mimo)</h3>
+        <p>Alternative mock test walkthrough with question paper analysis and exam-ready answers.</p>
+        <div class="modules">
+          <span>Q1</span>
+          <span>Q2</span>
+          <span>All parts</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="mimo_mock_test.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 1 ============ -->
+    <div class="chapter-label">Chapter 1 — Introduction &amp; Dart</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--blue);">study guide</div>
+        <h3 style="color:var(--blue);">Introduction to Mobile App Development</h3>
+        <p>Mobile OS ecosystem, native vs hybrid vs web apps, Flutter architecture, reactive UI paradigm, development tools comparison.</p>
+        <div class="modules">
+          <span>Module 1.1</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="chapter1_intro.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--green);">study guide</div>
+        <h3 style="color:var(--green);">Introduction to Dart</h3>
+        <p>Dart basics, program structure, variables &amp; types, control flow, functions, arrow syntax, recursion.</p>
+        <div class="modules">
+          <span>Module 1.2</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 2 ============ -->
+    <div class="chapter-label">Chapter 2 — App Lifecycle</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">study guide</div>
+        <h3 style="color:var(--amber);">App Lifecycle &amp; Navigation</h3>
+        <p>Routes &amp; Navigator stack, shared state with Provider, deep linking, AppLifecycleState, AppLifecycleListener.</p>
+        <div class="modules">
+          <span>Module 2</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 3 ============ -->
+    <div class="chapter-label">Chapter 3 — UI, Themes &amp; State</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--pink);">study guide</div>
+        <h3 style="color:var(--pink);">User Interfaces</h3>
+        <p>Basic widgets, Stateless vs Stateful, Material &amp; Cupertino, single/multi-child layouts, Sliver widgets, performance tips.</p>
+        <div class="modules">
+          <span>Module 3.1</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--teal);">study guide</div>
+        <h3 style="color:var(--teal);">Platforms, Themes &amp; Design</h3>
+        <p>Colors &amp; Material Design, typography, internationalization, adaptive design, accessibility, screen support.</p>
+        <div class="modules">
+          <span>Module 3.2</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--blue);">study guide</div>
+        <h3 style="color:var(--blue);">State Management &amp; Navigation</h3>
+        <p>Ephemeral vs app state, Provider pattern, tab/drawer navigation, dialogs, snackbar, navigation principles.</p>
+        <div class="modules">
+          <span>Module 3.3</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 4 ============ -->
+    <div class="chapter-label">Chapter 4 — Data &amp; Networks</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--green);">study guide</div>
+        <h3 style="color:var(--green);">Resources &amp; Data Storage</h3>
+        <p>Async/await, Futures &amp; Streams, SharedPreferences, SQLite, file I/O, internal vs external storage, AI-driven mobile dev.</p>
+        <div class="modules">
+          <span>Module 4.1</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">study guide</div>
+        <h3 style="color:var(--amber);">Network Operations</h3>
+        <p>REST vs SOAP, HTTP methods, JSON serialization, MQTT, server options (DIY vs BaaS), http package.</p>
+        <div class="modules">
+          <span>Module 4.2</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 5 ============ -->
+    <div class="chapter-label">Chapter 5 — Location-based Services</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--pink);">study guide</div>
+        <h3 style="color:var(--pink);">Location-based Services</h3>
+        <p>GPS vs network location, permissions, Google Maps &amp; OpenStreetMap, geocoding, geolocation, battery best practices.</p>
+        <div class="modules">
+          <span>Module 5</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 6 ============ -->
+    <div class="chapter-label">Chapter 6 — Specialized Instruments &amp; Devices</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--teal);">study guide</div>
+        <h3 style="color:var(--teal);">Camera, Sensors &amp; Devices</h3>
+        <p>Camera &amp; image picker, media playback, motion/environmental sensors, biometrics, BLE, NFC, Google ML Kit.</p>
+        <div class="modules">
+          <span>Module 6</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+    <!-- ============ CHAPTER 7 ============ -->
+    <div class="chapter-label">Chapter 7 — Packaging &amp; Publication</div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--amber);">study guide</div>
+        <h3 style="color:var(--amber);">Mobile App Packaging &amp; Publication</h3>
+        <p>Pre-launch checklist, developer accounts, app bundles (.aab), Google Play Instant, Chrome OS, monetization models.</p>
+        <div class="modules">
+          <span>Module 7</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="status"><span class="dot" style="background:var(--line);"></span> coming soon</span>
+        <span class="disabled">open &rarr;</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>bmit2073 &middot; mobile application development &middot; study hub</footer>
+
+</body>
+</html>

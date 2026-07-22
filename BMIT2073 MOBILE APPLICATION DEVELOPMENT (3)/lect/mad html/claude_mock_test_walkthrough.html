@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mock Test Walkthrough — BMIT2073 | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ===== TOP NAV ===== */
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  /* ===== SECTIONS ===== */
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{
+    font-size:26px;
+    margin:0 0 6px;
+    font-weight:700;
+  }
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  /* CLI blocks */
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+
+  /* comparison table */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  th.hl-blue{color:var(--blue);}
+  th.hl-amber{color:var(--amber);}
+  th.hl-green{color:var(--green);}
+
+  /* type cards */
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card h4{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
+  }
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card ul{margin:10px 0 0;padding-left:18px;}
+  .card li{font-size:13.5px;color:#c3cbd6;}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+
+  /* callout boxes */
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout p{margin:0;color:var(--text);}
+  .callout ul{margin:0;}
+  .callout li{color:var(--text);}
+
+  /* flow steps */
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+  .flowstep .txt ul{margin:6px 0 0;padding-left:18px;}
+  .flowstep .txt li{font-size:13.5px;}
+
+  /* horizontal state flow (lifecycle diagram) */
+  .hflow{
+    display:flex;
+    align-items:stretch;
+    gap:0;
+    margin:20px 0;
+    overflow-x:auto;
+    padding-bottom:8px;
+  }
+  .hflow-node{
+    flex:1;
+    min-width:150px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-top:3px solid var(--accent);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .hflow-node.resumed{border-top-color:var(--green);}
+  .hflow-node.inactive{border-top-color:var(--amber);}
+  .hflow-node.paused{border-top-color:var(--blue);}
+  .hflow-node.detached{border-top-color:var(--danger);}
+  .hflow-node .state-name{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:6px;
+    color:var(--text);
+  }
+  .hflow-node.resumed .state-name{color:var(--green);}
+  .hflow-node.inactive .state-name{color:var(--amber);}
+  .hflow-node.paused .state-name{color:var(--blue);}
+  .hflow-node.detached .state-name{color:var(--danger);}
+  .hflow-node .state-desc{font-size:12.5px;color:var(--sub);margin-bottom:8px;}
+  .hflow-node .state-task{
+    font-family:var(--mono);
+    font-size:11.5px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 8px;
+    color:#ffd479;
+  }
+  .hflow-arrow{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:30px;
+    color:var(--sub);
+    font-size:18px;
+  }
+
+  /* diff table with icons */
+  .diff-table td.ico{font-size:18px;text-align:center;width:36px;}
+
+  /* practice questions */
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:none;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.show{display:block;}
+  .q-answer ul{margin:0;padding-left:16px;}
+
+  /* main question card */
+  .qcard{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin:18px 0;
+  }
+  .qcard-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--accent);
+    padding:3px 10px;
+    border-radius:20px;
+  }
+  .slideref{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--sub);
+  }
+  .marks{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--amber);
+    background:rgba(245,166,35,0.1);
+    border:1px solid rgba(245,166,35,0.3);
+    padding:3px 10px;
+    border-radius:20px;
+  }
+  .question-box{
+    background:var(--panel2);
+    border:1px solid var(--line);
+    border-left:3px solid var(--sub);
+    border-radius:8px;
+    padding:14px 16px;
+    margin:12px 0 16px;
+    font-size:14.5px;
+    color:var(--text);
+    font-style:italic;
+  }
+  .answer-toggle-btn{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:700;
+    color:var(--bg);
+    background:var(--accent);
+    border:none;
+    border-radius:6px;
+    padding:8px 16px;
+    cursor:pointer;
+    margin-bottom:14px;
+  }
+  .answer-toggle-btn:hover{opacity:0.85;}
+  .answer-toggle-btn.hidden-state{background:var(--panel2);color:var(--sub);border:1px solid var(--line);}
+  .answer-block{display:block;}
+  .answer-block.collapsed{display:none;}
+
+  /* summary box */
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  /* footer */
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  /* ---------- MOBILE VIEW ---------- */
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .qcard{padding:16px 14px;}
+    .qcard-head{flex-direction:column;}
+    .hflow{flex-direction:column;}
+    .hflow-arrow{width:100%;height:20px;transform:rotate(90deg);}
+    .answer-toggle-btn{width:100%;text-align:center;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;mock/&gt;</span>
+  <a href="#q1a">1a</a>
+  <a href="#q1b">1b</a>
+  <a href="#q2a">2a</a>
+  <a href="#q2b">2b</a>
+  <a href="#q2c">2c</a>
+  <a href="#q2d">2d</a>
+  <a href="#q2e">2e</a>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Mock Written Test · Understanding Phase</span>
+  <h1>Mock Test — Question Paper Walkthrough</h1>
+  <p class="lead">This is a study guide, not the exam. Every question below is copied from the mock paper. Each answer is built from your lecture slides only, in simple bullet points. Use this to understand and remember — then practice writing the answers yourself on paper.</p>
+</div>
+
+<div class="wrap">
+
+<!-- ============ Q1a ============ -->
+<section id="q1a">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 1.1</span>
+    <span class="slideref">Lecture 1.1, slide 19 (comparison table) + slide 18 (app types intro)</span>
+    <span class="marks">15 + 2 marks</span>
+  </div>
+  <h2>Question 1(a)</h2>
+  <div class="question-box">
+    (i) Construct a table to briefly compare between native, hybrid and mobile web apps based on the following FIVE (5) criteria: Development cost · App performance · Distribution method · Access to device features · Code maintenance. (15 marks)<br><br>
+    (ii) Select the most appropriate mobile app type (native, hybrid or mobile web) for a highly interactive 3D mobile game. Briefly justify your selection. (2 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a1a')">Hide Answer</button>
+  <div class="answer-block" id="a1a">
+
+  <h3>(i) The comparison table</h3>
+  <table>
+    <tr>
+      <th class="hl-blue">Criteria</th>
+      <th class="hl-blue">Native</th>
+      <th class="hl-amber">Hybrid</th>
+      <th class="hl-green">Mobile Web</th>
+    </tr>
+    <tr><td>Development cost</td><td>High</td><td>Low</td><td>Low</td></tr>
+    <tr><td>App performance</td><td>Fast</td><td>Depends on network speed</td><td>Depends on network speed</td></tr>
+    <tr><td>Distribution method</td><td>App stores</td><td>App stores</td><td>None (just a URL)</td></tr>
+    <tr><td>Access to device features</td><td>Wide</td><td>Limited</td><td>Very limited</td></tr>
+    <tr><td>Code maintenance</td><td>Multiple codebase (one per OS)</td><td>Single codebase</td><td>Single codebase</td></tr>
+  </table>
+
+  <h3>(ii) 3D mobile game → choose Native</h3>
+  <div class="callout tip">
+    <b>Why native</b>
+    <ul>
+      <li>3D games need <b>fast performance</b> (high FPS, no lag) — native gives full hardware speed</li>
+      <li>Games need <b>deep device access</b> — GPU, sensors, haptics — native has wide access</li>
+      <li>Hybrid/web app performance depends on network, not good for real-time 3D graphics</li>
+    </ul>
+  </div>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_1_Merged.pdf — Lecture 1.1, slide 18 "Types of Mobile Apps" and slide 19 "Comparison of Apps" table.</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. Which app type has the highest development cost? Why?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">
+      <ul>
+        <li>Native — because you need to build and maintain <b>separate codebase</b> for Android and iOS</li>
+        <li>More coding, more testing, more developer time = higher cost</li>
+      </ul>
+    </div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. A company wants a cheap news-reading app with no app store approval needed. Which type fits best?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">
+      <ul>
+        <li>Mobile Web app</li>
+        <li>Low cost, single codebase, distributed by URL — <b>no app store</b> needed</li>
+        <li>Trade-off: very limited device feature access</li>
+      </ul>
+    </div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P3. Give one criterion where hybrid and mobile web perform the same in the comparison table.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">
+      <ul>
+        <li>Development cost — both Low</li>
+        <li>App performance — both "depends on network speed"</li>
+        <li>Code maintenance — both single codebase</li>
+        <li>(any one is a valid answer)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q1a</h4>
+    <ul>
+      <li>3 app types: Native, Hybrid, Mobile Web</li>
+      <li>5 criteria to compare: cost, performance, distribution, device access, maintenance</li>
+      <li>Native = best performance + most cost. Web = cheapest + least access</li>
+      <li>Rule of thumb: heavy graphics/performance app → Native. Budget/simple app → Web/Hybrid</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ Q1b ============ -->
+<section id="q1b">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 2</span>
+    <span class="slideref">Lecture 2, slides 27–32 "App Lifecycle"</span>
+    <span class="marks">8 marks</span>
+  </div>
+  <h2>Question 1(b)</h2>
+  <div class="question-box">
+    Identify the FOUR (4) primary states in Flutter app lifecycle (explanation is not required). In addition, provide a suitable task example for each of them. (8 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a1b')">Hide Answer</button>
+  <div class="answer-block" id="a1b">
+
+  <h3>The 4 lifecycle states + task example each</h3>
+  <div class="hflow">
+    <div class="hflow-node resumed">
+      <div class="state-name">1. Resumed</div>
+      <div class="state-desc">App visible, active on screen</div>
+      <div class="state-task">Play video / fetch &amp; show data</div>
+    </div>
+    <div class="hflow-arrow">&#8594;</div>
+    <div class="hflow-node inactive">
+      <div class="state-name">2. Inactive</div>
+      <div class="state-desc">Brief, loses focus but still in memory</div>
+      <div class="state-task">Pause network request briefly</div>
+    </div>
+    <div class="hflow-arrow">&#8594;</div>
+    <div class="hflow-node paused">
+      <div class="state-name">3. Paused</div>
+      <div class="state-desc">Not visible, in background</div>
+      <div class="state-task">Save unsaved user data</div>
+    </div>
+    <div class="hflow-arrow">&#8594;</div>
+    <div class="hflow-node detached">
+      <div class="state-name">4. Detached</div>
+      <div class="state-desc">Not attached to any view, not running</div>
+      <div class="state-task">Close database / clean up resources</div>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <b>Simple way to remember (order = R.I.P.D)</b>
+    <p><b>R</b>esumed (using app) &rarr; <b>I</b>nactive (losing focus, brief) &rarr; <b>P</b>aused (background) &rarr; <b>D</b>etached (closed/gone)</p>
+  </div>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_2_App_Lifecycle.pdf — slide 27 (list of 4 states), slides 29–32 (each state + actions).</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. Which lifecycle state should you use to save critical user data before the app might get killed?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">
+      <ul><li><b>Paused</b> — app is in background, good time to save unsaved data before it's suspended</li></ul>
+    </div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. What class/enum does Flutter provide to monitor lifecycle changes?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">
+      <ul>
+        <li><code>AppLifecycleState</code> enum</li>
+        <li><code>AppLifecycleListener</code> class</li>
+      </ul>
+    </div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P3. Give a task example suitable for the Detached state.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">
+      <ul>
+        <li>Closing databases, releasing memory</li>
+        <li>Persisting critical data that must survive even after app closes</li>
+        <li>Avoid anything needing UI/user interaction here</li>
+      </ul>
+    </div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q1b</h4>
+    <ul>
+      <li>4 states: Resumed, Inactive, Paused, Detached</li>
+      <li>Resumed = active use. Inactive = brief transition. Paused = background. Detached = not running</li>
+      <li>Exam tip: they only ask to <b>identify</b> + give <b>task example</b> — no explanation needed</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ Q2a ============ -->
+<section id="q2a">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 3.1</span>
+    <span class="slideref">Lecture 3.1, slide 48 "Stateless vs Stateful Widget"</span>
+    <span class="marks">4 marks</span>
+  </div>
+  <h2>Question 2(a)</h2>
+  <div class="question-box">
+    Provide TWO (2) differences between stateless and stateful widgets. (4 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a2a')">Hide Answer</button>
+  <div class="answer-block" id="a2a">
+
+  <h3>Two differences, side by side</h3>
+  <div class="cardgrid">
+    <div class="card blue">
+      <h4>StatelessWidget</h4>
+      <ul>
+        <li>Fixed appearance and behaviour</li>
+        <li>Does <b>not</b> hold any internal state</li>
+        <li>Example: <code>GreenFrog</code>, <code>Frog</code></li>
+      </ul>
+      <div class="cli">class GreenFrog extends
+  StatelessWidget { ... }</div>
+    </div>
+    <div class="card green">
+      <h4>StatefulWidget</h4>
+      <ul>
+        <li>Maintains its own state — reacts to user input / data change</li>
+        <li>Manages state through a <b>State object</b> (uses <code>setState()</code>)</li>
+        <li>Example: <code>YellowBird</code>, <code>Bird</code></li>
+      </ul>
+      <div class="cli">class Bird extends
+  StatefulWidget { ... }</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Difference</th><th class="hl-blue">Stateless</th><th class="hl-green">Stateful</th></tr>
+    <tr><td>Holds internal state?</td><td>No</td><td>Yes</td></tr>
+    <tr><td>How it manages state</td><td>N/A — fixed</td><td>Via a <code>State</code> object + <code>setState()</code></td></tr>
+  </table>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_3_Merged.pdf (3.1) — slide 48 "Stateless vs Stateful Widget", slides 49–52 code examples.</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. Which widget type would you use for a static "About Us" text screen?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>StatelessWidget — content never changes, no need to track state</li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. What method do you call in a StatefulWidget to trigger a UI rebuild?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li><code>setState()</code></li></ul></div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q2a</h4>
+    <ul>
+      <li>Stateless = no internal state, fixed UI</li>
+      <li>Stateful = has internal state, uses State object + setState()</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ Q2b ============ -->
+<section id="q2b">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 3.1</span>
+    <span class="slideref">Lecture 3.1, slide 98 "Performance Best Practices — Efficient Image Loading"</span>
+    <span class="marks">6 marks</span>
+  </div>
+  <h2>Question 2(b)</h2>
+  <div class="question-box">
+    Discover THREE (3) approaches for efficient image loading in relation to performance best practices for mobile apps. (6 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a2b')">Hide Answer</button>
+  <div class="answer-block" id="a2b">
+
+  <h3>3 approaches</h3>
+  <div class="flow">
+    <div class="flowstep">
+      <div class="num">1</div>
+      <div class="txt"><b>Use Image.network with caching/loading strategy</b>
+        <ul><li>For network images, use <code>Image.network</code> with proper caching so images don't reload every time</li></ul>
+      </div>
+    </div>
+    <div class="flowstep">
+      <div class="num">2</div>
+      <div class="txt"><b>Optimize image size</b>
+        <ul><li>Resize images to the size your app actually needs — don't load a huge image just to show it small</li></ul>
+      </div>
+    </div>
+    <div class="flowstep">
+      <div class="num">3</div>
+      <div class="txt"><b>Use efficient image formats</b>
+        <ul><li>Use <b>WebP</b> format — a raster format that replaces JPEG, PNG, GIF with smaller file size</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_3_Merged.pdf (3.1) — slide 98, "Performance Best Practices → 3. Efficient Image Loading".</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. Name a modern image format recommended by Flutter for performance.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>WebP</li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. Why should you resize an image before displaying it in your app?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>Loading a bigger image than needed wastes memory and slows down rendering — resize to fit the display area</li></ul></div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q2b</h4>
+    <ul>
+      <li>1. Image.network + caching</li>
+      <li>2. Optimize/resize image size</li>
+      <li>3. Use efficient formats like WebP</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ Q2c ============ -->
+<section id="q2c">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 3.2</span>
+    <span class="slideref">Lecture 3.2, slides 30–41 "Internationalizing"</span>
+    <span class="marks">4 marks</span>
+  </div>
+  <h2>Question 2(c)</h2>
+  <div class="question-box">
+    Present any TWO (2) methods of internationalising mobile apps for adapting to different languages, cultures and regions. Briefly elaborate your answers. (4 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a2c')">Hide Answer</button>
+  <div class="answer-block" id="a2c">
+
+  <h3>2 methods (pick any 2 of the 5 listed in slides)</h3>
+  <div class="cardgrid">
+    <div class="card blue">
+      <h4>1. Language Translation</h4>
+      <p>Create <code>.arb</code> files (Android Resource Bundle) for each language, e.g. <code>en.arb</code>, <code>fr.arb</code>. Mark translatable text using <code>Intl.message()</code>.</p>
+    </div>
+    <div class="card amber">
+      <h4>2. Generate Localization Delegates</h4>
+      <p>Import <code>flutter_localizations</code> package, set <code>localizationsDelegates</code> and <code>supportedLocales</code> in <code>MaterialApp</code>.</p>
+    </div>
+    <div class="card green">
+      <h4>3. Date, Number, Currency Formatting</h4>
+      <p>Format values based on locale, e.g. <code>Intl.NumberFormat('#,##0.00','ms_MY')</code> to show correct currency symbol.</p>
+    </div>
+    <div class="card pink">
+      <h4>4. Text Direction</h4>
+      <p>Support left-to-right (LTR) and right-to-left (RTL) reading direction depending on language.</p>
+    </div>
+  </div>
+  <p style="margin-top:4px;">(A 5th method exists: <b>Cultural Nuances</b> — adapting content/images to fit local culture.)</p>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_3_Merged.pdf (3.2) — slide 31 "Internationalizing" (list of 5 methods), slides 32–41 (setup code, .arb files, ISO codes).</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. What file type is used to store translated strings for each language?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li><code>.arb</code> file (Android Resource Bundle), e.g. <code>en.arb</code>, <code>ms.arb</code></li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. What package must you import to support localization in a Flutter MaterialApp?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li><code>flutter_localizations</code></li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P3. What is the ISO language code format? Give one example.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>Format: <code>[language code]_[country code]</code></li><li>Example: <code>ms_MY</code> = Malay (Malaysia)</li></ul></div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q2c</h4>
+    <ul>
+      <li>5 methods: Language Translation, Localization Delegates, Date/Number/Currency Format, Text Direction, Cultural Nuances</li>
+      <li>Pick any 2 and briefly explain how each works</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ Q2d ============ -->
+<section id="q2d">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 3.3</span>
+    <span class="slideref">Lecture 3.3, slides 5–8 "State Management — Ephemeral vs App State"</span>
+    <span class="marks">6 marks</span>
+  </div>
+  <h2>Question 2(d)</h2>
+  <div class="question-box">
+    Examine TWO (2) differences between ephemeral and app states. Then, provide an example for each of them. (6 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a2d')">Hide Answer</button>
+  <div class="answer-block" id="a2d">
+
+  <h3>2 differences + examples</h3>
+  <table class="diff-table">
+    <tr><th></th><th class="hl-blue">🔄 Ephemeral State</th><th class="hl-green">📦 App State</th></tr>
+    <tr><td class="ico">🔄</td><td>Also called <b>UI state</b> / local state</td><td class="ico">📦</td></tr>
+    <tr><td></td><td>Contained in a <b>single widget</b></td><td>Shared <b>across many widgets/screens</b></td></tr>
+    <tr><td></td><td>Not kept between user sessions</td><td>Kept between user sessions</td></tr>
+    <tr><td></td><td><b>Example:</b> current tab in a BottomNavigationBar</td><td><b>Example:</b> login info / shopping cart</td></tr>
+  </table>
+
+  <div class="cardgrid">
+    <div class="card blue">
+      <h4>🔄 Ephemeral State — examples</h4>
+      <ul>
+        <li>Current page in a PageView</li>
+        <li>Progress of an animation</li>
+        <li>Selected tab in a BottomNavigationBar</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h4>📦 App State — examples</h4>
+      <ul>
+        <li>User preferences</li>
+        <li>Login info</li>
+        <li>Shopping cart (e-commerce app)</li>
+        <li>Read/unread articles (news app)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_3_Merged.pdf (3.3) — "State Management" section: Ephemeral State + App State slides, right before the Provider slides.</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. Is "current progress of a complex animation" ephemeral or app state?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>Ephemeral — it lives inside one widget only</li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. Which package is commonly used in Flutter to manage app state?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>Provider — uses <code>ChangeNotifier</code> to notify listeners on state change</li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P3. Give an app state example from a news app.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>Read/unread state of articles</li></ul></div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q2d</h4>
+    <ul>
+      <li>Ephemeral = local, single widget, not saved between sessions</li>
+      <li>App state = shared, many widgets, saved between sessions</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ Q2e ============ -->
+<section id="q2e">
+<div class="qcard">
+  <div class="qcard-head">
+    <span class="modpill">MODULE 3.3</span>
+    <span class="slideref">Lecture 3.3, slides 17–23 "Navigation Principles"</span>
+    <span class="marks">5 marks</span>
+  </div>
+  <h2>Question 2(e)</h2>
+  <div class="question-box">
+    Identify the FIVE (5) navigation principles (explanation is not required). (5 marks)
+  </div>
+
+  <button class="answer-toggle-btn" onclick="toggleAnswer('a2e')">Hide Answer</button>
+  <div class="answer-block" id="a2e">
+
+  <h3>The 5 navigation principles</h3>
+  <div class="flow">
+    <div class="flowstep">
+      <div class="num">1&#65039;&#8419;</div>
+      <div class="txt"><b>Fixed start destination</b> — every app has one fixed screen it always starts from</div>
+    </div>
+    <div class="flowstep">
+      <div class="num">2&#65039;&#8419;</div>
+      <div class="txt"><b>Navigation state is a stack of destinations</b> — top of stack = current screen</div>
+    </div>
+    <div class="flowstep">
+      <div class="num">3&#65039;&#8419;</div>
+      <div class="txt"><b>Up and Back are identical within your app's task</b> — both pop the current screen off the stack</div>
+    </div>
+    <div class="flowstep">
+      <div class="num">4&#65039;&#8419;</div>
+      <div class="txt"><b>The Up button never exits your app</b> — it disappears at the start destination</div>
+    </div>
+    <div class="flowstep">
+      <div class="num">5&#65039;&#8419;</div>
+      <div class="txt"><b>Deep linking simulates manual navigation</b> — jumping straight to a detail screen still follows the normal navigation path</div>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <b>Where to find it</b>
+    <p>Chapter_3_Merged.pdf (3.3) — slide 17 (list of 5 principles), slides 18–23 (each explained with diagrams).</p>
+  </div>
+  </div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice — similar questions</h4>
+  <div class="q-item">
+    <div class="q-text">P1. What is at the "top" of the navigation stack?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>The current screen the user is looking at</li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P2. When does the Up button disappear from the app bar?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>At the app's fixed start destination — because Up must never exit the app</li></ul></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">P3. True or False: pressing Back and pressing Up always do different things.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><ul><li>False — within your app's own task, Up and Back behave <b>identically</b></li></ul></div>
+  </div>
+  <div class="summary">
+    <h4>Quick recap — Q2e</h4>
+    <ul>
+      <li>1. Fixed start destination</li>
+      <li>2. Stack of destinations</li>
+      <li>3. Up = Back (within app task)</li>
+      <li>4. Up never exits app</li>
+      <li>5. Deep linking = simulated manual navigation</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+</div>
+
+<footer>bmit2073 &middot; mock written test &middot; understanding phase</footer>
+
+<script>
+function toggleAnswer(id){
+  var block = document.getElementById(id);
+  var btn = event.currentTarget;
+  block.classList.toggle('collapsed');
+  if(block.classList.contains('collapsed')){
+    btn.textContent = 'Show Answer';
+    btn.classList.add('hidden-state');
+  } else {
+    btn.textContent = 'Hide Answer';
+    btn.classList.remove('hidden-state');
+  }
+}
+</script>
+
+</body>
+</html>

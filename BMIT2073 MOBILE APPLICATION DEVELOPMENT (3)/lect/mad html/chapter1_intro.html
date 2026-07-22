@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 1.1 — Introduction to Mobile App Development | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ===== TOP NAV ===== */
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  /* phone icon animation */
+  .track{
+    max-width:400px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .device-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .pulse{
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.4;}
+  }
+
+  /* ===== SECTIONS ===== */
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{
+    font-size:26px;
+    margin:0 0 6px;
+    font-weight:700;
+  }
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  /* CLI blocks */
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  /* comparison table */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+
+  /* type cards */
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card h4{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
+  }
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+
+  /* callout boxes */
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout p{margin:0;color:var(--text);}
+
+  /* flow steps */
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  /* practice questions */
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:none;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.show{display:block;}
+
+  /* summary box */
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  /* arch layers */
+  .arch{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin:20px 0;
+  }
+  .arch-layer{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .arch-layer .name{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent);
+  }
+  .arch-layer .desc{
+    font-size:13px;
+    color:var(--sub);
+    text-align:right;
+  }
+  .arch-layer.app{background:rgba(124,140,255,0.06);border-color:rgba(124,140,255,0.3);}
+  .arch-layer.engine{background:rgba(255,126,179,0.06);border-color:rgba(255,126,179,0.3);}
+  .arch-layer.embedder{background:rgba(77,163,255,0.06);border-color:rgba(77,163,255,0.3);}
+
+  /* footer */
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  /* module tag pill */
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  /* ---------- MOBILE VIEW ---------- */
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:70%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    details summary{padding:12px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .arch-layer{flex-direction:column;text-align:center;gap:4px;}
+    .arch-layer .desc{text-align:center;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch1.1/&gt;</span>
+  <a href="#ecosystem">Mobile OS</a>
+  <a href="#app-types">App Types</a>
+  <a href="#dev-tools">Dev Tools</a>
+  <a href="#flutter">Flutter Arch</a>
+  <a href="#reactive">Reactive UI</a>
+  <a href="#summary">Summary</a>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Mobile Application Development · Flutter</span>
+  <h1>Chapter 1.1 — Introduction to Mobile App Development</h1>
+  <p class="lead">Mobile OS ecosystem, native vs hybrid vs web, Flutter's architecture, and the reactive UI paradigm. Zero-to-understanding guide, built only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 400 90">
+      <text x="55" y="25" class="device-label" text-anchor="middle">App</text>
+      <rect x="20" y="33" width="70" height="50" rx="8" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+      <line x1="40" y1="73" x2="70" y2="73" stroke="#7c8cff" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="55" cy="48" r="8" class="pulse" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+
+      <text x="200" y="25" class="device-label" text-anchor="middle">Flutter</text>
+      <rect x="155" y="33" width="90" height="50" rx="8" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="200" y="63" class="device-label" text-anchor="middle" font-size="9" fill="#4da3ff">Dart + Engine</text>
+
+      <text x="345" y="25" class="device-label" text-anchor="middle">Device</text>
+      <rect x="310" y="33" width="70" height="50" rx="8" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+      <line x1="330" y1="73" x2="360" y2="73" stroke="#3ecf8e" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="345" cy="48" r="8" class="pulse" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+
+      <line x1="90" y1="58" x2="155" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+      <line x1="245" y1="58" x2="310" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ MOBILE OS ============ -->
+<section id="ecosystem">
+<span class="modpill">MODULE 1.1</span>
+<h2>Mobile OS ecosystem</h2>
+<p>The mobile landscape is dominated by two major platforms, but several others exist. Understanding the ecosystem helps you decide where to target your app.</p>
+
+<h3>Major mobile operating systems</h3>
+<table>
+  <tr><th>OS</th><th>Kernel</th><th>Developer</th><th>Key Notes</th></tr>
+  <tr><td><b>Android</b></td><td>Linux</td><td>Google</td><td>Open-source (AOSP), largest market share, Java/Kotlin</td></tr>
+  <tr><td><b>iOS</b></td><td>Darwin (XNU)</td><td>Apple</td><td>Closed-source, only on Apple devices, Swift/Obj-C</td></tr>
+  <tr><td><b>Harmony OS</b></td><td>Harmony</td><td>Huawei</td><td>Multi-device, microkernel, replaces Android for Huawei</td></tr>
+  <tr><td><b>KaiOS</b></td><td>Linux</td><td>KaiOS Tech</td><td>Feature phones, low-end, web apps (HTML/JS/CSS)</td></tr>
+  <tr><td><b>Tizen</b></td><td>Linux</td><td>Samsung/Linux F.</td><td>Samsung watches/TVs, wearables</td></tr>
+  <tr><td><b>Fuchsia</b></td><td>Zircon</td><td>Google</td><td>Experimental, not widely deployed yet</td></tr>
+</table>
+
+<div class="callout note">
+  <b>Market Reality</b>
+  <p>Android and iOS together control over 99% of the global smartphone market. The other OSes target niche use cases (wearables, IoT, feature phones, regional ecosystems).</p>
+</div>
+
+<h3>Mobile device categories</h3>
+<table>
+  <tr><th>Tier</th><th>Characteristics</th><th>Example</th></tr>
+  <tr><td><b>Flagship</b></td><td>Latest CPU/GPU, high RAM, premium display</td><td>Galaxy S, iPhone Pro</td></tr>
+  <tr><td><b>Mid-range</b></td><td>Good balance of price and performance</td><td>Galaxy A series, Redmi Note</td></tr>
+  <tr><td><b>Entry</b></td><td>Basic performance, smaller storage</td><td>Nokia C series</td></tr>
+  <tr><td><b>Basic</b></td><td>Feature phones, limited/no apps</td><td>KaiOS feature phones</td></tr>
+</table>
+
+<div class="callout warn">
+  <b>Mobile constraints to remember</b>
+  <p>Mobile devices face: <b>limited processing power</b> (battery/thermal limits), <b>smaller memory</b>, <b>unreliable network</b>, <b>battery drain</b>, and <b>small screens</b>. Always design with these constraints in mind.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Quick check</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. Which two mobile operating systems dominate the global market?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Android (Google) and iOS (Apple) — together over 99% of smartphones.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What kernel does Android use?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Linux kernel.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ APP TYPES ============ -->
+<section id="app-types">
+<span class="eyebrow">App Architecture</span>
+<h2>Types of mobile applications</h2>
+<p>When building a mobile app, you have three fundamental approaches. Each has trade-offs in cost, performance, and reach.</p>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Native App</h4>
+    <p>Built specifically for one platform using its native tools (Android Studio/Kotlin or XCode/Swift). <b>Best performance</b>, full device access, but separate codebases per platform = higher cost.</p>
+  </div>
+  <div class="card amber">
+    <h4>Hybrid / Cross-platform App</h4>
+    <p>One codebase deployed to both platforms. Frameworks like Flutter and React Native <b>compile to native code</b> or render native components. Good balance of cost and performance.</p>
+  </div>
+  <div class="card green">
+    <h4>Web App (PWA)</h4>
+    <p>Runs in the mobile browser. No install required, but <b>limited device access</b> (no camera, GPS, etc. without browser APIs). Cheapest to build but least capable.</p>
+  </div>
+</div>
+
+<h3>Comparison at a glance</h3>
+<table>
+  <tr><th>Factor</th><th>Native</th><th>Cross-platform</th><th>Web / PWA</th></tr>
+  <tr><td>Performance</td><td>Excellent</td><td>Very good</td><td>Moderate</td></tr>
+  <tr><td>Development cost</td><td>High (x2 codebases)</td><td>Medium</td><td>Low</td></tr>
+  <tr><td>Device access</td><td>Full</td><td>Full (via plugins)</td><td>Limited</td></tr>
+  <tr><td>App Store distribution</td><td>Required</td><td>Required</td><td>Not required</td></tr>
+  <tr><td>Code reuse</td><td>0%</td><td>~90%+</td><td>100% (one web app)</td></tr>
+  <tr><td>UI feel</td><td>Platform-native</td><td>Close to native</td><td>Web-like</td></tr>
+</table>
+
+<div class="callout tip">
+  <b>Which one should you choose?</b>
+  <p>Need maximum performance and platform fidelity? Go <b>native</b>. Need to ship fast on a budget with good performance? Go <b>cross-platform (Flutter)</b>. Need broad reach with minimal investment? A <b>PWA</b> might be enough.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What is the main disadvantage of native apps compared to cross-platform?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">You need separate codebases for Android and iOS, increasing development time and cost.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What is the biggest limitation of a web app (PWA) compared to a native app?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Limited access to device hardware (camera, GPS, sensors, etc.) and lower performance.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DEV TOOLS ============ -->
+<section id="dev-tools">
+<span class="eyebrow">Development Tools</span>
+<h2>Development tools &amp; framework comparison</h2>
+<p>Your choice of development tools determines your workflow, language, and deployment options.</p>
+
+<h3>Native IDEs</h3>
+<table>
+  <tr><th>Platform</th><th>IDE</th><th>Language</th><th>UI Framework</th></tr>
+  <tr><td>Android</td><td>Android Studio</td><td>Kotlin / Java</td><td>Jetpack Compose / XML</td></tr>
+  <tr><td>iOS</td><td>XCode</td><td>Swift / Objective-C</td><td>SwiftUI / Storyboard</td></tr>
+</table>
+
+<h3>Cross-platform frameworks</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Flutter</h4>
+    <p>Dart language, own rendering engine (Skia). Compiles to native ARM/x86 code. Best cross-platform UI consistency.</p>
+  </div>
+  <div class="card amber">
+    <h4>React Native</h4>
+    <p>JavaScript/TypeScript, bridges to native components. Uses React paradigm. Good ecosystem but bridge overhead.</p>
+  </div>
+  <div class="card green">
+    <h4>Xamarin</h4>
+    <p>C#/.NET, compiles to native. Owned by Microsoft. Good for .NET ecosystem developers.</p>
+  </div>
+  <div class="card pink">
+    <h4>Kotlin Multiplatform</h4>
+    <p>Share business logic across platforms via Kotlin, but keep native UI per platform.</p>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>Why Flutter stands out</b>
+  <p>Flutter does NOT use platform-native UI widgets (unlike React Native or Xamarin). It <b>draws everything itself</b> using Skia. This means your app looks the same on Android, iOS, Web, and Desktop — and you have full control over every pixel.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice question</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What programming language does Flutter use?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Dart — an open-source, general-purpose, object-oriented, strongly typed language.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ FLUTTER ARCHITECTURE ============ -->
+<section id="flutter">
+<span class="eyebrow">Flutter Architecture</span>
+<h2>Flutter's layered architecture</h2>
+<p>Flutter is organized into three layers. Understanding this helps you debug, optimize, and write better Flutter code.</p>
+
+<div class="arch">
+  <div class="arch-layer app">
+    <span class="name">Framework (Dart)</span>
+    <span class="desc">Widgets, Rendering, Gestures, Animation, Material/Cupertino</span>
+  </div>
+  <div class="arch-layer engine">
+    <span class="name">Engine (C++)</span>
+    <span class="desc">Skia graphics, Dart VM, text layout, platform channels</span>
+  </div>
+  <div class="arch-layer embedder">
+    <span class="name">Embedder</span>
+    <span class="desc">Android (Java/Kotlin), iOS (Obj-C/Swift), Web, Desktop</span>
+  </div>
+</div>
+
+<h3>Layer breakdown</h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt"><b>Embedder</b> — the platform-specific entry point. Provides the host OS's event loop, renders onto a surface. Android has its own embedder in Java/Kotlin; iOS in Obj-C/Swift.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt"><b>Engine</b> — written in C++. Runs the <b>Dart VM</b>, compiles Dart to native code, handles graphics via <b>Skia</b>, manages text layout, and provides platform channels for native API calls.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt"><b>Framework</b> — the Dart layer you code against. Everything from <code>MaterialApp</code> and <code>Scaffold</code> to <code>GestureDetector</code> and <code>AnimationController</code>. Foundation &rarr; Rendering &rarr; Widgets.</div></div>
+</div>
+
+<div class="callout tip">
+  <b>Key insight — Flutter renders itself</b>
+  <p>Unlike React Native which bridges to native UI components, Flutter's engine <b>paints every pixel</b> via Skia. The platform embedder only provides a canvas (surface). This is why Flutter apps look identical across platforms.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What are the three layers of Flutter's architecture (top to bottom)?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Framework (Dart) → Engine (C++/Skia) → Embedder (Platform-specific).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What graphics library does Flutter's engine use for rendering?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Skia — a high-performance 2D graphics library.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ REACTIVE UI ============ -->
+<section id="reactive">
+<span class="eyebrow">Paradigm</span>
+<h2>Reactive UI — the Flutter way</h2>
+<p>Flutter uses a <b>declarative, reactive</b> UI paradigm. You describe <b>what</b> the UI should look like for a given state, and Flutter takes care of <b>how</b> to update it.</p>
+
+<h3>Declarative vs Imperative</h3>
+<table>
+  <tr><th></th><th>Imperative (old way)</th><th>Declarative (Flutter way)</th></tr>
+  <tr><td>How?</td><td>You manually change the UI step by step: "find button, set text to 'hello', change color to blue"</td><td>You describe what the UI should be: "if state is X, build this widget tree"</td></tr>
+  <tr><td>State change</td><td>You mutate the UI directly (e.g., <code>textView.setText(...)</code>)</td><td>Framework rebuilds the affected part of the widget tree automatically</td></tr>
+  <tr><td>Bugs?</td><td>Easy to miss a UI update — state and UI fall out of sync</td><td>UI is always a function of state — they stay in sync by design</td></tr>
+</table>
+
+<h3>Flutter's data flow</h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt"><b>Constraints go down</b> — parent widgets tell their children the available space (max/min width and height).</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt"><b>Sizes go up</b> — each child tells its parent how big it wants to be (within the constraints given).</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt"><b>Position is set</b> — the parent positions the child based on layout rules (Row, Column, Stack, etc.).</div></div>
+</div>
+
+<h3>State management landscape</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Provider</h4>
+    <p>Built on InheritedWidget. ChangeNotifier + Consumer. The recommended starter approach.</p>
+  </div>
+  <div class="card pink">
+    <h4>BLoC</h4>
+    <p>Uses Streams/Sink pattern. Good for complex, testable state flows. More boilerplate.</p>
+  </div>
+  <div class="card green">
+    <h4>Riverpod</h4>
+    <p>Modern Provider successor. Compile-safe, no BuildContext needed, better testability.</p>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>App State vs Widget State</b>
+  <p><b>App State</b> = shared data the whole app needs (auth token, user profile, cart).<br>
+  <b>Widget State</b> = local, ephemeral data (text field input, animation progress, scroll position).<br>
+  Use Provider (or Riverpod/BLoC) for App State; use StatefulWidget for Widget State.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What does "declarative UI" mean in Flutter?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">You describe <b>what</b> the UI should look like for a given state, and the framework handles updating it. UI = f(state).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. In Flutter's layout, what goes down and what goes up?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer"><b>Constraints go down</b> (parents limit children), <b>sizes go up</b> (children report their chosen size).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q3. Name two approaches to manage App State in Flutter.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <div class="q-answer">Provider, BLoC, or Riverpod (any two).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary">
+<span class="eyebrow">Revision</span>
+<h2>Chapter 1.1 — exam cheat sheet</h2>
+
+<h3>Key concepts to remember</h3>
+<table>
+  <tr><th>Concept</th><th>Summary</th></tr>
+  <tr><td>Mobile OS</td><td>Android (Linux) & iOS (Darwin) dominate; others are niche (Harmony, KaiOS, Tizen)</td></tr>
+  <tr><td>App types</td><td>Native (best perf, high cost) vs Cross-platform (balance) vs Web/PWA (limited, cheap)</td></tr>
+  <tr><td>Flutter</td><td>Cross-platform, Dart, owns its rendering (Skia), no native UI bridge</td></tr>
+  <tr><td>Architecture</td><td>3 layers: Framework (Dart) → Engine (C++/Skia) → Embedder (platform)</td></tr>
+  <tr><td>Declarative UI</td><td>UI = f(state). Constraints go down, sizes go up. Framework rebuilds on state change</td></tr>
+  <tr><td>State mgmt</td><td>Provider (suggested), BLoC (streams), Riverpod (modern). App State vs Widget State</td></tr>
+</table>
+
+<div class="summary">
+  <h4>One-paragraph recap</h4>
+  <ul>
+    <li>Mobile OSes: Android and iOS dominate 99%+ of the market.</li>
+    <li>Three app types: native (best performance, separate codebases), cross-platform (Flutter/React Native, shared code), web/PWA (cheap, limited device access).</li>
+    <li>Flutter uses a 3-layer architecture: Framework (Dart widgets) → Engine (C++/Skia rendering) → Embedder (platform-specific entry point).</li>
+    <li>Declarative UI: you describe what the UI should look like based on current state; Flutter handles the updates automatically.</li>
+    <li>Layout rule: constraints go down (parent limits child), sizes go up (child reports size to parent).</li>
+    <li>State management options: Provider, BLoC, Riverpod — use Provider for simplicity, BLoC for complex flows, Riverpod for modern testability.</li>
+    <li>Always consider mobile constraints: battery, memory, network reliability, processing limits.</li>
+  </ul>
+</div>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+  <li>Confusing declarative (what) with imperative (how) — in Flutter, <b>describe</b> the UI, don't mutate it.</li>
+  <li>Thinking Flutter uses native UI components — it does NOT; it paints everything via Skia.</li>
+  <li>Forgetting that mobile devices have real constraints — design for battery, memory, and network limits.</li>
+  <li>Mixing up App State and Widget State — use Provider for app-wide state, StatefulWidget for local ephemeral state.</li>
+  <li>Assuming all cross-platform frameworks work the same — Flutter draws its own UI, React Native bridges to native components.</li>
+</ul>
+</section>
+
+</div>
+
+<footer>bmit2073 &middot; mobile application development &middot; chapter 1.1 study guide &middot; generated for revision</footer>
+
+</body>
+</html>
