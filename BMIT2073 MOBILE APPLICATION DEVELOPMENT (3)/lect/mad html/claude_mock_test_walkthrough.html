@@ -20,6 +20,20 @@
     --pink:#ff7eb3;
     --danger:#ff6b6b;
   }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -509,6 +523,21 @@
     h3{font-size:1rem;}
     .q-toggle{font-size:13px;padding:8px 4px;}
   }
+
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
@@ -516,6 +545,7 @@
 <div class="navbar">
   <a class="back" href="index.html">&larr; back</a>
   <span class="brand">&lt;mock/&gt;</span>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
   <a href="#q1a">1a</a>
   <a href="#q1b">1b</a>
   <a href="#q2a">2a</a>
@@ -1114,5 +1144,20 @@ function toggleAnswer(id){
 }
 </script>
 
+<script>
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
 </body>
 </html>
