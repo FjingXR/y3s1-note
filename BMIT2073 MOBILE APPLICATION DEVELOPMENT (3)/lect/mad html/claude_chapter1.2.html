@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1.2 — Dart Programming Basics | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ===== TOP NAV ===== */
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .track{
+    max-width:400px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .device-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .pulse{animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+  /* ===== SECTIONS ===== */
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  .slideref{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    margin:-2px 0 18px;
+  }
+  .slideref b{color:var(--amber);font-weight:600;}
+
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+  .cli .kw{color:#7c8cff;}
+  .cli .str{color:#f5a623;}
+  .cli .type{color:#4da3ff;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  th.h-blue{color:var(--blue);}
+  th.h-amber{color:var(--amber);}
+  th.h-green{color:var(--green);}
+  th.h-pink{color:var(--pink);}
+
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card h4{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+  .card ul{margin:8px 0 0;padding-left:16px;}
+  .card li{font-size:13px;color:var(--sub);margin-bottom:3px;}
+
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout.find{background:rgba(245,166,35,0.08);border-color:var(--amber);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout.find b{color:var(--amber);}
+  .callout p{margin:0;color:var(--text);}
+
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;font-weight:600;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:block;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.hide{display:none;}
+  .q-answer ul{margin:4px 0 0;padding-left:16px;}
+  .q-answer li{margin-bottom:3px;}
+  .q-answer .cli{margin:8px 0 0;}
+
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  .examtag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    background:rgba(255,107,107,0.12);
+    border:1px solid rgba(255,107,107,0.35);
+    color:var(--danger);
+    padding:2px 8px;
+    border-radius:12px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  /* function anatomy annotation */
+  .anatomy{
+    position:relative;
+    margin:20px 0;
+  }
+  .anatomy-row{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .anatomy-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    padding:3px 9px;
+    border-radius:6px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .anatomy-tag.type{background:rgba(77,163,255,0.15);color:var(--blue);border:1px solid rgba(77,163,255,0.3);}
+  .anatomy-tag.name{background:rgba(62,207,142,0.15);color:var(--green);border:1px solid rgba(62,207,142,0.3);}
+  .anatomy-tag.param{background:rgba(245,166,35,0.15);color:var(--amber);border:1px solid rgba(245,166,35,0.3);}
+  .anatomy-tag.body{background:rgba(255,126,179,0.15);color:var(--pink);border:1px solid rgba(255,126,179,0.3);}
+  .anatomy-desc{font-size:13px;color:var(--sub);padding-top:4px;}
+
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:70%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .quiz-box h4{flex-direction:column;align-items:flex-start;}
+    .anatomy-row{gap:6px;}
+    .anatomy-desc{font-size:12px;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch1.2/&gt;</span>
+  <a href="#intro">Intro</a>
+  <a href="#variables">Variables</a>
+  <a href="#types">Data Types</a>
+  <a href="#control-flow">Control Flow</a>
+  <a href="#functions">Functions</a>
+  <a href="#summary">Summary</a>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Chapter 1.2 · Introduction to Dart</span>
+  <h1>Chapter 1.2 — Dart Programming Basics</h1>
+  <p class="lead">This page covers Dart's core syntax: variables, data types, control flow (if/for/while), and functions. Made only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 400 90">
+      <text x="60" y="25" class="device-label" text-anchor="middle">main()</text>
+      <rect x="20" y="33" width="80" height="50" rx="8" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+      <text x="60" y="63" class="device-label" text-anchor="middle" font-size="9" fill="#7c8cff">entry point</text>
+
+      <text x="200" y="25" class="device-label" text-anchor="middle">Variables</text>
+      <rect x="155" y="33" width="90" height="50" rx="8" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="200" y="63" class="device-label" text-anchor="middle" font-size="9" fill="#4da3ff">int/String/bool</text>
+
+      <text x="345" y="25" class="device-label" text-anchor="middle">Output</text>
+      <rect x="305" y="33" width="80" height="50" rx="8" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+      <circle cx="345" cy="58" r="8" class="pulse" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+
+      <line x1="100" y1="58" x2="155" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+      <line x1="245" y1="58" x2="305" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ INTRO ============ -->
+<section id="intro">
+<span class="modpill">MODULE 1.2</span>
+<h2>What is Dart?</h2>
+<p class="slideref">Lecture 1.2, <b>slide 80–82</b></p>
+<p>Dart is the language you write to build Flutter apps. Before touching widgets, you must know Dart's basic syntax.</p>
+
+<h3>Q1. What is Dart and who made it?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Dart is an <b>open-source, general-purpose</b> programming language made by <b>Google</b>. It is used for:</p>
+    <ul>
+      <li>Web development</li>
+      <li>Mobile development (this is what we use it for — Flutter)</li>
+      <li>Server-side development</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What are Dart's key features?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Object-oriented</b> — everything is based on classes and objects</li>
+      <li><b>Strongly typed</b> — every variable has a fixed data type (helps catch mistakes early)</li>
+      <li><b>Fast and efficient</b> — compiles to fast native code</li>
+      <li><b>Modern features</b> — has newer language tools like arrow functions, null safety</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q3. What does a basic Dart program look like?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Every Dart program starts running from the <code>main()</code> function.</p>
+    <div class="cli">// This is a comment
+
+void main() {
+  // This is the main function, program starts here
+  print("Hello, world!");
+}</div>
+  </div>
+</div>
+
+<div class="anatomy">
+  <div class="anatomy-row">
+    <span class="anatomy-tag type">void</span>
+    <span class="anatomy-desc">return type — "void" means this function returns nothing</span>
+  </div>
+  <div class="anatomy-row">
+    <span class="anatomy-tag name">main()</span>
+    <span class="anatomy-desc">function name — Dart always starts here first, no matter what</span>
+  </div>
+  <div class="anatomy-row">
+    <span class="anatomy-tag param">print("Hello, world!")</span>
+    <span class="anatomy-desc">a built-in function that shows text on the screen/console</span>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>Comments in Dart</b>
+  <p>Use <code>// text</code> for a single-line comment. Comments are ignored by the program — they are only notes for humans reading the code.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_1_Merged.pdf — slides 80 to 82 (Introduction, Key features, Structure).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which company created Dart?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer">Google.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What function must every Dart program have to run?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>void main()</code> — this is the entry point (starting point) of the program.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What does "strongly typed" mean?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer">Every variable has a fixed data type (like int or String) that Dart checks — this helps catch mistakes before running the program.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ VARIABLES ============ -->
+<section id="variables">
+<span class="eyebrow">Syntax</span>
+<h2>Variables &amp; declaration keywords</h2>
+<p class="slideref">Lecture 1.2, <b>slide 84–85, 87</b></p>
+<p>A variable is a named box that stores a value. Dart gives you 3 ways to declare one.</p>
+
+<h3>Q1. How do you declare a variable with an explicit (exact) type?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <div class="cli">// Declares an integer variable, needs initialization before use
+int age;
+
+// Declares a double variable
+double pi = 3.14159;
+
+// Declare multiple variables of the same type in a single line
+int x = 5, y = 10;</div>
+  </div>
+</div>
+
+<h3>Q2. How do you declare a nullable variable?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Add a <code>?</code> after the type. This means the variable is allowed to hold <code>null</code> (no value at all).</p>
+    <div class="cli">// Nullable double, initially null
+double? area = null;</div>
+  </div>
+</div>
+
+<h3>Q3. How does <code>var</code> work?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;"><code>var</code> lets Dart guess (infer) the type from the value you assign. Once set, the type cannot change.</p>
+    <div class="cli">// String type with initial value
+String name = "Alice";
+
+// var infers String based on assignment
+var greeting = "Hello";
+
+// var infers List&lt;String&gt; based on assignment
+var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];</div>
+  </div>
+</div>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Explicit type</h4>
+    <p>You write the exact type yourself.</p>
+    <div class="cli">String name = "Alice";</div>
+    <ul>
+      <li>Clear and easy to read</li>
+      <li>Good for beginners</li>
+    </ul>
+  </div>
+  <div class="card green">
+    <h4>var (type inference)</h4>
+    <p>Dart guesses the type from the value.</p>
+    <div class="cli">var greeting = "Hello";</div>
+    <ul>
+      <li>Shorter to write</li>
+      <li>Type is fixed after first assignment</li>
+    </ul>
+  </div>
+  <div class="card amber">
+    <h4>Nullable (?)</h4>
+    <p>Variable is allowed to be empty (null).</p>
+    <div class="cli">double? area = null;</div>
+    <ul>
+      <li>Add <code>?</code> right after the type</li>
+      <li>Without <code>?</code>, null is NOT allowed</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout warn">
+  <b>Common mistake</b>
+  <p><code>int age;</code> (no <code>?</code>) must get a real value before you use it — Dart will not let it stay empty. Only types with <code>?</code> can be <code>null</code>.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_1_Merged.pdf — slides 84, 85, 87 (Variable — Declaration Keywords).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Write a nullable String variable called "nickname" with no value yet.</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>String? nickname = null;</code></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What type does Dart infer for <code>var score = 95;</code>?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>int</code> — because 95 is a whole number.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Can you assign a String to a variable declared with <code>var</code> after it was first set to an int?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer">No. Once <code>var</code> infers a type (e.g. int), the variable keeps that type — you cannot later put a String in it.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DATA TYPES ============ -->
+<section id="types">
+<span class="eyebrow">Syntax</span>
+<h2>Data types</h2>
+<p class="slideref">Lecture 1.2, <b>slide 83, 86, 88–89</b></p>
+<p>Dart groups its basic data types into 3 categories: Numbers, Text, and Logical.</p>
+
+<h3>Q1. What are Dart's basic data types?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th>Type</th><th class="h-blue">Category</th><th class="h-green">Meaning</th><th class="h-amber">Example</th></tr>
+  <tr><td><code>int</code></td><td>Numbers</td><td>Stores whole numbers (integers)</td><td><code>int age = 20;</code></td></tr>
+  <tr><td><code>double</code></td><td>Numbers</td><td>Stores numbers with decimals (floating-point)</td><td><code>double pi = 3.14159;</code></td></tr>
+  <tr><td><code>num</code></td><td>Numbers</td><td>Supertype of both int and double (can hold either)</td><td><code>num value = 10;</code></td></tr>
+  <tr><td><code>String</code></td><td>Text</td><td>Stores a sequence of characters (text)</td><td><code>String name = "Alice";</code></td></tr>
+  <tr><td><code>bool</code></td><td>Logical</td><td>Stores <code>true</code> or <code>false</code> (Boolean)</td><td><code>bool isLoggedIn = true;</code></td></tr>
+</table>
+
+<h3>Q2. How do you declare bool variables?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <div class="cli">bool isLoggedIn = true;
+bool isNightTime = false;</div>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>num vs int vs double</b>
+  <p><code>num</code> is the parent type — it can hold either an <code>int</code> or a <code>double</code>. Use <code>num</code> only when a value might be either type; otherwise, be exact with <code>int</code> or <code>double</code>.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_1_Merged.pdf — slides 83 (Numbers), 86 (Text), 88–89 (Logical).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which data type should you use to store a person's age (whole number only)?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>int</code> — ages are whole numbers, no decimals needed.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which data type stores true/false values?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>bool</code> (Boolean).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is the supertype that can hold both int and double values?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>num</code>.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ CONTROL FLOW ============ -->
+<section id="control-flow">
+<span class="eyebrow">Syntax</span>
+<h2>Control flow — if / for / while</h2>
+<p class="slideref">Lecture 1.2, <b>slide 90–92</b></p>
+<p>Control flow decides which code runs, and how many times. Dart has 3 basic structures.</p>
+
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt"><b>if / else if / else</b> — run code only when a condition is true.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt"><b>for loop</b> — repeat code a known number of times, or loop over a list.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt"><b>while loop</b> — repeat code as long as a condition stays true.</div></div>
+</div>
+
+<h3>Q1. How do you write if / else if in Dart?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <div class="cli">if (year >= 2001) {
+  print('21st century');
+} else if (year >= 1901) {
+  print('20th century');
+}</div>
+  </div>
+</div>
+
+<h3>Q2. How do you write a for loop? (2 forms)</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Form 1 — count-based for loop:</p>
+    <div class="cli">for (int month = 1; month <= 12; month++) {
+  print(month);
+}</div>
+    <p style="margin:8px 0 8px;">Form 2 — for-in loop (loop over each item in a list):</p>
+    <div class="cli">for (final object in flybyObjects) {
+  print(object);
+}</div>
+  </div>
+</div>
+
+<h3>Q3. How do you write a while loop?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <div class="cli">while (year < 2016) {
+  year += 1;
+}</div>
+  </div>
+</div>
+
+<div class="callout tip">
+  <b>for vs while — when to use which?</b>
+  <p>Use <b>for</b> when you know how many times to repeat (e.g. "12 months", "every item in a list"). Use <b>while</b> when you don't know the exact count — it just keeps going until the condition becomes false.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_1_Merged.pdf — slides 90 (if/else if), 91 (for, for-in), 92 (while) — "Basic Structures".</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Write a for-in loop that prints every item in a list called "fruits".</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><div class="cli">for (final fruit in fruits) {
+  print(fruit);
+}</div></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is the difference between a for loop and a while loop?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer">A for loop is best when you know the number of repeats in advance. A while loop repeats as long as a condition is true — you may not know the exact count ahead of time.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What keyword starts an "otherwise, if this is true" branch in Dart?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>else if</code>.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ FUNCTIONS ============ -->
+<section id="functions">
+<span class="eyebrow">Syntax</span>
+<h2>Functions</h2>
+<p class="slideref">Lecture 1.2, <b>slide 93–95</b></p>
+<p>A function is a named block of code that can take inputs (parameters) and give back an output (return value).</p>
+
+<h3>Q1. What are the parts of a Dart function?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <div class="cli">bool isNoble(int atomicNumber) {
+  return _nobleGases[atomicNumber] != null;
+}</div>
+  </div>
+</div>
+
+<div class="anatomy">
+  <div class="anatomy-row">
+    <span class="anatomy-tag type">bool</span>
+    <span class="anatomy-desc">return type — this function gives back a true/false value</span>
+  </div>
+  <div class="anatomy-row">
+    <span class="anatomy-tag name">isNoble</span>
+    <span class="anatomy-desc">function name — describes what the function does</span>
+  </div>
+  <div class="anatomy-row">
+    <span class="anatomy-tag param">(int atomicNumber)</span>
+    <span class="anatomy-desc">parameter — the input the function needs to do its job</span>
+  </div>
+  <div class="anatomy-row">
+    <span class="anatomy-tag body">return ...;</span>
+    <span class="anatomy-desc">function body — the code that runs, ending with the return statement</span>
+  </div>
+</div>
+
+<h3>Q2. What is recursion? Show an example.</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Recursion = a function that calls <b>itself</b> to solve a smaller version of the same problem.</p>
+    <div class="cli">int fibonacci(int n) {
+  if (n == 0 || n == 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+var result = fibonacci(20);</div>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>How the fibonacci example works</b>
+  <p>If <code>n</code> is 0 or 1, just return <code>n</code> (this is the "stop" condition — called the <b>base case</b>). Otherwise, the function calls itself twice with smaller numbers, and adds the results.</p>
+</div>
+
+<h3>Q3. What is arrow syntax (<code>=&gt;</code>)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Arrow syntax is a shortcut for a function body that is just <b>one expression</b>. It replaces <code>{ return ...; }</code> with <code>=&gt; ...;</code></p>
+    <div class="cli">bool isNoble(int atomicNumber) =>
+    _nobleGases[atomicNumber] != null;</div>
+  </div>
+</div>
+
+<table>
+  <tr><th></th><th class="h-blue">Block function (return)</th><th class="h-green">Arrow function (=&gt;)</th></tr>
+  <tr><td>Syntax</td><td><code>{ return value; }</code></td><td><code>=&gt; value;</code></td></tr>
+  <tr><td>Best for</td><td>Multiple lines / multiple steps</td><td>One single expression only</td></tr>
+  <tr><td>Example</td><td><div class="cli" style="margin:0;">bool isNoble(int n) {
+  return _nobleGases[n] != null;
+}</div></td><td><div class="cli" style="margin:0;">bool isNoble(int n) =>
+    _nobleGases[n] != null;</div></td></tr>
+</table>
+
+<h3>Q4. What are higher-order functions? (.where, .forEach)</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">A higher-order function takes <b>another function</b> as an input (often written as a short lambda / anonymous function using <code>=&gt;</code>).</p>
+    <div class="cli">flybyObjects.where((name) => name.contains('turn')).forEach(print);</div>
+    <ul>
+      <li><code>.where(...)</code> — keeps only items that match a condition</li>
+      <li><code>.forEach(...)</code> — runs a function on every item in the list</li>
+      <li><code>(name) => name.contains('turn')</code> — an anonymous function (lambda) with no name, used only once</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout tip">
+  <b>Reading the example above</b>
+  <p><code>flybyObjects.where((name) =&gt; name.contains('turn'))</code> keeps only names containing "turn" (like "Saturn"), then <code>.forEach(print)</code> prints each matching name.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_1_Merged.pdf — slides 93 (function basics), 94 (recursion), 95 (arrow syntax, higher-order functions).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Convert this to arrow syntax: <code>int square(int n) { return n * n; }</code></div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>int square(int n) => n * n;</code></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">In the fibonacci function, what is the base case?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer"><code>if (n == 0 || n == 1) return n;</code> — this stops the recursion from calling itself forever.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What does <code>.forEach(print)</code> do to a list?</div>
+    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <div class="q-answer">It runs <code>print()</code> on every single item in the list, one by one.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary">
+<span class="eyebrow">Revision</span>
+<h2>Chapter 1.2 — exam cheat sheet</h2>
+
+<h3>Key concepts to remember</h3>
+<table>
+  <tr><th>Concept</th><th>Summary</th></tr>
+  <tr><td>Dart</td><td>Open-source, general-purpose language by Google; used for web, mobile, server</td></tr>
+  <tr><td>Key features</td><td>Object-oriented, strongly typed, fast/efficient, modern features</td></tr>
+  <tr><td>Program structure</td><td>Every program starts at <code>void main()</code>; <code>print()</code> shows output; <code>//</code> for comments</td></tr>
+  <tr><td>Data types</td><td>int, double, num (Numbers) · String (Text) · bool (Logical)</td></tr>
+  <tr><td>Declaration keywords</td><td>Explicit type (<code>int age</code>), <code>var</code> (type inferred), nullable (<code>double? area</code>)</td></tr>
+  <tr><td>Control flow</td><td>if/else if/else, for (count-based &amp; for-in), while</td></tr>
+  <tr><td>Functions</td><td>return type + name + parameters + body; can use recursion; arrow (=&gt;) for one-liners</td></tr>
+  <tr><td>Higher-order functions</td><td>.where() filters, .forEach() runs on each item, lambdas are unnamed functions</td></tr>
+</table>
+
+<div class="summary">
+  <h4>One-paragraph recap</h4>
+  <ul>
+    <li>Dart is Google's language for Flutter — object-oriented, strongly typed, fast.</li>
+    <li>Every program starts at <code>void main()</code>; <code>print()</code> outputs text.</li>
+    <li>3 data type groups: Numbers (int, double, num), Text (String), Logical (bool).</li>
+    <li>3 ways to declare variables: explicit type, <code>var</code> (inferred), nullable with <code>?</code>.</li>
+    <li>Control flow: if/else if/else for decisions, for/for-in for known repeats, while for condition-based repeats.</li>
+    <li>Functions have a return type, name, parameters, and a body — can use <code>=&gt;</code> for one-line bodies.</li>
+    <li>Recursion = function calling itself, needs a base case to stop.</li>
+    <li>Higher-order functions like <code>.where()</code> and <code>.forEach()</code> take another function as input.</li>
+  </ul>
+</div>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+  <li>Forgetting that a non-nullable variable (no <code>?</code>) must be given a value before use.</li>
+  <li>Mixing up <code>var</code> (type inferred once, then fixed) with dynamic typing (Dart is NOT dynamically typed by default).</li>
+  <li>Forgetting the base case in a recursive function — this causes infinite recursion (crash).</li>
+  <li>Using <code>=&gt;</code> arrow syntax for a function body with multiple statements — arrow only works for ONE expression.</li>
+  <li>Confusing <code>for</code> (known repeat count) with <code>while</code> (condition-based, unknown count).</li>
+</ul>
+
+</section>
+
+</div>
+
+<footer>bmit2073 &middot; chapter 1.2 &middot; introduction to dart &middot; study guide</footer>
+
+</body>
+</html>

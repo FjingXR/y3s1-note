@@ -472,6 +472,23 @@
     user-select:none;
   }
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  .collapsible-section > :nth-child(n+3){display:block;}
+  .collapsible-section.collapsed > :nth-child(n+3){display:none;}
+  .toggle-btn{
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:1px 8px;
+    border-radius:4px;
+    cursor:pointer;
+    vertical-align:middle;
+    margin-left:8px;
+    transition:0.2s;
+  }
+  .toggle-btn:hover{color:var(--accent);border-color:var(--accent);}
 </style>
 </head>
 <body>
@@ -518,9 +535,9 @@
 <div class="wrap">
 
 <!-- ============ MOBILE OS ============ -->
-<section id="ecosystem">
+<section id="ecosystem" class="collapsible-section collapsed">
 <span class="modpill">MODULE 1.1</span>
-<h2>Mobile OS ecosystem</h2>
+<h2>Mobile OS ecosystem <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
 <p>The mobile landscape is dominated by two major platforms, but several others exist. Understanding the ecosystem helps you decide where to target your app.</p>
 
 <h3>Major mobile operating systems</h3>
@@ -569,9 +586,9 @@
 </section>
 
 <!-- ============ APP TYPES ============ -->
-<section id="app-types">
+<section id="app-types" class="collapsible-section">
 <span class="eyebrow">App Architecture</span>
-<h2>Types of mobile applications</h2>
+<h2>Types of mobile applications <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
 <p>When building a mobile app, you have three fundamental approaches. Each has trade-offs in cost, performance, and reach.</p>
 
 <div class="cardgrid">
@@ -621,9 +638,9 @@
 </section>
 
 <!-- ============ DEV TOOLS ============ -->
-<section id="dev-tools">
+<section id="dev-tools" class="collapsible-section collapsed">
 <span class="eyebrow">Development Tools</span>
-<h2>Development tools &amp; framework comparison</h2>
+<h2>Development tools &amp; framework comparison <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
 <p>Your choice of development tools determines your workflow, language, and deployment options.</p>
 
 <h3>Native IDEs</h3>
@@ -669,9 +686,9 @@
 </section>
 
 <!-- ============ FLUTTER ARCHITECTURE ============ -->
-<section id="flutter">
+<section id="flutter" class="collapsible-section">
 <span class="eyebrow">Flutter Architecture</span>
-<h2>Flutter's layered architecture</h2>
+<h2>Flutter's layered architecture <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
 <p>Flutter is organized into three layers. Understanding this helps you debug, optimize, and write better Flutter code.</p>
 
 <div class="arch">
@@ -717,9 +734,9 @@
 </section>
 
 <!-- ============ REACTIVE UI ============ -->
-<section id="reactive">
+<section id="reactive" class="collapsible-section">
 <span class="eyebrow">Paradigm</span>
-<h2>Reactive UI — the Flutter way</h2>
+<h2>Reactive UI — the Flutter way <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
 <p>Flutter uses a <b>declarative, reactive</b> UI paradigm. You describe <b>what</b> the UI should look like for a given state, and Flutter takes care of <b>how</b> to update it.</p>
 
 <h3>Declarative vs Imperative</h3>
@@ -781,9 +798,9 @@
 </section>
 
 <!-- ============ SUMMARY ============ -->
-<section id="summary">
+<section id="summary" class="collapsible-section">
 <span class="eyebrow">Revision</span>
-<h2>Chapter 1.1 — exam cheat sheet</h2>
+<h2>Chapter 1.1 — exam cheat sheet <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
 
 <h3>Key concepts to remember</h3>
 <table>
@@ -828,6 +845,11 @@ function toggleQ(b){
   var a=b.nextElementSibling;
   a.classList.toggle('show');
   b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
+function toggleSection(b){
+  var s=b.closest('.collapsible-section');
+  s.classList.toggle('collapsed');
+  b.textContent=s.classList.contains('collapsed')?'show':'hide';
 }
 function toggleTheme(){
   var h=document.documentElement;
