@@ -599,12 +599,9 @@
   <p>In Flutter, you do not create "Activities" or "ViewControllers". You create a <b>Widget</b> and the Navigator shows it as a new screen.</p>
 </div>
 
-<div class="cli">
-<span class="cmt">// A route is just a widget in a MaterialPageRoute</span>
-Navigator.push(
-  context,
-  MaterialPageRoute(builder: (context) => <span class="hi">SecondScreen()</span>),
-);
+<div class="callout tip">
+  <b>How it works</b>
+  <p>To navigate, you tell Flutter which widget to show next. Flutter wraps it in a MaterialPageRoute (which adds the slide animation) and pushes it onto the Navigator stack.</p>
 </div>
 
 <div class="quiz-box">
@@ -617,7 +614,7 @@ Navigator.push(
   <div class="q-item">
     <div class="q-text">Q2. What is Android's equivalent of a Flutter route?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer">An Activity (e.g. <code>MainActivity</code>).</div>
+    <div class="q-answer">An Activity on Android, or a ViewController on iOS.</div>
   </div>
 </div>
 </section>
@@ -670,7 +667,7 @@ Navigator.push(
     <div class="q-answer">A stack (last-in, first-out). Screens are pushed on top and popped from the top.</div>
   </div>
   <div class="q-item">
-    <div class="q-text">Q2. What happens when you call <code>Navigator.pop()</code>?</div>
+    <div class="q-text">Q2. What happens when you pop a screen from the Navigator stack?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">The top screen is removed from the stack. The previous screen becomes visible again.</div>
   </div>
@@ -678,34 +675,25 @@ Navigator.push(
 </section>
 
 <!-- ============ PUSH / POP ============ -->
-<section id="push-pop" class="collapsible-section">
+<section id="push-pop" class="collapsible-section collapsed">
 <span class="eyebrow">Navigation</span>
-<h2>Navigator.push() and Navigator.pop() <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+<h2>Navigator.push() and Navigator.pop() <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
 
-<h3>Navigator.push()</h3>
-<p>Opens a new screen. You must provide a <code>MaterialPageRoute</code> with the target widget.</p>
+<h3>Navigator.push() — what happens</h3>
+<ol>
+  <li>You call push with the target widget (the new screen).</li>
+  <li>Flutter wraps it in a MaterialPageRoute (adds slide animation: left-to-right on Android, bottom-to-top on iOS).</li>
+  <li>The new screen is placed on top of the stack. It becomes the visible screen.</li>
+  <li>The previous screen stays in the stack underneath — it is not destroyed.</li>
+</ol>
 
-<div class="cli">
-Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => <span class="hi">DetailScreen()</span>,
-  ),
-);
-</div>
-
-<ul>
-  <li><code>context</code> — the current screen's position in the widget tree</li>
-  <li><code>MaterialPageRoute</code> — provides the slide animation (left to right on Android, bottom to top on iOS)</li>
-  <li><code>builder</code> — a function that returns the new screen widget</li>
-</ul>
-
-<h3>Navigator.pop()</h3>
-<p>Closes the current screen and goes back to the previous one.</p>
-
-<div class="cli">
-Navigator.pop(context);
-</div>
+<h3>Navigator.pop() — what happens</h3>
+<ol>
+  <li>You call pop on the current screen.</li>
+  <li>Flutter removes the top screen from the stack.</li>
+  <li>The screen underneath becomes visible again.</li>
+  <li>If you pop the last screen, the app closes (or returns to the OS).</li>
+</ol>
 
 <div class="callout warn">
   <b>Common mistake</b>
@@ -715,9 +703,9 @@ Navigator.pop(context);
 <div class="quiz-box">
   <h4>Practice questions</h4>
   <div class="q-item">
-    <div class="q-text">Q1. Write the code to push a new screen called <code>ProfileScreen</code>.</div>
+    <div class="q-text">Q1. What happens when you push a new screen onto the Navigator stack?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer"><code>Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));</code></div>
+    <div class="q-answer">Flutter wraps the new screen widget in a MaterialPageRoute (adds animation) and places it on top of the stack. The new screen becomes visible. The previous screen stays underneath.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. What animation does MaterialPageRoute provide on Android?</div>
@@ -728,36 +716,22 @@ Navigator.pop(context);
 </section>
 
 <!-- ============ SEND DATA ============ -->
-<section id="send-data" class="collapsible-section">
+<section id="send-data" class="collapsible-section collapsed">
 <span class="eyebrow">Data Passing</span>
-<h2>Send data between screens <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+<h2>Send data between screens <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
 
 <p>You can pass data from one screen to another by sending it through the <b>constructor</b> of the target widget.</p>
 
 <div class="cardgrid">
   <div class="card blue">
     <h4>Main Screen (sender)</h4>
-    <p>Creates the target widget and passes data as a constructor argument.</p>
-    <div class="cli">Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => <span class="hi">TodoScreen(
-      todo: Todo('Buy milk', 'Low'),
-    )</span>,
-  ),
-);</div>
+    <p>Creates the target widget and passes data as a constructor argument when pushing.</p>
+    <p style="font-size:12px;color:var(--accent);margin-top:8px;">Flow: create data → pass to constructor → push screen</p>
   </div>
   <div class="card green">
     <h4>Detail Screen (receiver)</h4>
-    <p>Receives the data in its constructor and uses it.</p>
-    <div class="cli">class TodoScreen extends StatelessWidget {
-  final Todo <span class="hi">todo</span>;
-  const TodoScreen({required this.todo});
-
-  Widget build(BuildContext context) {
-    return Text(todo.title);
-  }
-}</div>
+    <p>Accepts the data in its constructor and uses it to display content.</p>
+    <p style="font-size:12px;color:var(--green);margin-top:8px;">Flow: receive data in constructor → use it in build → display to user</p>
   </div>
 </div>
 
@@ -776,9 +750,9 @@ Navigator.pop(context);
 <div class="quiz-box">
   <h4>Practice questions</h4>
   <div class="q-item">
-    <div class="q-text">Q1. How do you pass a string <code>userName</code> to a <code>ProfileScreen</code>?</div>
+    <div class="q-text">Q1. How does Screen A pass data to Screen B when navigating?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer"><code>Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(name: userName)));</code> — and <code>ProfileScreen</code> must have a constructor that accepts <code>name</code>.</div>
+    <div class="q-answer">Screen A passes the data as a constructor argument when creating Screen B during the push. Screen B receives the data in its constructor and uses it to display content.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. What is the technical name for this data passing pattern?</div>
@@ -789,9 +763,9 @@ Navigator.pop(context);
 </section>
 
 <!-- ============ RETURN DATA ============ -->
-<section id="return-data" class="collapsible-section">
+<section id="return-data" class="collapsible-section collapsed">
 <span class="eyebrow">Data Passing</span>
-<h2>Return data from a screen <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+<h2>Return data from a screen <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
 
 <p>Sometimes you need the second screen to send data back to the first screen (e.g. user selects an item and the first screen needs to know which one).</p>
 
@@ -802,31 +776,15 @@ Navigator.pop(context);
   <div class="flowstep"><div class="num">4</div><div class="txt">Screen A receives the data using <code>.then()</code> callback.</div></div>
 </div>
 
-<h3>Code example — Screen B (sender)</h3>
-<div class="cli">
-ElevatedButton(
-  onPressed: () {
-    Navigator.pop(context, <span class="hi">'Yes, I confirm'</span>);
-  },
-  child: Text('Confirm'),
-),
-</div>
+<h3>How Screen B sends data back</h3>
+<p>Screen B calls pop with a second argument — the data to return. The data is sent back to Screen A.</p>
 
-<h3>Code example — Screen A (receiver)</h3>
-<div class="cli">
-final result = await Navigator.push&lt;String&gt;(
-  context,
-  MaterialPageRoute(builder: (context) => ConfirmScreen()),
-);
-
-if (result != null) {
-  print('User said: $result');
-}
-</div>
+<h3>How Screen A receives the data</h3>
+<p>Screen A waited for the push call to complete. When Screen B pops, the push call finishes and returns the data Screen B sent. Screen A can then use that data.</p>
 
 <div class="callout tip">
   <b>Alternative: .then() callback</b>
-  <p>You can also use <code>Navigator.push(...).then((value) { ... })</code> if you don't want to use <code>async/await</code>.</p>
+  <p>Instead of waiting, Screen A can also register a callback that runs when the push completes. Both approaches achieve the same result — Screen A gets the data back.</p>
 </div>
 
 <div class="quiz-box">
@@ -834,57 +792,33 @@ if (result != null) {
   <div class="q-item">
     <div class="q-text">Q1. What method sends data back from Screen B to Screen A?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer"><code>Navigator.pop(context, data)</code> — the second argument is the data you want to return.</div>
+    <div class="q-answer">Screen B calls pop with a second argument — the data to return. The data is sent back to Screen A.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. How does Screen A receive the returned data?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer">Using <code>await Navigator.push&lt;String&gt;(context, ...)</code> or using <code>.then((value) { ... })</code>.</div>
+    <div class="q-answer">Screen A waits for the push call to complete. When Screen B pops, the push call finishes and returns the data. Screen A can also use a .then() callback.</div>
   </div>
 </div>
 </section>
 
 <!-- ============ SHARED STATE ============ -->
-<section id="shared-state" class="collapsible-section">
+<section id="shared-state" class="collapsible-section collapsed">
 <span class="eyebrow">State Management</span>
-<h2>Shared state with Provider <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+<h2>Shared state with Provider <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
 
 <p>When multiple screens need to share the same data (e.g. a shopping cart), passing data via constructors becomes messy. <b style="color:var(--text)">Provider</b> solves this by giving all screens access to the same data.</p>
 
-<h3>How Provider works</h3>
+<h3>How Provider works — the flow</h3>
 <div class="flow">
-  <div class="flowstep"><div class="num">1</div><div class="txt"><b>ChangeNotifier</b> — a class that holds the shared data and notifies listeners when data changes.</div></div>
-  <div class="flowstep"><div class="num">2</div><div class="txt"><b>ChangeNotifierProvider</b> — wraps the app and creates the ChangeNotifier instance at the top.</div></div>
-  <div class="flowstep"><div class="num">3</div><div class="txt"><b>Consumer</b> — any screen can use a Consumer to listen to changes and rebuild its UI.</div></div>
+  <div class="flowstep"><div class="num">1</div><div class="txt"><b>ChangeNotifier</b> — a class that holds the shared data. When data changes, it calls <code>notifyListeners()</code> to alert all screens.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt"><b>ChangeNotifierProvider</b> — placed at the top of the app. It creates the ChangeNotifier instance and makes it available to all screens below it.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt"><b>Consumer</b> — any screen wraps its UI in a Consumer. The Consumer listens for changes and rebuilds the UI automatically when data updates.</div></div>
 </div>
 
-<h3>Code example</h3>
-<div class="cli">
-<span class="cmt">// 1. Create a ChangeNotifier</span>
-class CartProvider extends ChangeNotifier {
-  final List&lt;Item&gt; items = [];
-  void add(Item item) {
-    items.add(item);
-    <span class="hi">notifyListeners()</span>;  <span class="cmt">// tells all Consumers to rebuild</span>
-  }
-}
-
-<span class="cmt">// 2. Wrap the app with Provider</span>
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => CartProvider(),
-      child: MyApp(),
-    ),
-  );
-}
-
-<span class="cmt">// 3. Any screen can access the shared data</span>
-Consumer&lt;CartProvider&gt;(
-  builder: (context, cart, child) {
-    return Text('Items: ${cart.items.length}');
-  },
-),
+<div class="callout tip">
+  <b>Key insight — the flow</b>
+  <p>ChangeNotifier holds data → Provider shares it at the top → any Consumer screen reads it → when data changes, notifyListeners() triggers → all Consumers rebuild. This is how multiple screens stay in sync without passing data through constructors.</p>
 </div>
 
 <div class="callout note">
@@ -900,9 +834,9 @@ Consumer&lt;CartProvider&gt;(
     <div class="q-answer">When multiple screens need to share and update the same data (e.g. shopping cart, user profile, theme settings).</div>
   </div>
   <div class="q-item">
-    <div class="q-text">Q2. What does <code>notifyListeners()</code> do?</div>
+    <div class="q-text">Q2. How does a ChangeNotifier tell all screens that data has changed?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer">It tells all Consumer widgets to rebuild their UI with the updated data.</div>
+    <div class="q-answer">It calls notifyListeners(). This alerts all Consumer widgets, and each one rebuilds its UI with the updated data.</div>
   </div>
 </div>
 </section>
@@ -1021,32 +955,25 @@ Consumer&lt;CartProvider&gt;(
 
 <p>Flutter provides the <code>AppLifecycleListener</code> class to watch for lifecycle changes. You can run code when the app enters each state.</p>
 
-<h3>Code example</h3>
-<div class="cli">
-class _MyAppState extends State&lt;MyApp&gt; {
-  late final AppLifecycleListener _listener;
+<h3>How it works</h3>
+<ol>
+  <li>Create an AppLifecycleListener when your app starts (in initState).</li>
+  <li>Give it callback functions for the states you care about (onResume, onPause, onDetach, etc.).</li>
+  <li>When the app enters a lifecycle state, the matching callback runs automatically.</li>
+  <li>Always dispose the listener when your app is destroyed to free resources.</li>
+</ol>
 
-  @override
-  void initState() {
-    super.initState();
-    _listener = AppLifecycleListener(
-      <span class="hi">onShow</span>: () =&gt; print('App visible'),
-      <span class="hi">onResume</span>: () =&gt; print('App resumed'),
-      <span class="hi">onHide</span>: () =&gt; print('App hidden'),
-      <span class="hi">onInactive</span>: () =&gt; print('App inactive'),
-      <span class="hi">onPause</span>: () =&gt; print('App paused'),
-      <span class="hi">onDetach</span>: () =&gt; print('App detached'),
-      <span class="hi">onRestart</span>: () =&gt; print('App restarted'),
-    );
-  }
-
-  @override
-  void dispose() {
-    _listener.dispose();
-    super.dispose();
-  }
-}
-</div>
+<h3>Available callbacks</h3>
+<table>
+  <tr><th>Callback</th><th>Runs when</th></tr>
+  <tr><td><code>onShow</code></td><td>App becomes visible</td></tr>
+  <tr><td><code>onResume</code></td><td>App enters Resumed state (visible + active)</td></tr>
+  <tr><td><code>onHide</code></td><td>App becomes invisible</td></tr>
+  <tr><td><code>onInactive</code></td><td>App enters Inactive state (brief transition)</td></tr>
+  <tr><td><code>onPause</code></td><td>App enters Paused state (background)</td></tr>
+  <tr><td><code>onDetach</code></td><td>App enters Detached state (being destroyed)</td></tr>
+  <tr><td><code>onRestart</code></td><td>App restarts after being detached</td></tr>
+</table>
 
 <div class="callout tip">
   <b>Exam tip</b>
@@ -1058,12 +985,12 @@ class _MyAppState extends State&lt;MyApp&gt; {
   <div class="q-item">
     <div class="q-text">Q1. What class do you use to listen to lifecycle changes in Flutter?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer"><code>AppLifecycleListener</code>.</div>
+    <div class="q-answer">AppLifecycleListener — it has callbacks for each lifecycle state.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. What callback runs when the app goes to the background?</div>
     <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
-    <div class="q-answer"><code>onPause</code> (and <code>onHide</code> for visibility changes).</div>
+    <div class="q-answer">onPause runs when the app enters the Paused state (background). onHide runs when the app becomes invisible.</div>
   </div>
 </div>
 </section>
@@ -1073,41 +1000,84 @@ class _MyAppState extends State&lt;MyApp&gt; {
 <span class="eyebrow">Revision</span>
 <h2>Chapter 2 — exam cheat sheet <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
 
-<h3>Key concepts to remember</h3>
+<h3>Routes — what they are</h3>
 <table>
-  <tr><th>Concept</th><th>Summary</th></tr>
-  <tr><td>Route</td><td>A screen/page in Flutter = a widget. Android calls it Activity, iOS calls it ViewController.</td></tr>
-  <tr><td>Navigator stack</td><td>Screens are managed as a stack. Push adds on top, pop removes from top.</td></tr>
-  <tr><td>Navigator.push()</td><td>Opens a new screen. Uses MaterialPageRoute for transitions.</td></tr>
-  <tr><td>Navigator.pop()</td><td>Closes the current screen. Can return data as a second argument.</td></tr>
-  <tr><td>Send data</td><td>Pass data via the target widget's constructor (constructor injection).</td></tr>
-  <tr><td>Return data</td><td>Use <code>Navigator.pop(context, data)</code> and receive with <code>await</code> or <code>.then()</code>.</td></tr>
-  <tr><td>Shared state</td><td>Use Provider (ChangeNotifier + Consumer) when multiple screens share data.</td></tr>
-  <tr><td>Deep linking</td><td>Open a specific screen directly from a URL. Android = App Links, iOS = Universal Links.</td></tr>
-  <tr><td>Lifecycle states</td><td>Resumed, Inactive, Paused, Detached — manage resources based on state.</td></tr>
-  <tr><td>AppLifecycleListener</td><td>Class with callbacks (onResume, onPause, onDetach) to react to lifecycle changes.</td></tr>
+  <tr><th>Platform</th><th>What a "screen" is called</th></tr>
+  <tr><td><b>Flutter</b></td><td>Route (a widget shown by Navigator)</td></tr>
+  <tr><td><b>Android</b></td><td>Activity</td></tr>
+  <tr><td><b>iOS</b></td><td>ViewController</td></tr>
+</table>
+<p style="font-size:14px;color:#c3cbd6;">In Flutter, every screen is a widget. When you navigate, you are moving between routes.</p>
+
+<h3>Navigator stack — how screens are managed</h3>
+<table>
+  <tr><th>Concept</th><th>What it means</th></tr>
+  <tr><td><b>Stack</b></td><td>Screens are stored like a pile of plates. You can only see the top one.</td></tr>
+  <tr><td><b>Push</b></td><td>Adds a new screen on top of the stack (opens a new page).</td></tr>
+  <tr><td><b>Pop</b></td><td>Removes the top screen from the stack (goes back to previous page).</td></tr>
+  <tr><td><b>Push replacement</b></td><td>Replaces the current screen instead of adding on top.</td></tr>
+</table>
+<div class="callout note">
+  <b>Stack rule</b>
+  <p>You can only see the <b>top</b> screen. You can only go back by popping the top. You cannot jump to the middle directly (use <code>popUntil</code> for that).</p>
+</div>
+
+<h3>Deep linking</h3>
+<table>
+  <tr><th>Platform</th><th>Term</th><th>Meaning</th></tr>
+  <tr><td><b>Android</b></td><td>App Links</td><td>A URL opens a specific screen inside the app directly</td></tr>
+  <tr><td><b>iOS</b></td><td>Universal Links</td><td>A URL opens a specific screen inside the app directly</td></tr>
+</table>
+<p style="font-size:14px;color:#c3cbd6;">Deep linking is a shortcut: instead of Open → Home → Menu → Product → Item, the user clicks a link and goes directly to Item.</p>
+
+<h3>App lifecycle — the 4 states (8 marks in mock test!)</h3>
+<table>
+  <tr><th>State</th><th>Visible?</th><th>What happens</th><th>Task example</th></tr>
+  <tr><td><b style="color:var(--green)">Resumed</b></td><td>Yes</td><td>App is in the foreground, user can interact</td><td>Play video, fetch data, show animations</td></tr>
+  <tr><td><b style="color:var(--amber)">Inactive</b></td><td>Partially</td><td>Brief transition (e.g. incoming call dialog)</td><td>Pause game, stop countdown</td></tr>
+  <tr><td><b style="color:var(--pink)">Paused</b></td><td>No</td><td>App is in background</td><td>Pause music, save progress, stop GPS</td></tr>
+  <tr><td><b style="color:var(--danger)">Detached</b></td><td>No</td><td>App is being destroyed</td><td>Close database, save unsaved data, release camera</td></tr>
 </table>
 
+<div class="callout warn">
+  <b>Exam question — 8 marks!</b>
+  <p>Mock test Q1b: "Identify the 4 primary states in Flutter app lifecycle and provide a task example for each." Memorize this table. Explanation is not required — just name the states and give one example each.</p>
+</div>
+
+<h3>AppLifecycleListener</h3>
+<table>
+  <tr><th>Callback</th><th>Runs when</th></tr>
+  <tr><td><code>onResume</code></td><td>App enters Resumed state (visible, active)</td></tr>
+  <tr><td><code>onPause</code></td><td>App enters Paused state (background)</td></tr>
+  <tr><td><code>onDetach</code></td><td>App is being destroyed (Detached state)</td></tr>
+  <tr><td><code>onInactive</code></td><td>App enters Inactive state (brief transition)</td></tr>
+  <tr><td><code>onHide</code></td><td>App becomes invisible</td></tr>
+  <tr><td><code>onShow</code></td><td>App becomes visible</td></tr>
+  <tr><td><code>onRestart</code></td><td>App restarts after being detached</td></tr>
+</table>
+<p style="font-size:14px;color:#c3cbd6;">You don't need to memorize every callback name. Just know that <code>AppLifecycleListener</code> exists and has callbacks for each lifecycle state.</p>
+
 <div class="summary">
-  <h4>One-paragraph recap</h4>
+  <h4>Exam revision — know these facts</h4>
   <ul>
-    <li>Every screen in Flutter is a <b>route</b> (a widget). The Navigator manages routes as a <b>stack</b>.</li>
-    <li><code>Navigator.push()</code> opens a new screen; <code>Navigator.pop()</code> closes the current one.</li>
-    <li>Pass data to a new screen via its <b>constructor</b>. Return data using <code>Navigator.pop(context, data)</code>.</li>
+    <li>A <b>route</b> in Flutter = a screen = a widget. Android calls it Activity, iOS calls it ViewController.</li>
+    <li>The <b>Navigator</b> manages routes as a <b>stack</b>. Push adds on top, pop removes from top.</li>
+    <li><b>Deep linking</b> opens a specific screen directly from a URL. Android = App Links, iOS = Universal Links.</li>
+    <li>The app has <b>4 lifecycle states</b>: Resumed (visible), Inactive (brief transition), Paused (background), Detached (destroyed).</li>
+    <li>Use <b>AppLifecycleListener</b> with callbacks (onResume, onPause, onDetach) to react to lifecycle changes.</li>
+    <li>When app enters Paused → pause videos, save data. When app enters Detached → clean up resources.</li>
+    <li>Pass data between screens via the target widget's <b>constructor</b> (constructor injection).</li>
+    <li>Return data from a screen using <code>Navigator.pop(context, data)</code>.</li>
     <li>For shared data across screens, use <b>Provider</b> (ChangeNotifier + Consumer pattern).</li>
-    <li><b>Deep linking</b> lets users open a specific screen directly from a URL (App Links on Android, Universal Links on iOS).</li>
-    <li>The app has <b>4 lifecycle states</b>: Resumed (visible, active), Inactive (brief transition), Paused (background), Detached (destroyed).</li>
-    <li>Use <code>AppLifecycleListener</code> to run code when lifecycle states change (onResume, onPause, onDetach).</li>
   </ul>
 </div>
 
 <h3>Common mistakes to avoid</h3>
 <ul>
-  <li>Forgetting <code>context</code> in <code>Navigator.push()</code> or <code>Navigator.pop()</code>.</li>
-  <li>Not disposing resources (videos, streams, listeners) when the app goes to Paused or Detached.</li>
-  <li>Trying to update UI from a lifecycle callback without using <code>setState()</code> or Provider.</li>
   <li>Confusing Inactive (brief transition) with Paused (background) — Inactive is temporary, Paused is sustained.</li>
-  <li>Assuming deep linking works automatically — you must configure it per platform (Android intent filters, iOS associated domains).</li>
+  <li>Not disposing resources (videos, streams, listeners) when the app goes to Paused or Detached.</li>
+  <li>Assuming deep linking works automatically — you must configure it per platform.</li>
+  <li>Forgetting that lifecycle state examples are worth marks — always give at least one task per state.</li>
 </ul>
 </section>
 

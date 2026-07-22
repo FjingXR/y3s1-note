@@ -241,6 +241,43 @@
     user-select:none;
   }
 
+  /* mini cheatsheet */
+  .card .cheatsheet{
+    border-top:1px solid var(--line);
+    padding:0;
+  }
+  .card .cheatsheet summary{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--sub);
+    padding:8px 22px;
+    cursor:pointer;
+    user-select:none;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .card .cheatsheet summary::-webkit-details-marker{display:none;}
+  .card .cheatsheet summary:hover{color:var(--text);}
+  .card .cheatsheet summary .chev{
+    font-size:9px;
+    transition:transform 0.2s;
+  }
+  .card .cheatsheet[open] summary .chev{transform:rotate(90deg);}
+  .card .cheatsheet .cs-body{
+    padding:0 22px 14px;
+    font-size:12.5px;
+    color:#c3cbd6;
+    line-height:1.6;
+  }
+  .card .cheatsheet .cs-body ul{
+    margin:6px 0 0;
+    padding-left:16px;
+  }
+  .card .cheatsheet .cs-body li{margin-bottom:3px;font-size:12px;}
+  .card .cheatsheet .cs-body b{color:var(--text);}
+
   footer{
     text-align:center;
     padding:30px 20px 20px;
@@ -251,6 +288,13 @@
     margin-top:auto;
   }
 
+  .grid-ch1{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(280px,1fr));
+    gap:18px;
+    margin:20px 0 40px;
+  }
+
   @media(max-width:600px){
     .hero{padding:50px 16px 30px;}
     .hero h1{font-size:1.7rem;}
@@ -259,6 +303,7 @@
     .sched-item .sched-date{font-size:10px;}
     .sched-item .sched-label{font-size:12px;}
     .grid{grid-template-columns:1fr;margin:32px 0;}
+    .grid-ch1{grid-template-columns:1fr;gap:14px;margin:16px 0 32px;}
     .card .top{padding:16px 18px 12px;}
     .card .footer{padding:10px 18px;flex-direction:column;gap:10px;align-items:stretch;text-align:center;}
     .card .footer a{display:block;}
@@ -422,6 +467,8 @@
     <!-- ============ CHAPTER 1 ============ -->
     <div class="chapter-label">Chapter 1 — Introduction &amp; Dart</div>
 
+    <div class="grid-ch1">
+
     <div class="card">
       <div class="top">
         <div class="ch" style="color:var(--blue);">opencode</div>
@@ -431,6 +478,21 @@
           <span>Module 1.1</span>
         </div>
       </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li><b>Native</b> = one platform, best performance, highest cost (separate codebases).</li>
+            <li><b>Cross-platform</b> = one codebase, good balance (Flutter, React Native).</li>
+            <li><b>Web/PWA</b> = runs in browser, cheapest, limited device access.</li>
+            <li>Flutter renders its own UI via <b>Skia</b> — does NOT use native widgets.</li>
+            <li>3 layers: <b>Framework</b> (Dart) → <b>Engine</b> (C++/Skia) → <b>Embedder</b> (platform).</li>
+            <li>Declarative UI: you describe <b>what</b> the UI should be; Flutter rebuilds automatically.</li>
+            <li>Layout: <b>constraints go down</b> (parent limits child), <b>sizes go up</b> (child reports size).</li>
+            <li>3D game → choose <b>Native</b> (best GPU/performance access).</li>
+          </ul>
+        </div>
+      </details>
       <div class="footer">
         <span class="status"><span class="dot g"></span> ready</span>
         <a href="chapter1_intro.html">open &rarr;</a>
@@ -467,6 +529,38 @@
       </div>
     </div>
 
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--green);">mimo</div>
+        <h3 style="color:var(--green);">Introduction to Dart (Theory Focus)</h3>
+        <p>Dart basics — variables &amp; declaration keywords, data types, control flow, functions, arrow syntax, recursion, higher-order functions. 97% theory/flow, minimal code.</p>
+        <div class="modules">
+          <span>Module 1.2</span>
+        </div>
+      </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li>Dart is <b>open-source, general-purpose, OOP, strongly typed</b>.</li>
+            <li>Entry point: <b>main()</b> — every Dart program starts here.</li>
+            <li>Data types: <b>int, double, num, String, bool</b>.</li>
+            <li><b>var</b> = type inferred; nullable types add <b>?</b> after the type.</li>
+            <li>Control flow: if/else for decisions, for/for-in for known repeats, while for condition-based repeats.</li>
+            <li>Functions = return type + name + parameters + body. Arrow <b>=&gt;</b> for single-expression bodies.</li>
+            <li><b>Recursion</b> = function calling itself; must have a base case to stop.</li>
+            <li>Higher-order functions: <b>.where()</b> filters, <b>.forEach()</b> runs on every item.</li>
+          </ul>
+        </div>
+      </details>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="mimo_chapter1.2_dart.html">open &rarr;</a>
+      </div>
+    </div>
+
+    </div>
+
     <!-- ============ CHAPTER 2 ============ -->
     <div class="chapter-label">Chapter 2 — App Lifecycle</div>
 
@@ -479,9 +573,53 @@
           <span>Module 2</span>
         </div>
       </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li>A <b>route</b> = a screen = a widget. Android = Activity, iOS = ViewController.</li>
+            <li>Navigator manages routes as a <b>stack</b> — push adds on top, pop removes from top.</li>
+            <li><b>Deep linking</b> = open a specific screen from a URL. Android = App Links, iOS = Universal Links.</li>
+            <li>4 lifecycle states: <b>Resumed</b> (visible), <b>Inactive</b> (transition), <b>Paused</b> (background), <b>Detached</b> (destroyed).</li>
+            <li>Resumed → play video. Inactive → pause game. Paused → save data. Detached → clean up.</li>
+            <li><b>AppLifecycleListener</b> has callbacks for each state (onResume, onPause, onDetach).</li>
+            <li>Pass data via <b>constructor injection</b>. Return data via <b>Navigator.pop(context, data)</b>.</li>
+            <li>Shared data across screens → use <b>Provider</b> (ChangeNotifier + Consumer).</li>
+          </ul>
+        </div>
+      </details>
       <div class="footer">
         <span class="status"><span class="dot g"></span> ready</span>
-        <a href="chapter2_lifecycle.html">open &rarr;</a>
+        <a href="mimo_chapter2_lifecycle.html">open &rarr;</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="top">
+        <div class="ch" style="color:var(--pink);">claude design</div>
+        <h3 style="color:var(--pink);">Routes, Navigation &amp; App Lifecycle</h3>
+        <p>Interactive study guide covering routes &amp; Navigator, push/pop with data, shared state via Provider, deep linking, AppLifecycleState, and AppLifecycleListener.</p>
+        <div class="modules">
+          <span>Module 2</span>
+        </div>
+      </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li><b>Route</b> = a screen/page widget. Android = Activity, iOS = ViewController.</li>
+            <li>Navigator manages a <b>stack</b> — push adds a screen on top, pop removes the top screen.</li>
+            <li>Pass data to next screen via <b>constructor injection</b>; return data via <b>Navigator.pop(context, data)</b>.</li>
+            <li>Shared state across screens → <b>Provider</b> (ChangeNotifier + Consumer). Call <b>notifyListeners()</b> to update.</li>
+            <li><b>Deep linking</b> = open a specific screen from a URL. Android = App Links, iOS = Universal Links.</li>
+            <li>4 lifecycle states: <b>Resumed</b> (visible), <b>Inactive</b> (transition), <b>Paused</b> (background), <b>Detached</b> (destroyed).</li>
+            <li>Use <b>AppLifecycleListener</b> — callbacks: onResume, onPause, onHide, onDetach, onStateChange.</li>
+          </ul>
+        </div>
+      </details>
+      <div class="footer">
+        <span class="status"><span class="dot g"></span> ready</span>
+        <a href="claude_chapter2_interactive.html">open &rarr;</a>
       </div>
     </div>
 

@@ -802,27 +802,57 @@
 <span class="eyebrow">Revision</span>
 <h2>Chapter 1.1 — exam cheat sheet <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
 
-<h3>Key concepts to remember</h3>
+<h3>App types — the 3 approaches (biggest exam topic)</h3>
 <table>
-  <tr><th>Concept</th><th>Summary</th></tr>
-  <tr><td>Mobile OS</td><td>Android (Linux) & iOS (Darwin) dominate; others are niche (Harmony, KaiOS, Tizen)</td></tr>
-  <tr><td>App types</td><td>Native (best perf, high cost) vs Cross-platform (balance) vs Web/PWA (limited, cheap)</td></tr>
-  <tr><td>Flutter</td><td>Cross-platform, Dart, owns its rendering (Skia), no native UI bridge</td></tr>
-  <tr><td>Architecture</td><td>3 layers: Framework (Dart) → Engine (C++/Skia) → Embedder (platform)</td></tr>
-  <tr><td>Declarative UI</td><td>UI = f(state). Constraints go down, sizes go up. Framework rebuilds on state change</td></tr>
-  <tr><td>State mgmt</td><td>Provider (suggested), BLoC (streams), Riverpod (modern). App State vs Widget State</td></tr>
+  <tr><th>Factor</th><th>Native</th><th>Cross-platform</th><th>Web / PWA</th></tr>
+  <tr><td>Definition</td><td>Built for one platform using its own language and tools</td><td>One codebase runs on multiple platforms</td><td>Runs in the mobile browser, no install needed</td></tr>
+  <tr><td>Performance</td><td>Best — uses platform directly</td><td>Very good — compiles to native</td><td>Moderate — limited by browser</td></tr>
+  <tr><td>Development cost</td><td>High — need separate codebases for Android and iOS</td><td>Medium — one codebase for all platforms</td><td>Low — one web app for all</td></tr>
+  <tr><td>Device access</td><td>Full — camera, GPS, sensors, everything</td><td>Full — via plugins and platform channels</td><td>Limited — browser restrictions</td></tr>
+  <tr><td>Distribution</td><td>App Store / Google Play required</td><td>App Store / Google Play required</td><td>No store needed — share a URL</td></tr>
+  <tr><td>Code reuse</td><td>0% between Android and iOS</td><td>90%+ shared code</td><td>100% one codebase</td></tr>
+  <tr><td>Best for</td><td>High-performance games, apps needing full hardware access</td><td>Most business apps, e-commerce, social media</td><td>Simple tools, content sites, quick reach</td></tr>
+</table>
+
+<div class="callout note">
+  <b>How to choose (exam answer pattern)</b>
+  <p>Need max performance + full hardware? → <b>Native</b>. Need good performance + fast development + both stores? → <b>Cross-platform (Flutter)</b>. Need broad reach + minimal budget? → <b>Web/PWA</b>.</p>
+</div>
+
+<h3>Flutter's 3-layer architecture</h3>
+<table>
+  <tr><th>Layer</th><th>Language</th><th>What it does</th></tr>
+  <tr><td><b>Framework</b></td><td>Dart</td><td>Widgets, gestures, animations, Material/Cupertino design — everything you code against</td></tr>
+  <tr><td><b>Engine</b></td><td>C++</td><td>Skia graphics (draws every pixel), Dart VM, text layout, platform channels</td></tr>
+  <tr><td><b>Embedder</b></td><td>Platform-specific</td><td>Entry point for each OS — Android uses Java/Kotlin, iOS uses Obj-C/Swift</td></tr>
+</table>
+
+<div class="callout tip">
+  <b>Key insight — Flutter draws everything itself</b>
+  <p>Flutter does NOT use the device's native UI components. It paints every pixel via Skia. This is why Flutter apps look identical on Android, iOS, web, and desktop.</p>
+</div>
+
+<h3>Reactive UI — the Flutter paradigm</h3>
+<table>
+  <tr><th>Concept</th><th>What it means</th></tr>
+  <tr><td><b>Declarative</b></td><td>You describe <b>what</b> the UI should look like for a given state. You do NOT manually change the UI step by step.</td></tr>
+  <tr><td><b>UI = f(state)</b></td><td>The UI is a function of the current state. When state changes, Flutter rebuilds the affected widgets.</td></tr>
+  <tr><td><b>Constraints down</b></td><td>Parent widgets tell children how much space they can use (max/min width and height).</td></tr>
+  <tr><td><b>Sizes up</b></td><td>Each child tells the parent how big it wants to be (within the given constraints).</td></tr>
+  <tr><td><b>Position set</b></td><td>The parent decides where to place the child based on layout rules (Row, Column, Stack).</td></tr>
 </table>
 
 <div class="summary">
-  <h4>One-paragraph recap</h4>
+  <h4>Exam revision — know these facts</h4>
   <ul>
-    <li>Mobile OSes: Android and iOS dominate 99%+ of the market.</li>
-    <li>Three app types: native (best performance, separate codebases), cross-platform (Flutter/React Native, shared code), web/PWA (cheap, limited device access).</li>
-    <li>Flutter uses a 3-layer architecture: Framework (Dart widgets) → Engine (C++/Skia rendering) → Embedder (platform-specific entry point).</li>
-    <li>Declarative UI: you describe what the UI should look like based on current state; Flutter handles the updates automatically.</li>
-    <li>Layout rule: constraints go down (parent limits child), sizes go up (child reports size to parent).</li>
-    <li>State management options: Provider, BLoC, Riverpod — use Provider for simplicity, BLoC for complex flows, Riverpod for modern testability.</li>
-    <li>Always consider mobile constraints: battery, memory, network reliability, processing limits.</li>
+    <li>Android + iOS control 99%+ of the smartphone market.</li>
+    <li>Three app types: <b>Native</b> (best performance, high cost), <b>Cross-platform</b> (good balance, one codebase), <b>Web/PWA</b> (cheapest, limited access).</li>
+    <li>For a highly interactive 3D game → choose <b>Native</b> (best GPU access, performance).</li>
+    <li>Flutter is cross-platform, uses Dart, and renders its own UI via Skia — NOT native components.</li>
+    <li>Flutter has 3 layers: <b>Framework</b> (Dart widgets) → <b>Engine</b> (C++/Skia) → <b>Embedder</b> (platform entry).</li>
+    <li>Declarative UI: you describe the desired state, Flutter rebuilds automatically.</li>
+    <li>Layout rule: constraints go down, sizes go up, position is set by parent.</li>
+    <li>Mobile constraints: limited battery, memory, unreliable network, small screens.</li>
   </ul>
 </div>
 
@@ -831,7 +861,6 @@
   <li>Confusing declarative (what) with imperative (how) — in Flutter, <b>describe</b> the UI, don't mutate it.</li>
   <li>Thinking Flutter uses native UI components — it does NOT; it paints everything via Skia.</li>
   <li>Forgetting that mobile devices have real constraints — design for battery, memory, and network limits.</li>
-  <li>Mixing up App State and Widget State — use Provider for app-wide state, StatefulWidget for local ephemeral state.</li>
   <li>Assuming all cross-platform frameworks work the same — Flutter draws its own UI, React Native bridges to native components.</li>
 </ul>
 </section>
