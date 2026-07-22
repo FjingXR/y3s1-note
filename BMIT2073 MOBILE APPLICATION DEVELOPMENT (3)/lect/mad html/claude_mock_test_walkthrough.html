@@ -616,7 +616,7 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. Which app type has the highest development cost? Why?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">
       <ul>
         <li>Native — because you need to build and maintain <b>separate codebase</b> for Android and iOS</li>
@@ -626,7 +626,7 @@
   </div>
   <div class="q-item">
     <div class="q-text">P2. A company wants a cheap news-reading app with no app store approval needed. Which type fits best?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">
       <ul>
         <li>Mobile Web app</li>
@@ -637,7 +637,7 @@
   </div>
   <div class="q-item">
     <div class="q-text">P3. Give one criterion where hybrid and mobile web perform the same in the comparison table.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">
       <ul>
         <li>Development cost — both Low</li>
@@ -718,14 +718,14 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. Which lifecycle state should you use to save critical user data before the app might get killed?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">
       <ul><li><b>Paused</b> — app is in background, good time to save unsaved data before it's suspended</li></ul>
     </div>
   </div>
   <div class="q-item">
     <div class="q-text">P2. What class/enum does Flutter provide to monitor lifecycle changes?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">
       <ul>
         <li><code>AppLifecycleState</code> enum</li>
@@ -735,7 +735,7 @@
   </div>
   <div class="q-item">
     <div class="q-text">P3. Give a task example suitable for the Detached state.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">
       <ul>
         <li>Closing databases, releasing memory</li>
@@ -812,12 +812,12 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. Which widget type would you use for a static "About Us" text screen?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>StatelessWidget — content never changes, no need to track state</li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P2. What method do you call in a StatefulWidget to trigger a UI rebuild?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li><code>setState()</code></li></ul></div>
   </div>
   <div class="summary">
@@ -879,12 +879,12 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. Name a modern image format recommended by Flutter for performance.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>WebP</li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P2. Why should you resize an image before displaying it in your app?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>Loading a bigger image than needed wastes memory and slows down rendering — resize to fit the display area</li></ul></div>
   </div>
   <div class="summary">
@@ -946,17 +946,17 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. What file type is used to store translated strings for each language?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li><code>.arb</code> file (Android Resource Bundle), e.g. <code>en.arb</code>, <code>ms.arb</code></li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P2. What package must you import to support localization in a Flutter MaterialApp?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li><code>flutter_localizations</code></li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P3. What is the ISO language code format? Give one example.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>Format: <code>[language code]_[country code]</code></li><li>Example: <code>ms_MY</code> = Malay (Malaysia)</li></ul></div>
   </div>
   <div class="summary">
@@ -1025,17 +1025,17 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. Is "current progress of a complex animation" ephemeral or app state?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>Ephemeral — it lives inside one widget only</li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P2. Which package is commonly used in Flutter to manage app state?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>Provider — uses <code>ChangeNotifier</code> to notify listeners on state change</li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P3. Give an app state example from a news app.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>Read/unread state of articles</li></ul></div>
   </div>
   <div class="summary">
@@ -1099,17 +1099,17 @@
   <h4>Practice — similar questions</h4>
   <div class="q-item">
     <div class="q-text">P1. What is at the "top" of the navigation stack?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>The current screen the user is looking at</li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P2. When does the Up button disappear from the app bar?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>At the app's fixed start destination — because Up must never exit the app</li></ul></div>
   </div>
   <div class="q-item">
     <div class="q-text">P3. True or False: pressing Back and pressing Up always do different things.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><ul><li>False — within your app's own task, Up and Back behave <b>identically</b></li></ul></div>
   </div>
   <div class="summary">
@@ -1141,6 +1141,11 @@ function toggleAnswer(id){
     btn.textContent = 'Hide Answer';
     btn.classList.remove('hidden-state');
   }
+}
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
 }
 </script>
 

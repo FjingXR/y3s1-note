@@ -557,12 +557,12 @@
   <h4>Quick check</h4>
   <div class="q-item">
     <div class="q-text">Q1. Which two mobile operating systems dominate the global market?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Android (Google) and iOS (Apple) — together over 99% of smartphones.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. What kernel does Android use?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Linux kernel.</div>
   </div>
 </div>
@@ -609,12 +609,12 @@
   <h4>Practice questions</h4>
   <div class="q-item">
     <div class="q-text">Q1. What is the main disadvantage of native apps compared to cross-platform?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">You need separate codebases for Android and iOS, increasing development time and cost.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. What is the biggest limitation of a web app (PWA) compared to a native app?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Limited access to device hardware (camera, GPS, sensors, etc.) and lower performance.</div>
   </div>
 </div>
@@ -662,7 +662,7 @@
   <h4>Practice question</h4>
   <div class="q-item">
     <div class="q-text">Q1. What programming language does Flutter use?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Dart — an open-source, general-purpose, object-oriented, strongly typed language.</div>
   </div>
 </div>
@@ -705,12 +705,12 @@
   <h4>Practice questions</h4>
   <div class="q-item">
     <div class="q-text">Q1. What are the three layers of Flutter's architecture (top to bottom)?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Framework (Dart) → Engine (C++/Skia) → Embedder (Platform-specific).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. What graphics library does Flutter's engine use for rendering?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Skia — a high-performance 2D graphics library.</div>
   </div>
 </div>
@@ -764,17 +764,17 @@
   <h4>Practice questions</h4>
   <div class="q-item">
     <div class="q-text">Q1. What does "declarative UI" mean in Flutter?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">You describe <b>what</b> the UI should look like for a given state, and the framework handles updating it. UI = f(state).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q2. In Flutter's layout, what goes down and what goes up?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><b>Constraints go down</b> (parents limit children), <b>sizes go up</b> (children report their chosen size).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Q3. Name two approaches to manage App State in Flutter.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Provider, BLoC, or Riverpod (any two).</div>
   </div>
 </div>
@@ -824,6 +824,11 @@
 <footer>bmit2073 &middot; mobile application development &middot; chapter 1.1 study guide &middot; generated for revision</footer>
 
 <script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
 function toggleTheme(){
   var h=document.documentElement;
   h.classList.toggle('light');

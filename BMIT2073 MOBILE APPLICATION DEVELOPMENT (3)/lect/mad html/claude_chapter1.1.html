@@ -21,6 +21,20 @@
     --pink:#ff7eb3;
     --danger:#ff6b6b;
   }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -318,7 +332,7 @@
   }
   .q-toggle:hover{color:var(--text);border-color:var(--sub);}
   .q-answer{
-    display:block;
+    display:none;
     margin-top:8px;
     padding:10px 12px;
     background:var(--panel2);
@@ -327,7 +341,7 @@
     font-size:13.5px;
     color:#c3cbd6;
   }
-  .q-answer.hide{display:none;}
+  .q-answer.show{display:block;}
   .q-answer ul{margin:4px 0 0;padding-left:16px;}
   .q-answer li{margin-bottom:3px;}
 
@@ -447,6 +461,20 @@
     h3{font-size:1rem;}
     .q-toggle{font-size:13px;padding:8px 4px;}
   }
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
@@ -460,6 +488,7 @@
   <a href="#flutter-arch">Flutter Arch</a>
   <a href="#reactive-ui">Reactive UI</a>
   <a href="#summary">Summary</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
 </div>
 
 <div class="hero">
@@ -581,17 +610,17 @@
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which kernel does iOS use?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Darwin (XNU) kernel — made by Apple, closed-source.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Name ONE mobile OS used mainly for wearables (watches/TVs).</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Tizen — made by Samsung, used on smartwatches and smart TVs.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Give an example device for the "Entry" tier.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Nokia C series — basic performance, smaller storage.</div>
   </div>
 </div>
@@ -670,17 +699,17 @@
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which app type needs an app store to be installed AND has the highest dev cost?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Native app — needs app store install, and needs 2 separate codebases (Android + iOS), so highest cost.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which app type is easiest to maintain, and why?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Mobile web app — only 1 codebase, and updates apply instantly to all users (no store review needed).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Why does a hybrid app (like Flutter) have only "medium" development cost, not "low"?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">It still needs to be built, tested, and submitted to both app stores (Android + iOS) — more work than a pure web app, even though it's 1 codebase.</div>
   </div>
 </div>
@@ -739,12 +768,12 @@
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What programming language does Flutter use?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Dart — an open-source, object-oriented language made by Google.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Name the framework that uses C#/.NET for cross-platform apps.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Xamarin — owned by Microsoft.</div>
   </div>
 </div>
@@ -799,17 +828,17 @@
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which layer is written in C++ and handles graphics rendering?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">The Engine layer — runs the Dart VM and uses Skia to draw graphics.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What graphics library does Flutter's engine use?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Skia — a fast 2D graphics library.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which layer contains widgets like Scaffold and MaterialApp?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">The Framework layer (written in Dart).</div>
   </div>
 </div>
@@ -874,17 +903,17 @@
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What does "declarative UI" mean?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">You describe <b>what</b> the UI should look like for a state, and the framework updates it. In short: UI = f(state).</div>
   </div>
   <div class="q-item">
     <div class="q-text">In Flutter's layout, what goes down and what goes up?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><b>Constraints go down</b> (parent limits child), <b>sizes go up</b> (child reports its size back).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Name two ways to manage App State in Flutter.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Any two of: Provider, BLoC, Riverpod.</div>
   </div>
 </div>
@@ -944,5 +973,25 @@
 
 <footer>bmit2073 &middot; chapter 1.1 &middot; introduction to mobile app development &middot; study guide</footer>
 
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
 </body>
 </html>

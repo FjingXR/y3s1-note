@@ -704,19 +704,19 @@
 
   <div class="q-item">
     <div class="q-text">P1. Which app type has the lowest development cost but the worst device access?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Mobile web — low cost, very limited access to device features, no app store distribution.</div>
   </div>
 
   <div class="q-item">
     <div class="q-text">P2. What is the difference between the "Paused" and "Detached" states in Flutter?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Paused = app is in background but still in memory. Detached = app is no longer attached to any view and is fully detached.</div>
   </div>
 
   <div class="q-item">
     <div class="q-text">P3. Why would a shopping mall app use hybrid instead of native?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Lower cost (single codebase), good enough performance for a non-game app, still available on app stores.</div>
   </div>
 </div>
@@ -980,25 +980,25 @@
 
   <div class="q-item">
     <div class="q-text">P1. Which widget type should you use for a label that never changes? Why?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">StatelessWidget — it is immutable and does not need setState(). The label never changes, so there's no need for a mutable State object.</div>
   </div>
 
   <div class="q-item">
     <div class="q-text">P2. What is the "stack" in Flutter navigation? Give an example.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">A stack is the navigation history. When you push Screen2 on top of Screen1, the stack is [Screen1, Screen2]. When you pop Screen2, you go back to Screen1.</div>
   </div>
 
   <div class="q-item">
     <div class="q-text">P3. You are building a to-do list app. The current selected tab is ephemeral state. What would be an example of app state in this app?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">The list of to-do items and user login info are app state — they need to be shared across screens and persist between sessions.</div>
   </div>
 
   <div class="q-item">
     <div class="q-text">P4. Why is using WebP better than PNG for mobile apps?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">WebP files are smaller than PNG for the same quality, which reduces download time and storage usage on mobile devices.</div>
   </div>
 </div>
@@ -1053,6 +1053,11 @@
 <footer>bmit2073 · mock written test · understanding phase</footer>
 
 <script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
 function toggleTheme(){
   var h=document.documentElement;
   h.classList.toggle('light');
