@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 2 — Routes, Navigation & App Lifecycle | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .callout{background:var(--panel);}
+  html.light .card{background:var(--panel);}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ===== TOP NAV ===== */
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  /* lifecycle animation */
+  .track{
+    max-width:520px;
+    margin:40px auto 0;
+    position:relative;
+    height:70px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .lc-label{
+    font-family:var(--mono);
+    font-size:10px;
+    fill:var(--sub);
+  }
+  .lc-box{rx:6; ry:6;}
+
+  /* ===== SECTIONS ===== */
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{
+    font-size:26px;
+    margin:0 0 6px;
+    font-weight:700;
+  }
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  /* CLI blocks */
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  /* comparison table */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+
+  /* type cards */
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card h4{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
+  }
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+
+  /* callout boxes */
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout p{margin:0;color:var(--text);}
+
+  /* flow steps */
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  /* practice questions */
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:none;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.show{display:block;}
+
+  /* summary box */
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  /* footer */
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  /* module tag pill */
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  /* theme toggle */
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* collapsible sections */
+  .collapsible-section > :nth-child(n+3){display:block;}
+  .collapsible-section.collapsed > :nth-child(n+3){display:none;}
+  .toggle-btn{
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:1px 8px;
+    border-radius:4px;
+    cursor:pointer;
+    vertical-align:middle;
+    margin-left:8px;
+    transition:0.2s;
+  }
+  .toggle-btn:hover{color:var(--accent);border-color:var(--accent);}
+
+  /* stack diagram */
+  .stack-diagram{
+    display:flex;
+    gap:0;
+    margin:20px 0;
+    overflow-x:auto;
+    padding-bottom:8px;
+  }
+  .stack-screen{
+    flex:0 0 auto;
+    min-width:120px;
+    padding:12px 16px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    background:var(--panel);
+    position:relative;
+  }
+  .stack-screen.active{border-color:var(--accent);color:var(--accent);background:rgba(124,140,255,0.06);}
+  .stack-screen .label{display:block;margin-bottom:4px;font-weight:700;color:var(--text);}
+  .stack-arrow{
+    flex:0 0 40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--sub);
+    font-size:18px;
+    font-family:var(--mono);
+  }
+
+  /* lifecycle state boxes */
+  .lc-flow{
+    display:flex;
+    gap:8px;
+    margin:20px 0;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .lc-state{
+    flex:1;
+    min-width:140px;
+    padding:14px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    text-align:center;
+    background:var(--panel);
+    border-top:3px solid var(--accent);
+  }
+  .lc-state.resumed{border-top-color:var(--green);}
+  .lc-state.inactive{border-top-color:var(--amber);}
+  .lc-state.paused{border-top-color:var(--pink);}
+  .lc-state.detached{border-top-color:var(--danger);}
+  .lc-state .state-name{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:4px;
+  }
+  .lc-state .state-desc{font-size:12px;color:var(--sub);}
+  .lc-arrow{
+    display:flex;
+    align-items:center;
+    color:var(--sub);
+    font-size:16px;
+    font-family:var(--mono);
+  }
+
+  /* ---------- MOBILE VIEW ---------- */
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:70%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    details summary{padding:12px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .stack-diagram{flex-direction:column;gap:4px;}
+    .stack-arrow{transform:rotate(90deg);flex:0 0 30px;}
+    .lc-flow{flex-direction:column;gap:6px;}
+    .lc-arrow{justify-content:center;transform:rotate(90deg);flex:0 0 24px;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch2/&gt;</span>
+  <a href="#routes">Routes</a>
+  <a href="#navigator">Navigator</a>
+  <a href="#push-pop">Push/Pop</a>
+  <a href="#send-data">Send Data</a>
+  <a href="#return-data">Return Data</a>
+  <a href="#shared-state">Shared State</a>
+  <a href="#deep-linking">Deep Linking</a>
+  <a href="#lifecycle">Lifecycle</a>
+  <a href="#summary">Summary</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Chapter 2 · App Lifecycle</span>
+  <h1>Chapter 2 — Routes, Navigation & App Lifecycle</h1>
+  <p class="lead">How Flutter moves between screens, passes data, and manages app lifecycle states. Built from lecture slides, designed for quick revision.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 520 70">
+      <text x="60" y="18" class="lc-label" text-anchor="middle">Resumed</text>
+      <rect x="20" y="24" width="80" height="36" class="lc-box" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+
+      <text x="180" y="18" class="lc-label" text-anchor="middle">Inactive</text>
+      <rect x="138" y="24" width="80" height="36" class="lc-box" fill="none" stroke="#f5a623" stroke-width="1.5"/>
+
+      <text x="300" y="18" class="lc-label" text-anchor="middle">Paused</text>
+      <rect x="266" y="24" width="80" height="36" class="lc-box" fill="none" stroke="#ff7eb3" stroke-width="1.5"/>
+
+      <text x="420" y="18" class="lc-label" text-anchor="middle">Detached</text>
+      <rect x="386" y="24" width="80" height="36" class="lc-box" fill="none" stroke="#ff6b6b" stroke-width="1.5"/>
+
+      <line x1="100" y1="42" x2="138" y2="42" stroke="#2a3441" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+      <line x1="218" y1="42" x2="266" y2="42" stroke="#2a3441" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+      <line x1="346" y1="42" x2="386" y2="42" stroke="#2a3441" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2a3441"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ ROUTES ============ -->
+<section id="routes" class="collapsible-section">
+<span class="modpill">MODULE 2</span>
+<h2>What are routes? <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>In Flutter, every screen (page) you see is called a <b style="color:var(--text)">route</b>. A route is just a widget. When you move from one screen to another, you are navigating between routes.</p>
+
+<h3>Routes across platforms</h3>
+<table>
+  <tr><th>Platform</th><th>What a "screen" is called</th><th>Example</th></tr>
+  <tr><td><b>Flutter</b></td><td>Route (widget)</td><td><code>MaterialPageRoute</code></td></tr>
+  <tr><td><b>Android</b></td><td>Activity</td><td><code>MainActivity</code></td></tr>
+  <tr><td><b>iOS</b></td><td>ViewController</td><td><code>UIViewController</code></td></tr>
+</table>
+
+<div class="callout note">
+  <b>Key idea</b>
+  <p>In Flutter, you do not create "Activities" or "ViewControllers". You create a <b>Widget</b> and the Navigator shows it as a new screen.</p>
+</div>
+
+<div class="cli">
+<span class="cmt">// A route is just a widget in a MaterialPageRoute</span>
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => <span class="hi">SecondScreen()</span>),
+);
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What is a route in Flutter?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">A route is a screen/page in the app. In Flutter, a route is a widget shown by the Navigator.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What is Android's equivalent of a Flutter route?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">An Activity (e.g. <code>MainActivity</code>).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ NAVIGATOR STACK ============ -->
+<section id="navigator" class="collapsible-section">
+<span class="eyebrow">Navigation</span>
+<h2>The Navigator stack <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>The <b style="color:var(--text)">Navigator</b> keeps screens in a <b>stack</b> (like a pile of plates). When you open a new screen, it goes on top. When you go back, the top screen is removed.</p>
+
+<div class="stack-diagram">
+  <div class="stack-screen">
+    <span class="label">Screen 1</span>
+    Home
+  </div>
+  <div class="stack-arrow">&rarr;</div>
+  <div class="stack-screen">
+    <span class="label">Screen 2</span>
+    Detail
+  </div>
+  <div class="stack-arrow">&rarr;</div>
+  <div class="stack-screen active">
+    <span class="label">Screen 3</span>
+    Settings
+  </div>
+</div>
+
+<p style="font-size:13px;color:var(--sub);">↑ Screen 3 is on top (visible). Screen 2 is behind it. Screen 1 is at the bottom. When Screen 3 pops, Screen 2 becomes visible again.</p>
+
+<h3>Key Navigator methods</h3>
+<table>
+  <tr><th>Method</th><th>What it does</th></tr>
+  <tr><td><code>Navigator.push()</code></td><td>Adds a new screen on top of the stack</td></tr>
+  <tr><td><code>Navigator.pop()</code></td><td>Removes the top screen (goes back)</td></tr>
+  <tr><td><code>Navigator.popUntil()</code></td><td>Goes back to a specific screen in the stack</td></tr>
+  <tr><td><code>Navigator.pushReplacement()</code></td><td>Replaces current screen instead of adding on top</td></tr>
+</table>
+
+<div class="callout tip">
+  <b>Stack rule</b>
+  <p>You can only see the <b>top</b> screen. You can only go back by <b>popping</b> the top. You cannot jump to the middle of the stack directly (use <code>popUntil</code> for that).</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What data structure does Navigator use to manage screens?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">A stack (last-in, first-out). Screens are pushed on top and popped from the top.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What happens when you call <code>Navigator.pop()</code>?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">The top screen is removed from the stack. The previous screen becomes visible again.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PUSH / POP ============ -->
+<section id="push-pop" class="collapsible-section">
+<span class="eyebrow">Navigation</span>
+<h2>Navigator.push() and Navigator.pop() <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<h3>Navigator.push()</h3>
+<p>Opens a new screen. You must provide a <code>MaterialPageRoute</code> with the target widget.</p>
+
+<div class="cli">
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => <span class="hi">DetailScreen()</span>,
+  ),
+);
+</div>
+
+<ul>
+  <li><code>context</code> — the current screen's position in the widget tree</li>
+  <li><code>MaterialPageRoute</code> — provides the slide animation (left to right on Android, bottom to top on iOS)</li>
+  <li><code>builder</code> — a function that returns the new screen widget</li>
+</ul>
+
+<h3>Navigator.pop()</h3>
+<p>Closes the current screen and goes back to the previous one.</p>
+
+<div class="cli">
+Navigator.pop(context);
+</div>
+
+<div class="callout warn">
+  <b>Common mistake</b>
+  <p>Forgetting to pass <code>context</code> to <code>pop()</code>. Without it, Flutter does not know which Navigator to use.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. Write the code to push a new screen called <code>ProfileScreen</code>.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer"><code>Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));</code></div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What animation does MaterialPageRoute provide on Android?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">A slide from left to right. On iOS, it slides from bottom to top.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SEND DATA ============ -->
+<section id="send-data" class="collapsible-section">
+<span class="eyebrow">Data Passing</span>
+<h2>Send data between screens <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>You can pass data from one screen to another by sending it through the <b>constructor</b> of the target widget.</p>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Main Screen (sender)</h4>
+    <p>Creates the target widget and passes data as a constructor argument.</p>
+    <div class="cli">Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => <span class="hi">TodoScreen(
+      todo: Todo('Buy milk', 'Low'),
+    )</span>,
+  ),
+);</div>
+  </div>
+  <div class="card green">
+    <h4>Detail Screen (receiver)</h4>
+    <p>Receives the data in its constructor and uses it.</p>
+    <div class="cli">class TodoScreen extends StatelessWidget {
+  final Todo <span class="hi">todo</span>;
+  const TodoScreen({required this.todo});
+
+  Widget build(BuildContext context) {
+    return Text(todo.title);
+  }
+}</div>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Main screen creates a <code>Todo</code> object with data (title, priority).</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Main screen calls <code>Navigator.push()</code> and passes the <code>Todo</code> object to the detail screen's constructor.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">Detail screen receives the <code>Todo</code> in its <code>todo</code> parameter.</div></div>
+  <div class="flowstep"><div class="num">4</div><div class="txt">Detail screen displays <code>todo.title</code> and <code>todo.priority</code>.</div></div>
+</div>
+
+<div class="callout note">
+  <b>Exam tip</b>
+  <p>Data passing uses <b>constructor injection</b> — you pass the data as a parameter when creating the widget. This is the simplest and most common way to pass data in Flutter.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. How do you pass a string <code>userName</code> to a <code>ProfileScreen</code>?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer"><code>Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(name: userName)));</code> — and <code>ProfileScreen</code> must have a constructor that accepts <code>name</code>.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What is the technical name for this data passing pattern?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Constructor injection — passing data as constructor parameters.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ RETURN DATA ============ -->
+<section id="return-data" class="collapsible-section">
+<span class="eyebrow">Data Passing</span>
+<h2>Return data from a screen <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>Sometimes you need the second screen to send data back to the first screen (e.g. user selects an item and the first screen needs to know which one).</p>
+
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Screen A pushes Screen B using <code>Navigator.push()</code>.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Screen B does some work (e.g. user picks an option).</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">Screen B calls <code>Navigator.pop(context, <b>'Returned Data'</b>)</code> — the second argument is the data to send back.</div></div>
+  <div class="flowstep"><div class="num">4</div><div class="txt">Screen A receives the data using <code>.then()</code> callback.</div></div>
+</div>
+
+<h3>Code example — Screen B (sender)</h3>
+<div class="cli">
+ElevatedButton(
+  onPressed: () {
+    Navigator.pop(context, <span class="hi">'Yes, I confirm'</span>);
+  },
+  child: Text('Confirm'),
+),
+</div>
+
+<h3>Code example — Screen A (receiver)</h3>
+<div class="cli">
+final result = await Navigator.push&lt;String&gt;(
+  context,
+  MaterialPageRoute(builder: (context) => ConfirmScreen()),
+);
+
+if (result != null) {
+  print('User said: $result');
+}
+</div>
+
+<div class="callout tip">
+  <b>Alternative: .then() callback</b>
+  <p>You can also use <code>Navigator.push(...).then((value) { ... })</code> if you don't want to use <code>async/await</code>.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What method sends data back from Screen B to Screen A?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer"><code>Navigator.pop(context, data)</code> — the second argument is the data you want to return.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. How does Screen A receive the returned data?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Using <code>await Navigator.push&lt;String&gt;(context, ...)</code> or using <code>.then((value) { ... })</code>.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SHARED STATE ============ -->
+<section id="shared-state" class="collapsible-section">
+<span class="eyebrow">State Management</span>
+<h2>Shared state with Provider <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>When multiple screens need to share the same data (e.g. a shopping cart), passing data via constructors becomes messy. <b style="color:var(--text)">Provider</b> solves this by giving all screens access to the same data.</p>
+
+<h3>How Provider works</h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt"><b>ChangeNotifier</b> — a class that holds the shared data and notifies listeners when data changes.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt"><b>ChangeNotifierProvider</b> — wraps the app and creates the ChangeNotifier instance at the top.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt"><b>Consumer</b> — any screen can use a Consumer to listen to changes and rebuild its UI.</div></div>
+</div>
+
+<h3>Code example</h3>
+<div class="cli">
+<span class="cmt">// 1. Create a ChangeNotifier</span>
+class CartProvider extends ChangeNotifier {
+  final List&lt;Item&gt; items = [];
+  void add(Item item) {
+    items.add(item);
+    <span class="hi">notifyListeners()</span>;  <span class="cmt">// tells all Consumers to rebuild</span>
+  }
+}
+
+<span class="cmt">// 2. Wrap the app with Provider</span>
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartProvider(),
+      child: MyApp(),
+    ),
+  );
+}
+
+<span class="cmt">// 3. Any screen can access the shared data</span>
+Consumer&lt;CartProvider&gt;(
+  builder: (context, cart, child) {
+    return Text('Items: ${cart.items.length}');
+  },
+),
+</div>
+
+<div class="callout note">
+  <b>Provider vs Navigator passing</b>
+  <p>Navigator passing = one-time, point A to point B. Provider = shared, real-time, any screen can read/write the same data.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. When should you use Provider instead of passing data via Navigator?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">When multiple screens need to share and update the same data (e.g. shopping cart, user profile, theme settings).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What does <code>notifyListeners()</code> do?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">It tells all Consumer widgets to rebuild their UI with the updated data.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DEEP LINKING ============ -->
+<section id="deep-linking" class="collapsible-section">
+<span class="eyebrow">Navigation</span>
+<h2>Deep linking <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p><b style="color:var(--text)">Deep linking</b> lets users open a specific screen inside your app directly, instead of always starting from the home screen. For example, clicking a link opens the app directly at a product page.</p>
+
+<h3>Deep linking by platform</h3>
+<table>
+  <tr><th>Platform</th><th>Term</th><th>How it works</th></tr>
+  <tr><td><b>Android</b></td><td>App Links</td><td>URL maps to a specific Activity/screen via intent filters in AndroidManifest.xml</td></tr>
+  <tr><td><b>iOS</b></td><td>Universal Links</td><td>URL maps to a specific screen via associated domains in the Apple app site association file</td></tr>
+  <tr><td><b>Flutter</b></td><td>go_router / auto_route</td><td>Flutter packages that handle URL parsing and map URLs to routes</td></tr>
+</table>
+
+<div class="callout note">
+  <b>Exam tip</b>
+  <p>Deep linking is like a shortcut. Instead of: Open app → Home → Menu → Product → Item, the user clicks a link and goes directly to: Open app → Item.</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What is deep linking?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">The ability to open a specific screen inside an app directly from a URL or link, skipping the home screen.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What is the Android term for deep linking?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">App Links.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ LIFECYCLE ============ -->
+<section id="lifecycle" class="collapsible-section">
+<span class="modpill">MODULE 2</span>
+<h2>App lifecycle states <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>When a user opens, switches away from, or closes your app, the app moves through different <b style="color:var(--text)">lifecycle states</b>. Knowing these states helps you manage resources (pause videos, save data, stop network requests).</p>
+
+<h3>The 4 primary states</h3>
+<div class="lc-flow">
+  <div class="lc-state resumed">
+    <div class="state-name">Resumed</div>
+    <div class="state-desc">Visible &amp; active</div>
+  </div>
+  <div class="lc-arrow">&rarr;</div>
+  <div class="lc-state inactive">
+    <div class="state-name">Inactive</div>
+    <div class="state-desc">Brief transition</div>
+  </div>
+  <div class="lc-arrow">&rarr;</div>
+  <div class="lc-state paused">
+    <div class="state-name">Paused</div>
+    <div class="state-desc">In background</div>
+  </div>
+  <div class="lc-arrow">&rarr;</div>
+  <div class="lc-state detached">
+    <div class="state-name">Detached</div>
+    <div class="state-desc">Not attached</div>
+  </div>
+</div>
+
+<h3>State details</h3>
+<table>
+  <tr><th>State</th><th>Visible?</th><th>What happens</th><th>What you should do</th></tr>
+  <tr><td><b style="color:var(--green)">Resumed</b></td><td>Yes</td><td>App is in the foreground, user can interact</td><td>Play animations, fetch data, enable input</td></tr>
+  <tr><td><b style="color:var(--amber)">Inactive</b></td><td>Partially</td><td>Brief transition (e.g. incoming call dialog, app switcher)</td><td>Pause animations, reduce activity</td></tr>
+  <tr><td><b style="color:var(--pink)">Paused</b></td><td>No</td><td>App is in background, not visible to user</td><td>Pause videos, save user data, stop network requests</td></tr>
+  <tr><td><b style="color:var(--danger)">Detached</b></td><td>No</td><td>App is not attached to any engine (being destroyed)</td><td>Clean up resources, persist critical data</td></tr>
+</table>
+
+<div class="callout warn">
+  <b>Exam question (from mock test!)</b>
+  <p>The mock test asks: "Identify the 4 primary states in Flutter app lifecycle and provide a task example for each." This is worth <b>8 marks</b>. Memorize the table above.</p>
+</div>
+
+<h3>Task examples for each state</h3>
+<div class="flow">
+  <div class="flowstep"><div class="num" style="background:rgba(62,207,142,0.1);border-color:var(--green);color:var(--green);">R</div><div class="txt"><b>Resumed</b> — play a video, start a timer, fetch latest data from API, show animations.</div></div>
+  <div class="flowstep"><div class="num" style="background:rgba(245,166,35,0.1);border-color:var(--amber);color:var(--amber);">I</div><div class="txt"><b>Inactive</b> — pause a game, stop a countdown, reduce frame rate.</div></div>
+  <div class="flowstep"><div class="num" style="background:rgba(255,126,179,0.1);border-color:var(--pink);color:var(--pink);">P</div><div class="txt"><b>Paused</b> — pause music, save current progress to local storage, stop GPS tracking.</div></div>
+  <div class="flowstep"><div class="num" style="background:rgba(255,107,107,0.1);border-color:var(--danger);color:var(--danger);">D</div><div class="txt"><b>Detached</b> — close database connections, save unsaved data, release camera/sensor resources.</div></div>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. List the 4 Flutter app lifecycle states.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Resumed, Inactive, Paused, Detached.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. When the user switches to another app, which state does your app enter?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">First Inactive (brief transition), then Paused (background).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q3. Give one task example for the Paused state.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Pause music, save user progress, stop GPS tracking, close network connections.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ LISTENER ============ -->
+<section id="listener" class="collapsible-section">
+<span class="eyebrow">Lifecycle</span>
+<h2>AppLifecycleListener <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<p>Flutter provides the <code>AppLifecycleListener</code> class to watch for lifecycle changes. You can run code when the app enters each state.</p>
+
+<h3>Code example</h3>
+<div class="cli">
+class _MyAppState extends State&lt;MyApp&gt; {
+  late final AppLifecycleListener _listener;
+
+  @override
+  void initState() {
+    super.initState();
+    _listener = AppLifecycleListener(
+      <span class="hi">onShow</span>: () =&gt; print('App visible'),
+      <span class="hi">onResume</span>: () =&gt; print('App resumed'),
+      <span class="hi">onHide</span>: () =&gt; print('App hidden'),
+      <span class="hi">onInactive</span>: () =&gt; print('App inactive'),
+      <span class="hi">onPause</span>: () =&gt; print('App paused'),
+      <span class="hi">onDetach</span>: () =&gt; print('App detached'),
+      <span class="hi">onRestart</span>: () =&gt; print('App restarted'),
+    );
+  }
+
+  @override
+  void dispose() {
+    _listener.dispose();
+    super.dispose();
+  }
+}
+</div>
+
+<div class="callout tip">
+  <b>Exam tip</b>
+  <p>You don't need to memorize every callback name. Just know that <code>AppLifecycleListener</code> exists and has callbacks for each lifecycle state (onResume, onPause, onDetach, etc.).</p>
+</div>
+
+<div class="quiz-box">
+  <h4>Practice questions</h4>
+  <div class="q-item">
+    <div class="q-text">Q1. What class do you use to listen to lifecycle changes in Flutter?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer"><code>AppLifecycleListener</code>.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Q2. What callback runs when the app goes to the background?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer"><code>onPause</code> (and <code>onHide</code> for visibility changes).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary" class="collapsible-section">
+<span class="eyebrow">Revision</span>
+<h2>Chapter 2 — exam cheat sheet <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<h3>Key concepts to remember</h3>
+<table>
+  <tr><th>Concept</th><th>Summary</th></tr>
+  <tr><td>Route</td><td>A screen/page in Flutter = a widget. Android calls it Activity, iOS calls it ViewController.</td></tr>
+  <tr><td>Navigator stack</td><td>Screens are managed as a stack. Push adds on top, pop removes from top.</td></tr>
+  <tr><td>Navigator.push()</td><td>Opens a new screen. Uses MaterialPageRoute for transitions.</td></tr>
+  <tr><td>Navigator.pop()</td><td>Closes the current screen. Can return data as a second argument.</td></tr>
+  <tr><td>Send data</td><td>Pass data via the target widget's constructor (constructor injection).</td></tr>
+  <tr><td>Return data</td><td>Use <code>Navigator.pop(context, data)</code> and receive with <code>await</code> or <code>.then()</code>.</td></tr>
+  <tr><td>Shared state</td><td>Use Provider (ChangeNotifier + Consumer) when multiple screens share data.</td></tr>
+  <tr><td>Deep linking</td><td>Open a specific screen directly from a URL. Android = App Links, iOS = Universal Links.</td></tr>
+  <tr><td>Lifecycle states</td><td>Resumed, Inactive, Paused, Detached — manage resources based on state.</td></tr>
+  <tr><td>AppLifecycleListener</td><td>Class with callbacks (onResume, onPause, onDetach) to react to lifecycle changes.</td></tr>
+</table>
+
+<div class="summary">
+  <h4>One-paragraph recap</h4>
+  <ul>
+    <li>Every screen in Flutter is a <b>route</b> (a widget). The Navigator manages routes as a <b>stack</b>.</li>
+    <li><code>Navigator.push()</code> opens a new screen; <code>Navigator.pop()</code> closes the current one.</li>
+    <li>Pass data to a new screen via its <b>constructor</b>. Return data using <code>Navigator.pop(context, data)</code>.</li>
+    <li>For shared data across screens, use <b>Provider</b> (ChangeNotifier + Consumer pattern).</li>
+    <li><b>Deep linking</b> lets users open a specific screen directly from a URL (App Links on Android, Universal Links on iOS).</li>
+    <li>The app has <b>4 lifecycle states</b>: Resumed (visible, active), Inactive (brief transition), Paused (background), Detached (destroyed).</li>
+    <li>Use <code>AppLifecycleListener</code> to run code when lifecycle states change (onResume, onPause, onDetach).</li>
+  </ul>
+</div>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+  <li>Forgetting <code>context</code> in <code>Navigator.push()</code> or <code>Navigator.pop()</code>.</li>
+  <li>Not disposing resources (videos, streams, listeners) when the app goes to Paused or Detached.</li>
+  <li>Trying to update UI from a lifecycle callback without using <code>setState()</code> or Provider.</li>
+  <li>Confusing Inactive (brief transition) with Paused (background) — Inactive is temporary, Paused is sustained.</li>
+  <li>Assuming deep linking works automatically — you must configure it per platform (Android intent filters, iOS associated domains).</li>
+</ul>
+</section>
+
+</div>
+
+<footer>bmit2073 &middot; chapter 2 &middot; app lifecycle &middot; study guide</footer>
+
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
+function toggleSection(b){
+  var s=b.closest('.collapsible-section');
+  s.classList.toggle('collapsed');
+  b.textContent=s.classList.contains('collapsed')?'show':'hide';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>

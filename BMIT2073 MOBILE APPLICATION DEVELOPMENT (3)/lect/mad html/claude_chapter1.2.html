@@ -21,6 +21,20 @@
     --pink:#ff7eb3;
     --danger:#ff6b6b;
   }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -305,7 +319,7 @@
   }
   .q-toggle:hover{color:var(--text);border-color:var(--sub);}
   .q-answer{
-    display:block;
+    display:none;
     margin-top:8px;
     padding:10px 12px;
     background:var(--panel2);
@@ -314,7 +328,7 @@
     font-size:13.5px;
     color:#c3cbd6;
   }
-  .q-answer.hide{display:none;}
+  .q-answer.show{display:block;}
   .q-answer ul{margin:4px 0 0;padding-left:16px;}
   .q-answer li{margin-bottom:3px;}
   .q-answer .cli{margin:8px 0 0;}
@@ -444,6 +458,37 @@
     h3{font-size:1rem;}
     .q-toggle{font-size:13px;padding:8px 4px;}
   }
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  .collapsible-section > :nth-child(n+3){display:block;}
+  .collapsible-section.collapsed > :nth-child(n+3){display:none;}
+  .toggle-btn{
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:1px 8px;
+    border-radius:4px;
+    cursor:pointer;
+    vertical-align:middle;
+    margin-left:8px;
+    transition:0.2s;
+  }
+  .toggle-btn:hover{color:var(--accent);border-color:var(--accent);}
 </style>
 </head>
 <body>
@@ -457,6 +502,7 @@
   <a href="#control-flow">Control Flow</a>
   <a href="#functions">Functions</a>
   <a href="#summary">Summary</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
 </div>
 
 <div class="hero">
@@ -562,17 +608,17 @@ void main() {
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which company created Dart?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Google.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What function must every Dart program have to run?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>void main()</code> — this is the entry point (starting point) of the program.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What does "strongly typed" mean?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">Every variable has a fixed data type (like int or String) that Dart checks — this helps catch mistakes before running the program.</div>
   </div>
 </div>
@@ -670,17 +716,17 @@ var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Write a nullable String variable called "nickname" with no value yet.</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>String? nickname = null;</code></div>
   </div>
   <div class="q-item">
     <div class="q-text">What type does Dart infer for <code>var score = 95;</code>?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>int</code> — because 95 is a whole number.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Can you assign a String to a variable declared with <code>var</code> after it was first set to an int?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">No. Once <code>var</code> infers a type (e.g. int), the variable keeps that type — you cannot later put a String in it.</div>
   </div>
 </div>
@@ -731,17 +777,17 @@ bool isNightTime = false;</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which data type should you use to store a person's age (whole number only)?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>int</code> — ages are whole numbers, no decimals needed.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which data type stores true/false values?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>bool</code> (Boolean).</div>
   </div>
   <div class="q-item">
     <div class="q-text">What is the supertype that can hold both int and double values?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>num</code>.</div>
   </div>
 </div>
@@ -811,19 +857,19 @@ bool isNightTime = false;</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Write a for-in loop that prints every item in a list called "fruits".</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><div class="cli">for (final fruit in fruits) {
   print(fruit);
 }</div></div>
   </div>
   <div class="q-item">
     <div class="q-text">What is the difference between a for loop and a while loop?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">A for loop is best when you know the number of repeats in advance. A while loop repeats as long as a condition is true — you may not know the exact count ahead of time.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What keyword starts an "otherwise, if this is true" branch in Dart?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>else if</code>.</div>
   </div>
 </div>
@@ -931,17 +977,17 @@ var result = fibonacci(20);</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Convert this to arrow syntax: <code>int square(int n) { return n * n; }</code></div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>int square(int n) => n * n;</code></div>
   </div>
   <div class="q-item">
     <div class="q-text">In the fibonacci function, what is the base case?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer"><code>if (n == 0 || n == 1) return n;</code> — this stops the recursion from calling itself forever.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What does <code>.forEach(print)</code> do to a list?</div>
-    <button class="q-toggle" onclick="this.nextElementSibling.classList.toggle('hide')">Hide answer</button>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
     <div class="q-answer">It runs <code>print()</code> on every single item in the list, one by one.</div>
   </div>
 </div>
@@ -994,5 +1040,30 @@ var result = fibonacci(20);</div>
 
 <footer>bmit2073 &middot; chapter 1.2 &middot; introduction to dart &middot; study guide</footer>
 
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
+function toggleSection(b){
+  var s=b.closest('.collapsible-section');
+  s.classList.toggle('collapsed');
+  b.textContent=s.classList.contains('collapsed')?'show':'hide';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
 </body>
 </html>
