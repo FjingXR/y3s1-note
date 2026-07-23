@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 5 — Storage | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding-bottom:80px;}
+  ::selection{background:var(--accent);color:#fff;}
+  .navbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .navbar .brand{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--accent);margin-right:12px;white-space:nowrap;}
+  .navbar .back{font-family:var(--mono);font-size:12px;color:var(--sub);text-decoration:none;padding:4px 10px;border:1px solid var(--line);border-radius:6px;margin-right:8px;white-space:nowrap;}
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{font-size:12.5px;color:var(--sub);text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid transparent;white-space:nowrap;}
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .hero{padding:56px 24px 40px;max-width:900px;margin:0 auto;text-align:center;}
+  .hero .tag{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--accent);background:rgba(124,140,255,0.1);border:1px solid rgba(124,140,255,0.3);padding:4px 12px;border-radius:20px;margin-bottom:18px;}
+  .hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px;font-weight:700;letter-spacing:-0.5px;}
+  .hero p.lead{color:var(--sub);font-size:16px;max-width:600px;margin:0 auto;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+  h2 span.mod{color:var(--sub);font-weight:400;font-size:15px;display:block;margin-top:4px;}
+  h3{font-size:18px;margin:32px 0 12px;font-weight:700;color:var(--text);border-left:3px solid var(--accent);padding-left:10px;}
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{font-family:var(--mono);background:var(--panel2);padding:2px 6px;border-radius:4px;font-size:13px;color:#ffd479;border:1px solid var(--line);}
+  .slideref{font-family:var(--mono);font-size:12px;color:var(--sub);margin:-2px 0 18px;}
+  .slideref b{color:var(--amber);font-weight:600;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--sub);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;background:var(--panel);}
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  th.h-blue{color:var(--blue);}
+  th.h-amber{color:var(--amber);}
+  th.h-green{color:var(--green);}
+  th.h-pink{color:var(--pink);}
+  th.h-danger{color:var(--danger);}
+  .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:20px 0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;border-top:3px solid var(--accent);}
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card h4{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card ul{margin:8px 0 0;padding-left:16px;}
+  .card li{font-size:13px;color:var(--sub);margin-bottom:3px;}
+  .callout{border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14px;border-left:3px solid;}
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout.find{background:rgba(245,166,35,0.08);border-color:var(--amber);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout.find b{color:var(--amber);}
+  .callout p{margin:0;color:var(--text);}
+  .flow{margin:20px 0;}
+  .flowstep{display:flex;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line);}
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700;}
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+  .quiz-box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:20px 0;}
+  .quiz-box h4{margin:0 0 12px;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .quiz-box h4 .toggle-all{font-family:var(--mono);font-size:11px;color:var(--sub);cursor:pointer;background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;user-select:none;text-transform:none;letter-spacing:0;}
+  .quiz-box h4 .toggle-all:hover{color:var(--text);border-color:var(--sub);}
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;font-weight:600;}
+  .q-toggle{font-family:var(--mono);font-size:12px;color:var(--sub);cursor:pointer;background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;user-select:none;}
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{display:none;margin-top:8px;padding:10px 12px;background:var(--panel2);border-left:2px solid var(--green);border-radius:0 6px 6px 0;font-size:13.5px;color:#c3cbd6;}
+  .q-answer.show{display:block;}
+  .q-answer ul{margin:4px 0 0;padding-left:16px;}
+  .q-answer li{margin-bottom:3px;}
+  .summary{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:24px;}
+  .summary h4{margin:0 0 10px;font-size:14px;color:var(--green);text-transform:uppercase;letter-spacing:0.5px;}
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+  .arch{display:flex;flex-direction:column;gap:6px;margin:20px 0;}
+  .arch-layer{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
+  .arch-layer .name{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);}
+  .arch-layer .desc{font-size:13px;color:var(--sub);text-align:right;}
+  .arch-layer.t1{background:rgba(124,140,255,0.06);border-color:rgba(124,140,255,0.3);}
+  .arch-layer.t2{background:rgba(255,126,179,0.06);border-color:rgba(255,126,179,0.3);}
+  .arch-layer.t3{background:rgba(77,163,255,0.06);border-color:rgba(77,163,255,0.3);}
+  footer{text-align:center;padding:40px 20px 20px;color:var(--sub);font-size:12.5px;font-family:var(--mono);}
+  .modpill{display:inline-block;font-family:var(--mono);font-size:11px;background:var(--panel2);border:1px solid var(--line);color:var(--sub);padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+  .examtag{display:inline-block;font-family:var(--mono);font-size:10.5px;background:rgba(255,107,107,0.12);border:1px solid rgba(255,107,107,0.35);color:var(--danger);padding:2px 8px;border-radius:12px;margin-left:8px;vertical-align:middle;}
+  .collapsible-section > :nth-child(n+3){display:block;}
+  .collapsible-section.collapsed > :nth-child(n+3){display:none;}
+  .toggle-btn{font-family:var(--mono);font-size:11px;background:var(--panel2);border:1px solid var(--line);color:var(--sub);padding:1px 8px;border-radius:4px;cursor:pointer;vertical-align:middle;margin-left:8px;transition:0.2s;}
+  .toggle-btn:hover{color:var(--accent);border-color:var(--accent);}
+  .theme-toggle{font-family:var(--mono);font-size:14px;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:4px 10px;border-radius:6px;cursor:pointer;line-height:1;transition:0.2s;user-select:none;}
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .arch-layer{flex-direction:column;text-align:center;gap:4px;}
+    .arch-layer .desc{text-align:center;}
+    .quiz-box h4{flex-direction:column;align-items:flex-start;}
+  }
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+  .ds-badge{
+    font-family:var(--mono);
+    font-size:9.5px;
+    background:rgba(124,140,255,0.12);
+    border:1px solid rgba(124,140,255,0.25);
+    color:var(--accent);
+    padding:1px 7px;
+    border-radius:10px;
+    letter-spacing:0.3px;
+    margin-left:8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;C5/&gt;<span class="ds-badge">DeepSeek</span></span>
+  <a href="#building-blocks">Building Blocks</a>
+  <a href="#media">Storage Media</a>
+  <a href="#raid">RAID</a>
+  <a href="#data-services">Data Services</a>
+  <a href="#network">Network Storage</a>
+  <a href="#availability">Availability</a>
+  <a href="#backup">Backup</a>
+  <a href="#performance">Performance</a>
+  <a href="#security">Security</a>
+  <a href="#summary">Summary</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIS2113 &middot; Chapter 5 &middot; Storage</span>
+  <h1>Chapter 5 &mdash; Storage</h1>
+  <p class="lead">Everything about how data is stored, protected, and secured in IT infrastructure. From hard disks to RAID, backups to encryption.</p>
+</div>
+
+<div class="wrap">
+
+<!-- ============ BUILDING BLOCKS ============ -->
+<section id="building-blocks" class="collapsible-section collapsed">
+<span class="modpill">MODULE 5.1</span>
+<h2>Storage building blocks <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>12&ndash;16</b></p>
+<p>Every IT system stores data. Before understanding complex storage, you need to know the basic building blocks.</p>
+
+<h3>Q1. What is the storage model?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">The storage model shows how infrastructure is organized:</p>
+    <ul>
+      <li><b>Functional Management</b> &mdash; process/information layer</li>
+      <li><b>Application Management</b> &mdash; application layer</li>
+      <li><b>Platform Management</b> &mdash; application platform</li>
+      <li><b>Infrastructure Management</b> &mdash; compute, storage, networking, datacentres</li>
+    </ul>
+    <p style="margin:8px 0 0;">Storage sits at the infrastructure layer &mdash; it's the foundation everything else builds on.</p>
+  </div>
+</div>
+
+<h3>Q2. What is DAS (Direct Attached Storage)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">DAS = disks that connect directly to a server via SAS or SATA cables, through a built-in controller on the PCI bus. The OS sees these as local disk blocks organized into LUNs (partitions).</p>
+  </div>
+</div>
+
+<h3>Q3. How do disks communicate with the server?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Disks use a <b>command set</b> to talk to disk controllers. The main ones:</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>Protocol</th><th>Full Name</th><th>Key Feature</th></tr>
+  <tr><td><b>ATA / IDE</b></td><td>Advanced Technology Attachment</td><td>Old, simple, slow. Connected via ribbon cables.</td></tr>
+  <tr><td><b>SCSI</b></td><td>Small Computer System Interface</td><td>Faster, more reliable. Used in servers.</td></tr>
+  <tr><td><b>SATA</b></td><td>Serial Advanced Technology Attachment</td><td>Serial version of ATA. Faster, thinner cables. Common in consumer PCs.</td></tr>
+</table>
+
+<div class="callout note">
+  <b>Remember</b>
+  <p>ATA/IDE = old and slow. SCSI = server-grade. SATA = modern consumer. All of these connect disks to controllers via command sets.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 12 to 16 (Storage Building Blocks, Storage Model, DAS, Disks Command Sets).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What does DAS stand for?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Direct Attached Storage &mdash; disks connected directly to a server via SAS/SATA.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which command set is the modern version of ATA?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">SATA (Serial Advanced Technology Attachment).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ STORAGE MEDIA ============ -->
+<section id="media" class="collapsible-section collapsed">
+<span class="eyebrow">Storage Media</span>
+<h2>Storage media types <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>21&ndash;39</b></p>
+<p>There are 3 main types of storage media: mechanical hard disks, solid-state drives, and tapes. Each has different strengths.</p>
+
+<h3>Q1. What are the types of mechanical hard disks?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>SATA disks</b> &mdash; cheapest, good for general use</li>
+      <li><b>NL-SAS (Near-Line SAS)</b> &mdash; has a SAS interface but SATA mechanics. Can mix with faster SAS disks in one array.</li>
+      <li><b>SAS disks</b> &mdash; fastest mechanical disks, used in enterprise servers</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What are the advantages and disadvantages of SSDs?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See cards below.</div>
+</div>
+
+<div class="cardgrid">
+  <div class="card green">
+    <h4>SSD Advantages</h4>
+    <ul>
+      <li>Consume less power</li>
+      <li>Generate less heat</li>
+      <li>No moving parts &mdash; no vibrations</li>
+      <li>Prices have dropped significantly</li>
+    </ul>
+  </div>
+  <div class="card pink">
+    <h4>SSD Disadvantages</h4>
+    <ul>
+      <li>Limited life expectancy (write cycles)</li>
+      <li>Slower than NVMe drives</li>
+      <li>Higher cost per GB than HDD</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>SATA SSD</h4>
+    <p>Uses the SATA interface. Cheapest SSD. Good upgrade from HDD.</p>
+  </div>
+  <div class="card amber">
+    <h4>M.2 SSD</h4>
+    <p>Smaller form factor, plugs directly into motherboard. Faster than SATA SSD.</p>
+  </div>
+  <div class="card green">
+    <h4>NVMe SSD</h4>
+    <p>Uses Nonvolatile Memory Express protocol. Fastest SSD type. Direct connection to CPU via PCIe.</p>
+  </div>
+</div>
+
+<h3>Q3. What is Kryder's law?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Kryder's law states that disk capacity doubles approximately every two years (similar to Moore's law for CPUs). The vertical scale is logarithmic. To benefit fully, storage infrastructure should be designed for just-in-time expansion.</p>
+  </div>
+</div>
+
+<h3>Q4. What are tapes used for?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Large amounts of data</b> &mdash; very high capacity</li>
+      <li><b>Inexpensive</b> &mdash; lowest cost per GB</li>
+      <li><b>Archiving</b> &mdash; long life expectancy</li>
+      <li><b>Disadvantages:</b> fragile, mechanical parts, frequent rewinding causes stress, slow sequential access</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>LTO tape facts</b>
+  <p>LTO (Linear Tape Open) has 80%+ market share. LTO-9 stores 18 TB uncompressed. Throughput: ~200 MB/s sustained, up to 700-900 MB/s with Fibre Channel interface.</p>
+</div>
+
+<h3>HDD vs SSD vs Tape</h3>
+<div class="callout tip">
+  <b>Exam table &mdash; memorize this</b>
+  <p>This comparison is a common exam question.</p>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">HDD</th><th class="h-green">SSD</th><th class="h-amber">Tape</th></tr>
+  <tr><td><b>Performance</b></td><td>Slower (moving parts, rotational latency)</td><td>Faster (instant access, no moving parts)</td><td>Slowest (sequential access, needs rewind)</td></tr>
+  <tr><td><b>Capacity</b></td><td>Highest capacity options available</td><td>Lower capacity than HDD at comparable price</td><td>Highest theoretical capacity</td></tr>
+  <tr><td><b>Cost per GB</b></td><td>Lower cost per GB</td><td>Higher cost per GB</td><td>Very low cost per GB</td></tr>
+  <tr><td><b>Reliability</b></td><td>More susceptible to physical damage</td><td>Less susceptible to physical damage</td><td>Highly durable, long archival lifespan</td></tr>
+</table>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 21 to 39 (Mechanical Hard Disks, SSDs, NVMe, Kryder's Law, Tapes, Comparison Table).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which storage type has the lowest cost per GB?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Tape &mdash; very low cost per GB, ideal for archiving large amounts of data.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is the difference between SATA SSD and NVMe SSD?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">SATA SSD uses the SATA interface (slower). NVMe SSD uses the NVMe protocol over PCIe (much faster, direct CPU connection).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is NL-SAS?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Near-Line SAS &mdash; has a SAS interface but the mechanics of SATA disks. Can be combined with faster SAS disks in one storage array.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ CONTROLLERS ============ -->
+<section id="controllers" class="collapsible-section collapsed">
+<span class="eyebrow">Controllers</span>
+<h2>Controllers &amp; virtual disks <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>40&ndash;42</b></p>
+<p>Controllers connect disks to servers. They can split disks into smaller pieces and create virtual disks.</p>
+
+<h3>Q1. How do controllers connect to servers?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>PCI expansion board</b> &mdash; installed directly in the server</li>
+      <li><b>NAS or SAN deployment</b> &mdash; connects all disks/tapes via Fibre Channel, iSCSI, or FCoE connections</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What can a controller do?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li>High performance</li>
+      <li>High availability</li>
+      <li>Virtualized storage</li>
+      <li>Cloning</li>
+      <li>Data deduplication</li>
+      <li>Thin provisioning</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q3. What are physical extents and LUNs?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">The controller splits all disks into small pieces called <b>physical extents</b>. From these, new <b>virtual disks (LUNs &mdash; Logical Unit Numbers)</b> are composed and presented to the operating system.</p>
+  </div>
+</div>
+
+<div class="arch">
+  <div class="arch-layer t1">
+    <span class="name">Disk 1 &amp; Disk 2</span>
+    <span class="desc">Physical extents (raw disk blocks)</span>
+  </div>
+  <div class="arch-layer t2">
+    <span class="name">Controller</span>
+    <span class="desc">Combines physical extents into logical extents</span>
+  </div>
+  <div class="arch-layer t3">
+    <span class="name">LUN (Virtual Disk)</span>
+    <span class="desc">Presented to the OS as a single disk</span>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 40 to 42 (Controllers, Physical Extents, LUNs).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What does LUN stand for?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Logical Unit Number &mdash; a virtual disk created from physical extents and presented to the OS.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ RAID ============ -->
+<section id="raid" class="collapsible-section collapsed">
+<span class="eyebrow">RAID</span>
+<h2>RAID levels <span class="examtag">EXAM</span> <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>43&ndash;52</b></p>
+<p>RAID (Redundant Array of Independent Disks) uses multiple disks to provide high availability and better performance. There are 5 main RAID levels.</p>
+
+<h3>Q1. What are the 5 common RAID levels?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>RAID 0 &mdash; Striping</b>: data split across disks. Fast, but no redundancy. Lose 1 disk = lose all data.</li>
+      <li><b>RAID 1 &mdash; Mirroring</b>: exact copy on 2 disks. Most reliable. Expensive (50% space used).</li>
+      <li><b>RAID 10 &mdash; Striping + Mirroring</b>: combo of RAID 0 + 1. High performance AND availability. 50% space used.</li>
+      <li><b>RAID 5 &mdash; Striping with distributed parity</b>: parity blocks spread across disks. Can survive 1 disk failure. Good balance.</li>
+      <li><b>RAID 6 &mdash; Striping with double parity</b>: two parity blocks. Can survive 2 disk failures simultaneously.</li>
+    </ul>
+  </div>
+</div>
+
+<table>
+  <tr><th>RAID Level</th><th>Type</th><th>Min Disks</th><th>Usable Space</th><th>Fault Tolerance</th></tr>
+  <tr><td><b>RAID 0</b></td><td>Striping</td><td>2</td><td>100%</td><td>None</td></tr>
+  <tr><td><b>RAID 1</b></td><td>Mirroring</td><td>2</td><td>50%</td><td>1 disk</td></tr>
+  <tr><td><b>RAID 10</b></td><td>Stripe + Mirror</td><td>4</td><td>50%</td><td>1 per mirror pair</td></tr>
+  <tr><td><b>RAID 5</b></td><td>Stripe + Parity</td><td>3</td><td>N-1</td><td>1 disk</td></tr>
+  <tr><td><b>RAID 6</b></td><td>Stripe + Double Parity</td><td>4</td><td>N-2</td><td>2 disks</td></tr>
+</table>
+
+<h3>Q2. What is the RAID write penalty?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Writing data on multiple disks introduces delay called the <b>RAID penalty</b>:</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>RAID Level</th><th class="h-danger">Write Penalty</th></tr>
+  <tr><td>RAID 0</td><td>0 (no penalty)</td></tr>
+  <tr><td>RAID 1</td><td>2</td></tr>
+  <tr><td>RAID 10</td><td>2</td></tr>
+  <tr><td>RAID 5</td><td>4</td></tr>
+  <tr><td>RAID 6</td><td>6</td></tr>
+</table>
+
+<div class="callout warn">
+  <b>Common mistake</b>
+  <p>RAID 0 has NO redundancy. If one disk fails, ALL data is lost. Only use RAID 0 for temporary data where loss is acceptable.</p>
+</div>
+
+<div class="callout tip">
+  <b>Which RAID to pick?</b>
+  <p>Need speed, no redundancy &rarr; <b>RAID 0</b>. Need max reliability &rarr; <b>RAID 1</b>. Need both speed + reliability &rarr; <b>RAID 10</b>. Need good balance &rarr; <b>RAID 5</b>. Need double-disk fault tolerance &rarr; <b>RAID 6</b>.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 43 to 52 (RAID 0, 1, 10, 5, 6 with diagrams).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which RAID level is the most reliable?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">RAID 1 (Mirroring) &mdash; creates an exact copy, most reliable but expensive.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">How many disks can fail in RAID 5?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Only 1 disk. RAID 5 uses distributed parity to survive a single disk failure.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What percentage of disk space is usable in RAID 10?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">50% &mdash; half the space is used for mirroring.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DATA SERVICES ============ -->
+<section id="data-services" class="collapsible-section collapsed">
+<span class="eyebrow">Data Services</span>
+<h2>Data services <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>53&ndash;64</b></p>
+<p>Storage controllers provide extra data services: compression, deduplication, cloning, snapshots, and thin provisioning.</p>
+
+<h3>Q1. What is data compression?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Data on disk and tape is typically stored compressed. It allows <b>2 to 2.5x more data</b> on the same media. The compression ratio depends on how diverse the data is &mdash; more diverse = lower compression.</p>
+  </div>
+</div>
+
+<h3>Q2. What is data deduplication?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Deduplication searches for <b>duplicate data segments</b> (disk blocks or files) and removes them. Instead of storing duplicates, it creates a <b>pointer</b> to the existing data.</p>
+    <p style="margin:0;"><b>How it works:</b> Segments incoming data &rarr; calculates hash tags &rarr; compares with existing hashes &rarr; if duplicate, creates pointer instead of storing again.</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>Method</th><th>How It Works</th><th>Pros</th><th>Cons</th></tr>
+  <tr><td><b>Inline dedup</b></td><td>Checks for duplicates BEFORE writing to disk</td><td>No duplicate data on disks at any time</td><td>Large performance penalty</td></tr>
+  <tr><td><b>Periodic dedup</b></td><td>Writes first, checks periodically for duplicates</td><td>No performance hit during writes</td><td>Duplicate data stays on disk for some time</td></tr>
+</table>
+
+<h3>Q3. What is the difference between cloning and snapshots?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See comparison table below.</div>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">Cloning</th><th class="h-green">Snapshots</th></tr>
+  <tr><td><b>Scope</b></td><td>Full copy of the disk</td><td>Point-in-time image of data</td></tr>
+  <tr><td><b>Time to create</b></td><td>Time-consuming</td><td>Quick</td></tr>
+  <tr><td><b>Reversibility</b></td><td>Complex</td><td>Easy</td></tr>
+  <tr><td><b>Use cases</b></td><td>Creating new VMs, restoring from backups</td><td>Backups, testing, recovery</td></tr>
+</table>
+
+<h3>Q4. What is thin provisioning?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Thin provisioning allocates <b>more storage to users than physically installed</b>. About 50% of allocated storage is never used. The system monitors real usage and adds physical disk space only when needed. Typical use: large home directories or email storage.</p>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 53 to 64 (Compression, Deduplication, Cloning vs Snapshots, Thin Provisioning).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What is the typical compression ratio?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">2 to 2.5 times more data on the same media.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which dedup method has better performance but keeps duplicates temporarily?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Periodic dedup &mdash; writes first, checks later for duplicates.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ NETWORK STORAGE ============ -->
+<section id="network" class="collapsible-section collapsed">
+<span class="eyebrow">Network Storage</span>
+<h2>Network storage types <span class="examtag">EXAM</span> <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>65&ndash;85</b></p>
+<p>There are 3 main ways to provide storage over a network: DAS, SAN, NAS, plus Object Storage and Software Defined Storage.</p>
+
+<h3>Q1. What is the difference between DAS, SAN, and NAS?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">DAS</th><th class="h-amber">SAN</th><th class="h-green">NAS</th></tr>
+  <tr><td><b>Full name</b></td><td>Direct Attached Storage</td><td>Storage Area Network</td><td>Network Attached Storage</td></tr>
+  <tr><td><b>Connection</b></td><td>SAS/SATA directly to server</td><td>Fibre Channel, iSCSI, FCoE</td><td>TCP/IP (SMB/CIFS, NFS)</td></tr>
+  <tr><td><b>What it offers</b></td><td>Disk blocks (LUNs) to 1 server</td><td>Disk blocks (LUNs) to multiple servers</td><td>Shared file system to multiple servers</td></tr>
+  <tr><td><b>Access</b></td><td>Block-level</td><td>Block-level</td><td>File-level</td></tr>
+  <tr><td><b>Use case</b></td><td>Local server storage</td><td>Enterprise databases, VMs</td><td>Shared files, documents</td></tr>
+</table>
+
+<h3>Q2. What is SAN and how does it work?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">A SAN is a specialized storage network with SAN switches (the <b>Fabric</b>), HBAs (Host Bus Adapters in servers), and disk arrays.</p>
+    <p style="margin:0;">Servers connect to SAN switches via HBAs (like NICs for storage). Disk controllers offer virtual disks (LUNs) to servers through the SAN. A disk array can contain <b>several petabytes</b> of data.</p>
+  </div>
+</div>
+
+<h3>Q3. What are the SAN connectivity protocols?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See cards below.</div>
+</div>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Fibre Channel (FC)</h4>
+    <p>Dedicated Level 2 protocol for storage. Speeds: 1 to 128 Gbit/s. Runs on copper or fiber optic. Guaranteed zero data loss. 3 topologies: Point-to-Point, Arbitrated Loop, Switched Fabric.</p>
+  </div>
+  <div class="card amber">
+    <h4>FCoE</h4>
+    <p>Fibre Channel over Ethernet. Encapsulates FC in Ethernet packets. Needs 10 Gbit+ Ethernet with lossless extensions (DCB/CEE). Uses CNAs (Converged Network Adapters).</p>
+  </div>
+  <div class="card green">
+    <h4>iSCSI</h4>
+    <p>SCSI over Ethernet LAN using TCP/IP. Uses familiar TCP/IP protocols. Lower performance than FC due to TCP/IP overhead. Growing fast with 10/40 Gbit Ethernet.</p>
+  </div>
+</div>
+
+<h3>Q4. What is the difference between SAN and NAS?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>SAN</b>: offers disk blocks (LUNs), uses iSCSI/FC/FCoE, only one server can mount a specific LUN</li>
+      <li><b>NAS</b>: offers shared file system, uses SMB/CIFS or NFS over TCP/IP, multiple servers can access files, connects to LDAP/Active Directory for permissions</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q5. What is Object Storage?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Object storage manages data as <b>objects</b> accessed via REST API over HTTP. Highly scalable. Used by cloud providers: AWS S3, Azure Blob Storage, GCP Object Storage.</p>
+    <p style="margin:0;"><b>Key fact:</b> Data in object storage <b>cannot be modified</b>. To change a file, the original is deleted and a new one is created. Good for: office documents, backups, archives, video/audio, VM images.</p>
+  </div>
+</div>
+
+<h3>Q6. What is Software Defined Storage (SDS)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">SDS abstracts storage management (control plane) from physical storage (data plane). It virtualizes all physical storage into one shared pool. Can run on commodity x86 servers with DAS, or on SAN/NAS/Object storage. Provides data services like dedup, compression, caching, snapshots, cloning, replication, and tiering.</p>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>Cloud storage is SDS</b>
+  <p>All major cloud providers (AWS, Azure, GCP) use SDS for their storage services. APIs let you provision, monitor, and manage your own storage.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 65 to 85 (DAS, SAN, NAS, Fibre Channel, FCoE, iSCSI, Object Storage, SDS).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which storage type offers a shared file system over TCP/IP?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">NAS (Network Attached Storage) &mdash; uses SMB/CIFS or NFS protocols.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Why can't you modify a file in object storage?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Object storage is designed for immutable data. To change a file, you delete the old one and create a new one.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What does FCoE stand for?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Fibre Channel over Ethernet &mdash; encapsulates Fibre Channel data in Ethernet packets.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ AVAILABILITY ============ -->
+<section id="availability" class="collapsible-section collapsed">
+<span class="eyebrow">Availability</span>
+<h2>Storage availability <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>86&ndash;94</b></p>
+<p>Storage availability = how often your storage system is accessible. Redundancy and replication increase availability.</p>
+
+<h3>Q1. How do you increase storage availability?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li>Install <b>redundant components</b> (HBAs, switches)</li>
+      <li>Use <b>multiple paths</b> between HBAs and SAN switches (automatic failover)</li>
+      <li>Use <b>multiple storage systems</b> with replication (continuous copy of data to secondary system)</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What is the difference between synchronous and asynchronous replication?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">Synchronous Replication</th><th class="h-amber">Asynchronous Replication</th></tr>
+  <tr><td><b>How it works</b></td><td>Write to primary AND secondary must complete before write is confirmed</td><td>Write to primary is confirmed immediately, secondary gets data later</td></tr>
+  <tr><td><b>Time difference</b></td><td>0 ms (real-time)</td><td>&gt; 0 ms (has a lag)</td></tr>
+  <tr><td><b>Data safety</b></td><td>Data is always synchronized &mdash; no data loss</td><td>Potential data loss if primary fails before secondary is written</td></tr>
+  <tr><td><b>Performance</b></td><td>Slower (must wait for both writes)</td><td>Faster (primary write confirmed immediately)</td></tr>
+  <tr><td><b>Distance limit</b></td><td>~100 km max (latency too high beyond)</td><td>No distance limit</td></tr>
+  <tr><td><b>Risk</b></td><td>If connection fails, primary cannot write</td><td>Data loss window between primary and secondary writes</td></tr>
+</table>
+
+<div class="callout warn">
+  <b>Common mistake</b>
+  <p>Replication does NOT protect against data erasure or corruption from software bugs. If data is deleted or corrupted, the bad data is also replicated. That's why you still need backups.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 86 to 94 (Availability, Redundancy, Synchronous vs Asynchronous Replication).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What is the main advantage of synchronous replication?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Data is always synchronized between primary and secondary &mdash; no data loss possible.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Why can't synchronous replication work over 100 km?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Latency becomes too high, slowing down applications that must wait for both writes to complete.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ BACKUP ============ -->
+<section id="backup" class="collapsible-section collapsed">
+<span class="eyebrow">Backup &amp; Recovery</span>
+<h2>Backup &amp; recovery <span class="examtag">EXAM</span> <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>95&ndash;118</b></p>
+<p>Backups are copies of data used to restore data after loss, corruption, or disaster. They are a last resort when everything else fails.</p>
+
+<h3>Q1. What is the 3-2-1 backup rule?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li>Keep <b>3 copies</b> of your data</li>
+      <li>On <b>2 different media types</b></li>
+      <li>With <b>1 copy stored at a separate location</b></li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What are the 5 backup schemes?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See cards below.</div>
+</div>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>1. Full Backup</h4>
+    <p>Complete copy of all data. Takes most time/space. Easiest to restore. Done at large intervals (weekly/monthly).</p>
+  </div>
+  <div class="card amber">
+    <h4>2. Incremental Backup</h4>
+    <p>Only saves data changed since the last backup (any type). Small backup size. Slowest to restore (must replay all increments).</p>
+  </div>
+  <div class="card green">
+    <h4>3. Differential Backup</h4>
+    <p>Only saves data changed since the last full backup. Faster to restore than incremental (full + last differential only).</p>
+  </div>
+  <div class="card pink">
+    <h4>4. Incremental Forever</h4>
+    <p>Initial full backup, then only incremental forever. Metadata lets the system compile point-in-time restores from increments.</p>
+  </div>
+  <div class="card" style="border-top-color:var(--danger);">
+    <h4>5. CDP</h4>
+    <p>Continuous Data Protection. Every change is simultaneously backed up. RPO = zero. Expensive, used in critical environments only.</p>
+  </div>
+</div>
+
+<h3>Q3. What is the GFS backup schedule?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Grandfather-Father-Son (GFS) is a retention schedule:</p>
+    <ul>
+      <li><b>Son (Daily)</b> &mdash; backup made every day</li>
+      <li><b>Father (Weekly)</b> &mdash; after a week, oldest daily becomes weekly</li>
+      <li><b>Grandfather (Monthly)</b> &mdash; after 4 weeks, oldest weekly becomes monthly</li>
+    </ul>
+    <p style="margin:8px 0 0;">Daily backups from previous weeks are deleted. This keeps a rotating window of backups.</p>
+  </div>
+</div>
+
+<h3>Q4. What is the difference between backup and archiving?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">Backup</th><th class="h-amber">Archiving</th></tr>
+  <tr><td><b>Purpose</b></td><td>Protection against data loss</td><td>Long-term storage for compliance/regulations</td></tr>
+  <tr><td><b>Retention</b></td><td>Short-term (weeks)</td><td>Long-term (years, even decades)</td></tr>
+  <tr><td><b>Data state</b></td><td>Point-in-time copy for restore</td><td>Read-only, cannot be modified</td></tr>
+  <tr><td><b>Example</b></td><td>Daily backup of database</td><td>Medical records kept 30 years after death</td></tr>
+</table>
+
+<div class="callout note">
+  <b>Backup best practices</b>
+  <ul style="margin:4px 0 0;padding-left:16px;">
+    <li>Test restore procedure at least once a year</li>
+    <li>Keep backups at least 5 km from main site</li>
+    <li>Also store: OS installation disks, license keys, printed restore procedures</li>
+    <li>Test restore monthly to verify media still works</li>
+  </ul>
+</div>
+
+<h3>Q5. What is archiving and why is it important?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Archiving is done for <b>compliance and regulation</b>. Example: US law requires medical records kept 30 years after death (X-rays at birth = 130 years!).</p>
+    <p style="margin:0 0 8px;">Archived data is <b>read-only</b> to prevent alteration. Some systems use WORM (Write Once Read Many) media like CD/DVD/Blu-ray or WORM tapes.</p>
+    <p style="margin:0;"><b>Key rules:</b> Use open standards, store in human-readable formats (XML), transfer to latest media every 10 years.</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <b>Noncompliance consequences</b>
+  <p>Not following data retention laws can lead to serious business disruption, fines, and even jail time. Examples: HASIL (Malaysia tax), Bank Negara Malaysia (AML/CFT records).</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 95 to 118 (Backup &amp; Recovery, Backup Schemes, GFS, Archiving).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What does RPO mean in CDP?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Recovery Point Objective. In CDP, RPO is set to zero because every change immediately triggers a backup.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which backup scheme is fastest to restore?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Full backup &mdash; only one file to restore (no need to replay multiple increments).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What does WORM stand for?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Write Once Read Many &mdash; data can be written once but cannot be modified or deleted. Used for archival compliance.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PERFORMANCE ============ -->
+<section id="performance" class="collapsible-section collapsed">
+<span class="eyebrow">Performance</span>
+<h2>Storage performance <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>119&ndash;134</b></p>
+<p>Storage performance depends on disk speed, interface throughput, caching, and tiering.</p>
+
+<h3>Q1. What affects disk performance?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Disk rotation speed</b> &mdash; max ~15,000 RPM (at this speed, edge of 3.5" disk moves at 250 km/h!)</li>
+      <li><b>Seek time</b> &mdash; time for head to reach the right track. 3ms (high-end) to 9ms (low-end)</li>
+      <li><b>Interface protocol</b> &mdash; how fast data moves from disk to server</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What is caching?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">A caching system in disk controllers improves performance by orders of magnitude.</p>
+    <ul>
+      <li><b>Read-cache</b> &mdash; acts as buffer for reads. Same data served from cache on repeat reads.</li>
+      <li><b>Write-through cache</b> &mdash; data written to cache first, then to disk. Write acknowledged when data is in cache (fast). Cache buffers writes, disk writes when ready.</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q3. What is storage tiering?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Tiered storage creates a hierarchy based on cost, performance, and availability requirements:</p>
+  </div>
+</div>
+
+<div class="arch">
+  <div class="arch-layer t1">
+    <span class="name">Tier 1 &mdash; Production Data</span>
+    <span class="desc">SSD and SAS disks (highest performance)</span>
+  </div>
+  <div class="arch-layer t2">
+    <span class="name">Tier 2 &mdash; Seldom Used Data</span>
+    <span class="desc">Email archives (NL-SAS disks)</span>
+  </div>
+  <div class="arch-layer t3">
+    <span class="name">Tier 3 &mdash; Backup</span>
+    <span class="desc">Virtual Tape Libraries on NL-SAS</span>
+  </div>
+  <div class="arch-layer" style="background:rgba(245,166,35,0.06);border-color:rgba(245,166,35,0.3);">
+    <span class="name" style="color:var(--amber);">Tier 4 &mdash; Archival</span>
+    <span class="desc">Tape or NL-SAS disks (lowest cost)</span>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>Cloud storage tiers</b>
+  <p>Storage tiering is especially important in the cloud &mdash; different tiers have very different costs (e.g., Google Cloud charges more for high-performance tiers).</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 119 to 134 (Disk Performance, IOPS, RAID Penalty, Caching, Storage Tiering).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What is the max rotation speed for disks?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">About 15,000 RPM &mdash; going faster would physically destroy the disk.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is the difference between read-cache and write-through cache?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Read-cache buffers repeated reads from cache. Write-through cache writes to cache first (fast), then to disk when ready.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section id="security" class="collapsible-section collapsed">
+<span class="eyebrow">Security</span>
+<h2>Storage security <button class="toggle-btn" onclick="toggleSection(this)">show</button></h2>
+<p class="slideref">Slides <b>135&ndash;144</b></p>
+<p>Storage security means protecting data at rest (on disk) and controlling who can access storage on a SAN.</p>
+
+<h3>Q1. How do you protect data at rest?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Data can be in transit, in use, or <b>at rest</b> (stored on disk). Data at rest is protected using encryption.</p>
+    <p style="margin:0 0 8px;"><b>Why encrypt in the datacenter?</b></p>
+    <ul>
+      <li>Disks might get into wrong hands</li>
+      <li>Failed disks must be returned to vendors &mdash; encryption prevents data exposure</li>
+      <li>Full disk encryption makes it harder to recover data from "empty" disk space</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What are Self-Encrypting Drives (SEDs)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">SEDs have encryption <b>built into the disk hardware</b>. When powered up, authentication is required (password to boot). Encryption keys are stored on the disk itself. Used in laptops and desktops.</p>
+  </div>
+</div>
+
+<h3>Q3. What is Cryptographic Disk Erasure (CDE)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">CDE deletes the encryption key on the disk. Without the key, unencrypted data can no longer be read. It's one of the best ways to fully wipe a disk's contents.</p>
+  </div>
+</div>
+
+<h3>Q4. What is SAN zoning?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">SAN zoning arranges Fibre Channel devices into <b>logical groups</b> on the SAN fabric for security. Devices can only communicate if they are in the same zone. Similar to VLANs in Ethernet networks. Implemented in SAN switches.</p>
+  </div>
+</div>
+
+<h3>Q5. What is LUN masking?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">LUN masking makes a LUN available to some hosts and unavailable to others. Implemented at the <b>HBA level</b> (not in SAN switches). Best practice: use both SAN zoning AND LUN masking together.</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">SAN Zoning</th><th class="h-green">LUN Masking</th></tr>
+  <tr><td><b>What it controls</b></td><td>Which FC devices can see each other</td><td>Which LUNs a specific host can access</td></tr>
+  <tr><td><b>Implemented at</b></td><td>SAN switches</td><td>HBA level (in the server)</td></tr>
+  <tr><td><b>Analogy</b></td><td>Like VLANs in Ethernet</td><td>Like file permissions</td></tr>
+</table>
+
+<div class="callout tip">
+  <b>Best practice</b>
+  <p>Always use a combination of SAN zoning AND LUN masking for maximum security. Zoning limits which devices can talk; masking limits which storage each device can use.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>C5 Storage.pdf &mdash; slides 135 to 144 (Storage Security, Data at Rest, SEDs, CDE, SAN Zoning, LUN Masking).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What is the best way to wipe a disk clean?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">Cryptographic Disk Erasure (CDE) &mdash; delete the encryption key. Without it, data cannot be read.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Where is SAN zoning implemented?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">In the SAN switches &mdash; devices can only communicate if they are in the same zone.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is the difference between SAN zoning and LUN masking?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer">SAN zoning controls which FC devices can see each other (at switch level). LUN masking controls which LUNs a host can access (at HBA level).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary" class="collapsible-section">
+<span class="eyebrow">Revision</span>
+<h2>Chapter 5 &mdash; exam cheat sheet <button class="toggle-btn" onclick="toggleSection(this)">hide</button></h2>
+
+<h3>Key concepts to remember</h3>
+<table>
+  <tr><th>Concept</th><th>Summary</th></tr>
+  <tr><td>Storage Building Blocks</td><td>DAS, disk command sets (ATA/IDE, SCSI, SATA)</td></tr>
+  <tr><td>Storage Media</td><td>HDD (cheap, slow), SSD (fast, expensive), Tape (cheapest, archival)</td></tr>
+  <tr><td>RAID</td><td>0=stripe, 1=mirror, 10=both, 5=parity, 6=double parity</td></tr>
+  <tr><td>Data Services</td><td>Compression (2-2.5x), dedup (inline/periodic), cloning (full copy) vs snapshots (point-in-time), thin provisioning (over-allocate)</td></tr>
+  <tr><td>Network Storage</td><td>DAS (direct), SAN (block-level network), NAS (file-level network), Object (REST API), SDS (abstracted pool)</td></tr>
+  <tr><td>Replication</td><td>Synchronous (real-time, 0ms, ≤100km) vs Asynchronous (has lag, faster, no distance limit)</td></tr>
+  <tr><td>Backup</td><td>3-2-1 rule, 5 schemes (full, incremental, differential, incremental forever, CDP)</td></tr>
+  <tr><td>GFS</td><td>Grandfather (monthly) → Father (weekly) → Son (daily)</td></tr>
+  <tr><td>Backup vs Archive</td><td>Backup = protect from loss (short-term). Archive = compliance (long-term, read-only)</td></tr>
+  <tr><td>Performance</td><td>Disk speed (15K RPM max), caching (read/write-through), tiering (Tier 1-4)</td></tr>
+  <tr><td>Security</td><td>Encryption at rest, SEDs, CDE, SAN zoning (like VLANs), LUN masking (at HBA)</td></tr>
+</table>
+
+<div class="summary">
+  <h4>One-paragraph recap</h4>
+  <ul>
+    <li>Storage building blocks include DAS and disk command sets (ATA/IDE, SCSI, SATA).</li>
+    <li>3 media types: HDD (moving parts, cheapest per GB), SSD (no moving parts, faster), Tape (sequential, archival, cheapest per GB).</li>
+    <li>RAID provides redundancy: RAID 0 (stripe, no protection), RAID 1 (mirror), RAID 10 (both), RAID 5 (parity), RAID 6 (double parity).</li>
+    <li>Data services: compression (2-2.5x), deduplication (remove duplicates), cloning (full copy) vs snapshots (point-in-time), thin provisioning (allocate more than physically installed).</li>
+    <li>Network storage: DAS (direct), SAN (block-level network, FC/iSCSI/FCoE), NAS (file-level, SMB/NFS), Object Storage (REST API, immutable), SDS (abstracted pool).</li>
+    <li>Availability: redundancy (extra components), synchronous replication (real-time, ≤100km) vs asynchronous (has lag, faster, no distance limit).</li>
+    <li>Backup: 3-2-1 rule (3 copies, 2 media, 1 offsite). Schemes: full, incremental, differential, incremental forever, CDP. GFS retention schedule.</li>
+    <li>Backup ≠ Archive. Backup protects from data loss (short-term). Archive is for compliance (long-term, read-only).</li>
+    <li>Performance: disk speed limits (15K RPM), caching (read/write-through), storage tiering (Tier 1-4 hierarchy).</li>
+    <li>Security: encrypt data at rest (SEDs, CDE), SAN zoning (logical groups), LUN masking (host-level access control).</li>
+  </ul>
+</div>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+  <li>Confusing backup with archive &mdash; backup is for data loss protection, archive is for compliance.</li>
+  <li>Thinking replication replaces backups &mdash; replication copies bad data too (deleted/corrupted).</li>
+  <li>Forgetting RAID 0 has NO redundancy &mdash; lose 1 disk, lose all data.</li>
+  <li>Confusing synchronous (real-time, slower) with asynchronous (has lag, faster) replication.</li>
+  <li>Thinking SAN and NAS are the same &mdash; SAN offers blocks, NAS offers files.</li>
+  <li>Forgetting that object storage data cannot be modified &mdash; must delete and recreate.</li>
+</ul>
+
+</section>
+
+</div>
+
+<footer>bmis2113 &middot; chapter 5 &middot; storage &middot; study guide</footer>
+
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
+function toggleSection(b){
+  var s=b.closest('.collapsible-section');
+  s.classList.toggle('collapsed');
+  b.textContent=s.classList.contains('collapsed')?'show':'hide';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('iti-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('iti-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>
