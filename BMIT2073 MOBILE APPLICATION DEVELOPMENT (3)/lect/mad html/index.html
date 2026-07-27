@@ -651,13 +651,28 @@
 
     <div class="card">
       <div class="top">
-        <div class="ch" style="color:var(--pink);">interactive guide</div>
+        <div class="ch" style="color:var(--pink);">claude design</div>
         <h3 style="color:var(--pink);">User Interfaces</h3>
         <p>Basic widgets, Stateless vs Stateful, Material &amp; Cupertino, single/multi-child layouts, Sliver widgets, performance tips.</p>
         <div class="modules">
           <span>Module 3.1</span>
         </div>
       </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li><b>Widget</b> = building block of Flutter UI. Immutable,描述 what the UI should be.</li>
+            <li><b>StatelessWidget</b> = no mutable state; <b>StatefulWidget</b> = has mutable state via <b>setState()</b>.</li>
+            <li>9 basic widgets: <b>Text, TextField, Icon, Image, ElevatedButton, Row, Column, Stack, Scaffold</b>.</li>
+            <li><b>Row</b> = horizontal layout; <b>Column</b> = vertical layout. Both use <b>MainAxisAlignment</b> + <b>CrossAxisAlignment</b>.</li>
+            <li>Single-child: <b>Center, Align, Padding, SizedBox, Expanded, Flexible</b>.</li>
+            <li>Multi-child: <b>Row, Column, Stack, Wrap, ListView, GridView</b>.</li>
+            <li><b>Material</b> = Material Design (Android); <b>Cupertino</b> = iOS-style widgets.</li>
+            <li><b>Sliver</b> widgets for scrollable lists — <b>SliverList, SliverGrid</b> — lazy loading, better performance.</li>
+          </ul>
+        </div>
+      </details>
       <div class="footer">
         <span class="status"><span class="dot g"></span> ready</span>
         <a href="claude_chapter3_1_interactive.html">open &rarr;</a>
@@ -666,13 +681,28 @@
 
     <div class="card">
       <div class="top">
-        <div class="ch" style="color:var(--teal);">interactive guide</div>
+        <div class="ch" style="color:var(--teal);">claude design</div>
         <h3 style="color:var(--teal);">Platforms, Themes &amp; Design</h3>
         <p>Colors &amp; Material Design, typography, internationalization, adaptive design, accessibility, screen support.</p>
         <div class="modules">
           <span>Module 3.2</span>
         </div>
       </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li><b>Color</b>: 4 ways — <b>Color(0xFFRRGGBB)</b>, <b>Colors.blue</b>, <b>Color.fromARGB()</b>, <b>Color.fromRGBO()</b>.</li>
+            <li><b>ColorSwatch</b>: 100–900 number system; <b>Colors.blue[400]</b> = specific shade.</li>
+            <li>Style vs Theme: <b>Style</b> = per-widget; <b>Theme</b> = app-wide defaults. Theme cascades down.</li>
+            <li>Flutter applies styling: <b>local style → nearest Theme → default</b>. Local always wins.</li>
+            <li><b>ThemeData</b> has <b>colorScheme</b> and <b>textTheme</b> — the 2 main properties.</li>
+            <li>2 ways to override theme: <b>ThemeData</b> (app-wide) or <b>Theme widget</b> (局部 override).</li>
+            <li>4 font style properties: <b>fontFamily, fontSize, fontWeight, fontStyle</b>.</li>
+            <li><b>Google Fonts</b>: add package → <b>GoogleFonts.latoTextTheme()</b> for app-wide font.</li>
+          </ul>
+        </div>
+      </details>
       <div class="footer">
         <span class="status"><span class="dot g"></span> ready</span>
         <a href="claude_chapter3_2_interactive.html">open &rarr;</a>
@@ -681,13 +711,27 @@
 
     <div class="card">
       <div class="top">
-        <div class="ch" style="color:var(--blue);">interactive guide</div>
+        <div class="ch" style="color:var(--blue);">claude design</div>
         <h3 style="color:var(--blue);">State Management &amp; Navigation</h3>
         <p>Ephemeral vs app state, Provider pattern, tab/drawer navigation, dialogs, snackbar, navigation principles.</p>
         <div class="modules">
           <span>Module 3.3</span>
         </div>
       </div>
+      <details class="cheatsheet">
+        <summary><span class="chev">&#9654;</span> mini cheatsheet</summary>
+        <div class="cs-body">
+          <ul>
+            <li><b>Ephemeral state</b> = local UI state (e.g. page scroll); <b>App state</b> = shared/global (e.g. user login).</li>
+            <li><b>Provider</b>: ChangeNotifier + ChangeNotifierProvider + Consumer pattern.</li>
+            <li>4 Provider setup steps: <b>1)</b> Create model, <b>2)</b> Wrap with Provider, <b>3)</b> Consumer reads, <b>4)</b> call notifyListeners().</li>
+            <li><b>Consumer</b> rebuilds only its subtree; <b>context.read()</b> for one-off reads (no rebuild).</li>
+            <li>5 navigation principles: <b>Back, Up, Bounce, Replace, Pop-and-push</b>.</li>
+            <li><b>Tab</b>: TabController + TabBar + TabBarView. Fixed tabs = known count; Scrollable = dynamic.</li>
+            <li><b>Drawer</b>: Scaffold → drawer property → Drawer widget. Use for 5+ navigation destinations.</li>
+          </ul>
+        </div>
+      </details>
       <div class="footer">
         <span class="status"><span class="dot g"></span> ready</span>
         <a href="claude_chapter3_3_interactive.html">open &rarr;</a>
