@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2 — Flashcards: AppLifecycleStates | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light p,
+  html.light ul,
+  html.light ol,
+  html.light td,
+  html.light li,
+  html.light .flowstep .txt,
+  html.light .summary li,
+  html.light .card li,
+  html.light .answer-content li,
+  html.light .nav-principles .np-txt,
+  html.light .callout p,
+  html.light .q-answer,
+  html.light .q-text,
+  html.light .slideref,
+  html.light .eyebrow,
+  html.light .modpill,
+  html.light h3,
+  html.light .hero p.lead,
+  html.light .hero p.sub {
+    color: #374151;
+  }
+  html.light .q-answer .cli{color:#065f46;}
+  html.light .q-answer code{color:#b45309;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+
+  .controls{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin:24px 0 0;
+    flex-wrap:wrap;
+  }
+  .controls button{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 14px;
+    cursor:pointer;
+    transition:0.2s;
+    user-select:none;
+  }
+  .controls button:hover{color:var(--accent);border-color:var(--accent);}
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+    gap:18px;
+    margin:24px 0;
+  }
+
+  .flip-card{
+    perspective:1000px;
+    min-height:280px;
+    cursor:pointer;
+  }
+  .flip-card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 0.5s;
+    transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-card-inner{
+    transform:rotateY(180deg);
+  }
+  .flip-card-front,.flip-card-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility:hidden;
+    border-radius:12px;
+    padding:22px 24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .flip-card-front{
+    background:linear-gradient(135deg,var(--panel),var(--panel2));
+  }
+  .flip-card-back{
+    background:linear-gradient(135deg,var(--panel2),var(--panel));
+    transform:rotateY(180deg);
+  }
+
+  .card-tag{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card-tag .dot{
+    width:6px;height:6px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  .flip-card-front .card-label{
+    font-size:18px;
+    font-weight:700;
+    color:var(--text);
+    line-height:1.3;
+  }
+  .flip-card-front .card-hint{
+    font-size:12px;
+    color:var(--sub);
+    margin-top:12px;
+    font-family:var(--mono);
+  }
+
+  .flip-card-back .card-answer{
+    font-size:14px;
+    color:#c3cbd6;
+    line-height:1.65;
+  }
+  .flip-card-back .card-answer b{color:var(--text);}
+
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .wrap{padding:0 14px;}
+    .card-grid{grid-template-columns:1fr;}
+    .flip-card{min-height:240px;}
+    .flip-card-front .card-label{font-size:16px;}
+    .flip-card-back .card-answer{font-size:13px;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="mimo_chapter2_lifecycle.html">&larr; ch2</a>
+  <span class="brand">flashcards</span>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Chapter 2 · AppLifecycleStates</span>
+  <h1>Deep Dive Flashcards</h1>
+  <p class="lead">Click any card to flip. Master the 4 AppLifecycleStates and their transitions.</p>
+
+  <div class="controls">
+    <button onclick="shuffleCards()">shuffle</button>
+    <button onclick="showAll()">show all</button>
+    <button onclick="hideAll()">hide all</button>
+  </div>
+</div>
+
+<div class="wrap">
+<section>
+  <div class="card-grid" id="cardGrid">
+
+    <!-- Resumed -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--green);"><span class="dot" style="background:var(--green);"></span> Resumed</div>
+          <div class="card-label">What is the Resumed state?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--green);"><span class="dot" style="background:var(--green);"></span> answer</div>
+          <div class="card-answer">The app is <b>fully visible</b> and <b>interactive</b>. It is in the foreground and receiving user input. This is the normal running state — the user can tap, scroll, type, etc.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumed: What to do -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--green);"><span class="dot" style="background:var(--green);"></span> Resumed</div>
+          <div class="card-label">What action should you take when entering Resumed?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--green);"><span class="dot" style="background:var(--green);"></span> answer</div>
+          <div class="card-answer">• <b>Resume animations</b> — start playing video, restart timers<br>• <b>Refresh data</b> — fetch latest content from server<br>• <b>Re-enable input</b> — accept taps, gestures, keyboard<br>• <b>Restart audio</b> — resume music playback</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inactive -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> Inactive</div>
+          <div class="card-label">What is the Inactive state?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> answer</div>
+          <div class="card-answer">A <b>temporary transition state</b>. The app is still partially visible but <b>not receiving input</b>. It happens between Resumed and Paused — e.g. when the app is animating to the background or a system dialog appears.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inactive: What to do -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> Inactive</div>
+          <div class="card-label">What action should you take when entering Inactive?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> answer</div>
+          <div class="card-answer">• <b>Pause animations</b> — stop non-essential movement<br>• <b>Pause game</b> — freeze game state if it's a game<br>• <b>Reduce CPU usage</b> — stop unnecessary processing<br>• <b>Do NOT save critical data yet</b> — the app may return to Resumed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paused -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span> Paused</div>
+          <div class="card-label">What is the Paused state?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span> answer</div>
+          <div class="card-answer">The app is <b>in the background</b> and <b>not visible</b>. It may still be partially visible on some Android devices (e.g. split-screen). On iOS it is fully hidden. The app is <b>not receiving user input</b>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paused: What to do -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span> Paused</div>
+          <div class="card-label">What action should you take when entering Paused?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span> answer</div>
+          <div class="card-answer">• <b>Save user progress</b> — persist data to disk<br>• <b>Pause audio/video</b> — stop media playback<br>• <b>Stop GPS tracking</b> — conserve battery<br>• <b>Release camera/microphone</b> — free up hardware<br>• <b>Reduce network calls</b> — no point fetching data user can't see</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detached -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--pink);"><span class="dot" style="background:var(--pink);"></span> Detached</div>
+          <div class="card-label">What is the Detached state?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--pink);"><span class="dot" style="background:var(--pink);"></span> answer</div>
+          <div class="card-answer">The app is <b>fully destroyed</b> — all resources are released. The engine is detached from the platform. This happens when the system kills the app or the user swipes it away from recents. The app must be <b>recreated from scratch</b> to run again.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detached: What to do -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--pink);"><span class="dot" style="background:var(--pink);"></span> Detached</div>
+          <div class="card-label">What action should you take when entering Detached?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--pink);"><span class="dot" style="background:var(--pink);"></span> answer</div>
+          <div class="card-answer">• <b>Clean up all resources</b> — close streams, dispose controllers<br>• <b>Save critical state</b> — final chance to persist data<br>• <b>Release listeners</b> — unregister callbacks<br>• <b>Free memory</b> — nullify references to prevent leaks</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow: Resumed → Inactive → Paused -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--blue);"><span class="dot" style="background:var(--blue);"></span> transitions</div>
+          <div class="card-label">What is the typical lifecycle flow when user presses home?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--blue);"><span class="dot" style="background:var(--blue);"></span> answer</div>
+          <div class="card-answer"><b>Resumed → Inactive → Paused</b><br><br>User presses home: app goes to Inactive (brief transition), then to Paused (background). If the user opens the app again: <b>Paused → Inactive → Resumed</b>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow: Detached -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--blue);"><span class="dot" style="background:var(--blue);"></span> transitions</div>
+          <div class="card-label">When does Detached happen?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--blue);"><span class="dot" style="background:var(--blue);"></span> answer</div>
+          <div class="card-answer">Detached happens when:<br>• The system <b>kills the app process</b> to free memory<br>• The user <b>swipes the app away</b> from recent apps<br>• The app is <b>being destroyed</b> for any reason<br><br>It is the <b>final state</b> — no further transitions. The app must be fully recreated.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AppLifecycleListener -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> listener</div>
+          <div class="card-label">What is AppLifecycleListener?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> answer</div>
+          <div class="card-answer">A class that lets you <b>listen to lifecycle changes</b> via callbacks. Instead of checking the state manually, you register callbacks: <b>onResume</b>, <b>onPause</b>, <b>onHide</b>, <b>onDetach</b>, <b>onStateChange</b>. The callbacks fire automatically when the state changes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listener: callbacks -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> listener</div>
+          <div class="card-label">What callbacks does AppLifecycleListener provide?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--amber);"><span class="dot" style="background:var(--amber);"></span> answer</div>
+          <div class="card-answer">
+            <b>onResume</b> — app enters Resumed state<br>
+            <b>onPause</b> — app enters Paused state<br>
+            <b>onHide</b> — app becomes invisible<br>
+            <b>onDetach</b> — app is being destroyed<br>
+            <b>onStateChange</b> — generic callback, receives the state name<br>
+            <b>onExitRequest</b> — system requests app to close
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listener: why use it -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--green);"><span class="dot" style="background:var(--green);"></span> listener</div>
+          <div class="card-label">Why use AppLifecycleListener instead of checking state manually?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--green);"><span class="dot" style="background:var(--green);"></span> answer</div>
+          <div class="card-answer">
+            <b>Automatic</b> — callbacks fire when state changes, no polling needed<br>
+            <b>Cleaner code</b> — centralised lifecycle handling in one place<br>
+            <b>Reliable</b> — you never miss a state change<br>
+            <b>Multiple callbacks</b> — you can handle each state differently
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Android vs iOS -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--pink);"><span class="dot" style="background:var(--pink);"></span> platform</div>
+          <div class="card-label">How does Paused differ between Android and iOS?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--pink);"><span class="dot" style="background:var(--pink);"></span> answer</div>
+          <div class="card-answer">
+            <b>Android:</b> Paused — app may still be <b>partially visible</b> (split-screen mode).<br>
+            <b>iOS:</b> Paused — app is <b>fully hidden</b>, no part of the UI is visible.<br><br>
+            This means on Android you should not assume the user can't see anything when Paused.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Common mistake -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-tag" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span> exam trap</div>
+          <div class="card-label">What is the most common exam mistake about lifecycle states?</div>
+          <div class="card-hint">click to reveal</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-tag" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span> answer</div>
+          <div class="card-answer">
+            <b>Confusing Inactive with Paused</b><br><br>
+            <b>Inactive</b> = brief transition, app still partially visible, no input<br>
+            <b>Paused</b> = fully in background, not visible (or barely on Android)<br><br>
+            Also: <b>Detached ≠ Paused</b>. Detached = app is destroyed. Paused = app is alive in background.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<footer>bmit2073 &middot; chapter 2 &middot; deep dive flashcards</footer>
+
+<script>
+function shuffleCards(){
+  var grid=document.getElementById('cardGrid');
+  var cards=Array.from(grid.children);
+  cards.sort(function(){return Math.random()-0.5;});
+  cards.forEach(function(c){grid.appendChild(c);});
+}
+function showAll(){
+  document.querySelectorAll('.flip-card').forEach(function(c){c.classList.add('flipped');});
+}
+function hideAll(){
+  document.querySelectorAll('.flip-card').forEach(function(c){c.classList.remove('flipped');});
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>

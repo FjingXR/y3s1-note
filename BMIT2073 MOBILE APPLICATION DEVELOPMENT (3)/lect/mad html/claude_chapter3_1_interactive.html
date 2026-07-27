@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3.1 — Widgets, Layout & Performance | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
+  html.light p,
+  html.light ul,
+  html.light ol,
+  html.light td,
+  html.light li,
+  html.light .flowstep .txt,
+  html.light .summary li,
+  html.light .card li,
+  html.light .answer-content li,
+  html.light .nav-principles .np-txt,
+  html.light .callout p,
+  html.light .q-answer,
+  html.light .q-text,
+  html.light .slideref,
+  html.light .eyebrow,
+  html.light .modpill,
+  html.light h3,
+  html.light .hero p.lead,
+  html.light .hero p.sub {
+    color: #374151;
+  }
+  html.light .q-answer .cli{color:#065f46;}
+  html.light .q-answer code{color:#b45309;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .track{
+    max-width:400px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .device-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .pulse{animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+  h2 span.mod{
+    color:var(--sub);
+    font-weight:400;
+    font-size:15px;
+    display:block;
+    margin-top:4px;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  .slideref{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    margin:-2px 0 18px;
+  }
+  .slideref b{color:var(--amber);font-weight:600;}
+
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  th.h-blue{color:var(--blue);}
+  th.h-amber{color:var(--amber);}
+  th.h-green{color:var(--green);}
+  th.h-pink{color:var(--pink);}
+
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card h4{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+  .card ul{margin:8px 0 0;padding-left:16px;}
+  .card li{font-size:13px;color:var(--sub);margin-bottom:3px;}
+
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout.find{background:rgba(245,166,35,0.08);border-color:var(--amber);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout.find b{color:var(--amber);}
+  .callout p{margin:0;color:var(--text);}
+
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;font-weight:600;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:block;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.hide-ans{display:none;}
+  .q-answer ul{margin:4px 0 0;padding-left:16px;}
+  .q-answer li{margin-bottom:3px;}
+
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  .tree{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 18px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#c3cbd6;
+    margin:16px 0;
+    overflow-x:auto;
+    white-space:pre;
+    line-height:1.7;
+  }
+  .tree .t-widget{color:var(--accent);font-weight:700;}
+  .tree .t-leaf{color:var(--green);}
+
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  .examtag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    background:rgba(255,107,107,0.12);
+    border:1px solid rgba(255,107,107,0.35);
+    color:var(--danger);
+    padding:2px 8px;
+    border-radius:12px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:70%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    .tree{font-size:11.5px;padding:10px;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch3.1/&gt;</span>
+  <a href="#widgets">Widgets</a>
+  <a href="#stateless-stateful">Stateless/Stateful</a>
+  <a href="#design-systems">Design Systems</a>
+  <a href="#layout">Layout</a>
+  <a href="#other-widgets">Other</a>
+  <a href="#slivers">Slivers</a>
+  <a href="#performance">Performance</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Chapter 3.1 · User Interfaces</span>
+  <h1>Chapter 3.1 — Widgets, Layout & Performance</h1>
+  <p class="lead">This page covers Flutter widgets (basic UI pieces), how layout works (single-child vs multi-child), design systems (Material vs Cupertino), sliver widgets for scrolling, and performance tips. Made only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 400 90">
+      <text x="55" y="25" class="device-label" text-anchor="middle">Widget</text>
+      <rect x="20" y="33" width="70" height="50" rx="8" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+      <circle cx="55" cy="58" r="8" class="pulse" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+
+      <text x="200" y="25" class="device-label" text-anchor="middle">Layout</text>
+      <rect x="155" y="33" width="90" height="50" rx="8" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="200" y="63" class="device-label" text-anchor="middle" font-size="9" fill="#4da3ff">Row / Column</text>
+
+      <text x="345" y="25" class="device-label" text-anchor="middle">Screen</text>
+      <rect x="310" y="33" width="70" height="50" rx="8" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+      <circle cx="345" cy="58" r="8" class="pulse" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+
+      <line x1="90" y1="58" x2="155" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+      <line x1="245" y1="58" x2="310" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ WIDGETS ============ -->
+<section id="widgets">
+<span class="modpill">MODULE 3.1</span>
+<h2>What are widgets? <span class="examtag">EXAM: Basics</span></h2>
+<p class="slideref">Lecture 3.1, <b>slide 4–27</b></p>
+<p>A widget is one piece of the UI (user interface = what the user sees and touches). Everything in Flutter is a widget — even layout and spacing.</p>
+
+<h3>Q1. What is a widget in Flutter?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">A widget defines 3 things:</p>
+    <ul>
+      <li><b>Appearance</b> — how it looks</li>
+      <li><b>Layout</b> — where it sits and how big it is</li>
+      <li><b>Behavior</b> — what it does (e.g. button press)</li>
+    </ul>
+    <p style="margin:8px 0 0;">Widgets are <b>nested</b> — one widget can hold other widgets inside it. This forms a <b>tree</b> shape.</p>
+  </div>
+</div>
+
+<div class="tree">Column
+├── Container
+│   └── Column
+│       ├── <span class="t-leaf">Text</span>
+│       ├── Search Bar
+│       └── Column
+│           ├── Row
+│           │   └── Row
+│           │       └── <span class="t-leaf">Text</span>
+│           ├── Wrap
+│           ├── ListView
+│           └── Card</div>
+
+<h3>Q2. What makes widgets useful (2 characteristics)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Customizable</b> — most widgets have properties you can change (color, size, text) to fit your own design.</li>
+      <li><b>Reusable</b> — you build a widget once, then use it many times in your app. Saves code.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cli"><span class="cmt">// reusable custom button example</span>
+CustomButton(
+  text: 'Custom Button',
+  onPressed: () { <span class="cmt">/* handle press */</span> },
+  color: Colors.green,
+)</div>
+
+<h3>Q3. List the 9 basic widgets from the slides</h3>
+<div class="cardgrid">
+  <div class="card blue"><h4>Text</h4><p>Shows text on screen.</p></div>
+  <div class="card blue"><h4>TextField</h4><p>Box where user types text.</p></div>
+  <div class="card blue"><h4>ElevatedButton</h4><p>Clickable filled button.</p></div>
+  <div class="card blue"><h4>Image</h4><p>Shows a picture.</p></div>
+  <div class="card blue"><h4>Row / Column</h4><p>Arranges widgets side by side or stacked.</p></div>
+  <div class="card blue"><h4>Scaffold</h4><p>Basic screen structure (app bar + body).</p></div>
+  <div class="card blue"><h4>Placeholder</h4><p>Empty box — marks "not built yet".</p></div>
+  <div class="card blue"><h4>Icon</h4><p>Shows a small picture symbol.</p></div>
+  <div class="card blue"><h4>AppBar</h4><p>Top bar of the screen.</p></div>
+</div>
+
+<h3>Q4. Text vs Text.rich — what's the difference?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Both show text, but <code>Text.rich</code> lets you style different parts of the same sentence differently (e.g. bold one word only).</p>
+  </div>
+</div>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Text</h4>
+    <p>One string, one single style for the whole text.</p>
+    <div class="cli">Text(
+  'Hello, world!',
+  textDirection: TextDirection.ltr,
+)</div>
+  </div>
+  <div class="card green">
+    <h4>Text.rich</h4>
+    <p>Combine many TextSpan — each part can have its own style.</p>
+    <div class="cli">Text.rich(
+  TextSpan(
+    text: 'Hello',
+    children: [
+      TextSpan(text: ' beautiful ',
+        style: TextStyle(fontStyle: FontStyle.italic)),
+      TextSpan(text: 'world',
+        style: TextStyle(fontWeight: FontWeight.bold)),
+    ],
+  ),
+)</div>
+  </div>
+</div>
+
+<p><code>overflow: TextOverflow.ellipsis</code> — if text is too long for the box, it cuts and shows "…" at the end.</p>
+
+<h3>Q5. What are the 3 ways to read a value from TextField? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">You can get what the user typed using: <code>onChanged()</code>, <code>onSubmitted()</code>, or a <code>Controller</code>.</p>
+  </div>
+</div>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>onChanged()</h4>
+    <p>Runs every time the user types a new character. This is the <b>default</b> way to read value.</p>
+  </div>
+  <div class="card amber">
+    <h4>onSubmitted()</h4>
+    <p>Runs only when user finishes editing (e.g. presses Enter/Done). Good for moving focus to next field.</p>
+  </div>
+  <div class="card green">
+    <h4>TextEditingController</h4>
+    <p>An object linked to the field. Can: set initial text, get current text, listen to changes, clear text.</p>
+  </div>
+</div>
+
+<div class="cli">TextField(
+  decoration: InputDecoration(
+    labelText: 'Email Address',
+    hintText: 'Enter your email',
+    icon: Icon(Icons.email),
+  ),
+  keyboardType: TextInputType.emailAddress,
+  controller: _emailController,
+  onChanged: (text) => print('Email: $text'),
+)</div>
+
+<div class="callout tip">
+  <b>Controller cleanup</b>
+  <p>Always call <code>_textController.dispose()</code> inside the widget's <code>dispose()</code> method. This prevents memory leaks (unused memory that never gets freed).</p>
+</div>
+
+<h3>Q6. What is InputDecoration used for?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">It decorates a TextField with: label, icon, inline hint text, and error text. Set <code>decoration: null</code> to remove all decoration.</p>
+  </div>
+</div>
+
+<h3>Q7. Name 4 keyboard types and when to use them</h3>
+<table>
+  <tr><th>Keyboard Type</th><th>What it shows</th></tr>
+  <tr><td><code>emailAddress</code></td><td>Normal keyboard + @ character</td></tr>
+  <tr><td><code>number</code></td><td>Basic number keypad</td></tr>
+  <tr><td><code>phone</code></td><td>Phone-style keypad</td></tr>
+  <tr><td><code>text</code></td><td>Normal text keyboard (default)</td></tr>
+</table>
+
+<h3>Q8. How many image sources does Flutter support? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">3 ways to show an image.</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>Source</th><th>Widget</th><th>Use Case</th></tr>
+  <tr><td>Assets folder</td><td><code>Image.asset('images/cat.png')</code></td><td>Images bundled inside your app (logo, icons)</td></tr>
+  <tr><td>Device's directory</td><td><code>Image.file(selectedImages)</code></td><td>Image picked from phone gallery / camera</td></tr>
+  <tr><td>Network</td><td><code>Image.network('https://...jpg')</code></td><td>Image loaded from the internet (async — takes time)</td></tr>
+</table>
+
+<div class="callout note">
+  <b>Assets folder — 4 steps</b>
+  <p>1) Create <code>assets/</code> folder in project root. 2) Copy images inside it. 3) List the file names in <code>pubspec.yaml</code>. 4) Call <code>Image.asset('images/cat.png')</code>.</p>
+</div>
+
+<div class="cli">Image.asset(
+  file: file_name,
+  height: 100,
+  width: 100,
+  fit: BoxFit.fill,
+  alignment: Alignment.center,
+)</div>
+
+<h3>Q9. Row vs Column — what's the difference?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Row</b> — arranges children <b>horizontally</b> (left to right)</li>
+      <li><b>Column</b> — arranges children <b>vertically</b> (top to bottom)</li>
+    </ul>
+    <p style="margin:8px 0 0;"><code>Expanded</code> makes a child take up all leftover space.</p>
+  </div>
+</div>
+
+<h3>Q10. What does Scaffold provide?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Scaffold gives the basic Material Design screen structure. It provides ready-made APIs for drawers, snack bars, and bottom sheets.</p>
+  </div>
+</div>
+
+<div class="cli">Scaffold(
+  appBar: AppBar(
+    title: const Text('Sample Scaffold'),
+  ),
+  body: Center(...),
+)</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 4 to 46 (Basic Widgets: Text, TextField, ElevatedButton, Image, Row/Column, Scaffold, Placeholder, Icon, AppBar).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What is a Placeholder widget used for?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">It marks a spot where a widget will be added later. Useful during development when the UI is not finished yet.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What property makes an Icon accessible to screen readers?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer"><code>semanticLabel</code> — text that gets announced by accessibility tools (for visually impaired users).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Why is Image.network slower to show than Image.asset?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Reading a file from the network is asynchronous (async) — it takes time to download, so the result isn't available right away, unlike a local asset file.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ STATELESS / STATEFUL ============ -->
+<section id="stateless-stateful">
+<span class="eyebrow">Widget Types</span>
+<h2>StatelessWidget vs StatefulWidget <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.1, <b>slide 47–52</b></p>
+<p>Every widget in Flutter is either Stateless (never changes) or Stateful (can change over time).</p>
+
+<h3>Q1. What is the difference between StatelessWidget and StatefulWidget? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below — memorise this for the exam.</div>
+</div>
+
+<table>
+  <tr><th></th><th class="h-blue">StatelessWidget</th><th class="h-amber">StatefulWidget</th></tr>
+  <tr><td><b>Appearance</b></td><td>Fixed — never changes</td><td>Can change (reacts to user input / data)</td></tr>
+  <tr><td><b>Internal state</b></td><td>Does NOT hold state</td><td>Holds its own state, managed by a State object</td></tr>
+  <tr><td><b>Rebuild trigger</b></td><td>Only rebuilds if parent rebuilds it</td><td>Rebuilds itself when <code>setState()</code> is called</td></tr>
+  <tr><td><b>Example use</b></td><td>Static text, icon, logo</td><td>Checkbox, form input, counter, animation</td></tr>
+</table>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>StatelessWidget example</h4>
+    <div class="cli">class GreenFrog extends StatelessWidget {
+  const GreenFrog({ super.key });
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0xFF2DBD3A));
+  }
+}</div>
+  </div>
+  <div class="card amber">
+    <h4>StatefulWidget example</h4>
+    <div class="cli">class YellowBird extends StatefulWidget {
+  const YellowBird({ super.key });
+  @override
+  State<YellowBird> createState() =>
+    _YellowBirdState();
+}
+class _YellowBirdState extends State<YellowBird> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0xFFFFE306));
+  }
+}</div>
+  </div>
+</div>
+
+<h3>Q2. How does setState() work?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Calling <code>setState()</code> tells Flutter: "data changed, please rebuild this widget's UI". Flutter then re-runs <code>build()</code> to draw the new look.</p>
+  </div>
+</div>
+
+<div class="cli">class _BirdState extends State<Bird> {
+  double _size = 1.0;
+  void grow() {
+    setState(() { _size += 0.1; });   <span class="cmt">// triggers rebuild</span>
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: widget.color,
+      transform: Matrix4.diagonal3Values(_size, _size, 1.0),
+      child: widget.child,
+    );
+  }
+}</div>
+
+<div class="callout warn">
+  <b>Exam tip</b>
+  <p>If asked "which widget type would you use for a login form?" → <b>StatefulWidget</b>, because the text field values and button states change based on user input.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 47 to 52 (Stateless vs Stateful Widget).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">A logo that never changes — Stateless or Stateful?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">StatelessWidget — fixed appearance, no interaction needed.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What object manages a StatefulWidget's state?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">A <code>State</code> object, created by <code>createState()</code>.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What happens if you change a variable WITHOUT calling setState()?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">The variable changes in memory, but the UI does NOT update — Flutter doesn't know to rebuild. The screen stays out of sync with the data.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DESIGN SYSTEMS ============ -->
+<section id="design-systems">
+<span class="eyebrow">Design Systems</span>
+<h2>Cupertino vs Material widgets</h2>
+<p class="slideref">Lecture 3.1, <b>slide 54–58</b></p>
+<p>Flutter gives you 2 sets of ready-made widgets, matching 2 different phone styles.</p>
+
+<h3>Q1. What is the difference between Cupertino and Material design systems?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th></th><th class="h-blue">Cupertino</th><th class="h-amber">Material</th></tr>
+  <tr><td><b>Follows</b></td><td>Apple's Human Interface Guidelines</td><td>Google's Material 3 design spec</td></tr>
+  <tr><td><b>Platform look</b></td><td>iOS / macOS style</td><td>Android, web, desktop style</td></tr>
+  <tr><td><b>Key widgets</b></td><td>CupertinoPageScaffold, CupertinoNavigationBar, CupertinoButton</td><td>AppBar, Drawer, Scaffold, FloatingActionButton, Card</td></tr>
+</table>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>CupertinoPageScaffold</h4>
+    <p>Basic structure for a Cupertino-style (iOS look) app screen.</p>
+  </div>
+  <div class="card blue">
+    <h4>CupertinoNavigationBar</h4>
+    <p>iOS-style navigation bar at the top.</p>
+  </div>
+  <div class="card blue">
+    <h4>CupertinoButton</h4>
+    <p>A button styled like iOS buttons.</p>
+  </div>
+  <div class="card amber">
+    <h4>AppBar</h4>
+    <p>Top bar of a Material screen.</p>
+  </div>
+  <div class="card amber">
+    <h4>Drawer</h4>
+    <p>Side menu that slides in from the edge.</p>
+  </div>
+  <div class="card amber">
+    <h4>FloatingActionButton</h4>
+    <p>Round floating button on top of content.</p>
+  </div>
+  <div class="card amber">
+    <h4>Card</h4>
+    <p>Rectangular box with a shadow.</p>
+  </div>
+</div>
+
+<div class="callout note">
+  <b>Why 2 design systems?</b>
+  <p>Users are used to their phone's own style. Cupertino widgets make iOS users feel "at home"; Material widgets do the same for Android users. Flutter lets you mix or pick either — it's not locked to one OS.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 54 to 58 (Design Systems: Cupertino Widgets, Material Design Widgets).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which design system would you use for an app that should feel like a native iPhone app?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Cupertino — it follows Apple's Human Interface Guidelines.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which widget shows a rectangular box with a shadow?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Card — a Material Design widget.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ LAYOUT ============ -->
+<section id="layout">
+<span class="eyebrow">Layout System</span>
+<h2>Single-child vs multi-child layout <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.1, <b>slide 59–85</b></p>
+<p>A layout widget arranges other widgets. Flutter splits layout widgets into 2 groups, based on how many children they can hold.</p>
+
+<h3>Q1. What is the difference between single-child and multi-child layout widgets? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th></th><th class="h-blue">Single-child</th><th class="h-amber">Multi-child</th></tr>
+  <tr><td><b>Meaning</b></td><td>Can only hold ONE child widget</td><td>Can hold MANY children</td></tr>
+  <tr><td><b>Examples</b></td><td>Align, AspectRatio, Center, ConstrainedBox, Container, Padding, SizedBox</td><td>Row, Column, GridView, ListView, Stack, Wrap</td></tr>
+  <tr><td><b>Use case</b></td><td>Wrapping/styling one widget (spacing, sizing, alignment)</td><td>Arranging a list or group of widgets together</td></tr>
+</table>
+
+<h3>Q2. Single-child widgets — what does each do?</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Align</h4>
+    <p>Positions its child inside itself (e.g. top-right corner).</p>
+  </div>
+  <div class="card blue">
+    <h4>AspectRatio</h4>
+    <p>Forces child to a specific width:height ratio (e.g. 16:9).</p>
+  </div>
+  <div class="card blue">
+    <h4>Center</h4>
+    <p>Centers its child inside itself.</p>
+  </div>
+  <div class="card blue">
+    <h4>Container</h4>
+    <p>Groups a widget and adds styling — padding, margin, border, color.</p>
+  </div>
+  <div class="card blue">
+    <h4>Padding</h4>
+    <p>Adds empty space around its child.</p>
+  </div>
+  <div class="card blue">
+    <h4>SizedBox</h4>
+    <p>Forces a specific fixed width and height.</p>
+  </div>
+</div>
+
+<div class="cli">Container(
+  width: 200.0,
+  height: 100.0,
+  color: Colors.blue,
+  padding: EdgeInsets.all(20.0),
+  alignment: Alignment.center,
+  child: Text("Hello World!"),
+)</div>
+
+<h3>Q3. Multi-child widgets — what does each do?</h3>
+<table>
+  <tr><th>Widget</th><th>What it does</th></tr>
+  <tr><td>Row / Column</td><td>Arranges children horizontally / vertically in one line</td></tr>
+  <tr><td>GridView</td><td>Scrollable 2D grid of widgets</td></tr>
+  <tr><td>ListView</td><td>Scrollable list arranged in a line — best for a few items</td></tr>
+  <tr><td>Stack</td><td>Overlaps children on top of each other</td></tr>
+  <tr><td>Wrap</td><td>Puts children in a line, then wraps to next line if no space left</td></tr>
+</table>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>GridView.count</h4>
+    <div class="cli">GridView.count(
+  crossAxisCount: 2,
+  children: [
+    Container(color: Colors.red),
+    Container(color: Colors.green),
+  ],
+)</div>
+  </div>
+  <div class="card amber">
+    <h4>Stack</h4>
+    <div class="cli">Stack(
+  children: [
+    Container(width:100, height:100,
+      color: Colors.red),
+    Container(width:90, height:90,
+      color: Colors.green),
+  ],
+)</div>
+  </div>
+</div>
+
+<h3>Q4. What are the 4 key features of multi-child layout widgets?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Layout management</b> — handles arranging/positioning children</li>
+      <li><b>Alignment</b> — control with <code>mainAxisAlignment</code> (Row/Column) or <code>alignment</code> (Stack)</li>
+      <li><b>Spacing</b> — control gap between children with <code>spacing</code> property (Flutter 3.27+)</li>
+      <li><b>Sizing</b> — control child size with <code>mainAxisSize</code> or <code>flex</code></li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q5. What widgets are used to build a Form?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>TextField</b> — enter text</li>
+      <li><b>Checkbox</b> — tick box for yes/no</li>
+      <li><b>RadioListTile</b> — pick one option from a list</li>
+      <li><b>DropdownButtonFormField</b> — pick a value from a dropdown menu</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 59 to 85 (Layout, Single-child layout widgets, Multi-child layout widgets, Form Widgets).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which widget forces a child to keep a 16:9 ratio?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">AspectRatio — a single-child layout widget.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which widget overlaps children on top of each other?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Stack — useful for badges, image overlays, floating labels.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">ListView vs GridView — which is scrollable in 2 directions (rows AND columns)?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">GridView — it's a scrollable 2D array. ListView is a simple scrollable line (1D).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ OTHER WIDGETS ============ -->
+<section id="other-widgets">
+<span class="eyebrow">Utility Widgets</span>
+<h2>Other useful widgets</h2>
+<p class="slideref">Lecture 3.1, <b>slide 84–85</b></p>
+<p>Beyond basic widgets and layouts, Flutter provides utility widgets for async data, gestures, animations, and flex-based sizing.</p>
+
+<h3>Q1. What are FutureBuilder and StreamBuilder?</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>FutureBuilder</h4>
+    <p>Builds a widget based on the result of an <b>async computation</b> (a Future). Shows a loading state while waiting, then the result when done.</p>
+  </div>
+  <div class="card amber">
+    <h4>StreamBuilder</h4>
+    <p>Builds a widget based on the <b>latest data from a stream</b>. Rebuilds every time the stream emits a new value — good for real-time data.</p>
+  </div>
+</div>
+
+<div class="cli">FutureBuilder&lt;String&gt;(
+  future: fetchData(),  // async Future
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.done)
+      return Text(snapshot.data!);
+    return CircularProgressIndicator();
+  },
+)</div>
+
+<h3>Q2. What is GestureDetector used for?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;"><b>GestureDetector</b> detects gestures (tap, double-tap, long press, swipe, drag) on its child widget. Wrap any widget with it to make it respond to user input — even if that widget has no built-in tap handler.</p>
+  </div>
+</div>
+
+<div class="cli">GestureDetector(
+  onTap: () => print('Tapped!'),
+  onLongPress: () => print('Long pressed!'),
+  child: Container(
+    color: Colors.blue,
+    child: Text('Tap me'),
+  ),
+)</div>
+
+<h3>Q3. What is the Hero widget?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;"><b>Hero</b> creates a smooth animated transition between two screens. The same widget (e.g. an image) flies from its position on the first screen to its position on the second screen during navigation. Use matching <code>hero</code> tags on both screens.</p>
+  </div>
+</div>
+
+<h3>Q4. What does the Flex widget do?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;"><b>Flex</b> provides more control over child layout using <b>flex factors</b>. <code>Row</code> and <code>Column</code> are actually built on top of Flex — Row = Flex with direction horizontal, Column = Flex with direction vertical. You can use Flex directly when you need to switch direction dynamically.</p>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 84 to 85 (Layout Widgets: Flex, Wrap; Other Widgets: FutureBuilder, StreamBuilder, GestureDetector, Hero).</p>
+</div>
+
+<div class="summary">
+  <h4>Quick recap</h4>
+  <ul>
+    <li><b>FutureBuilder</b> — builds UI from a Future (one async result).</li>
+    <li><b>StreamBuilder</b> — builds UI from a Stream (multiple values over time).</li>
+    <li><b>GestureDetector</b> — wraps any widget to detect taps, swipes, long presses.</li>
+    <li><b>Hero</b> — animated flight between two screens during navigation.</li>
+    <li><b>Flex</b> — parent of Row/Column; controls direction and flex factors.</li>
+  </ul>
+</div>
+</section>
+
+<!-- ============ SLIVERS ============ -->
+<section id="slivers">
+<span class="eyebrow">Advanced Scrolling</span>
+<h2>Sliver widgets</h2>
+<p class="slideref">Lecture 3.1, <b>slide 86–92</b></p>
+<p>Sliver widgets are special building blocks for scrollable areas. They give more control than a normal ListView.</p>
+
+<h3>Q1. What is a Sliver widget?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Slivers are widgets made specifically for scroll areas. Unlike a normal box widget, a sliver can change its own size/shape based on scroll position — this makes effects like expanding headers possible.</p>
+  </div>
+</div>
+
+<h3>Q2. Why use slivers instead of a normal ListView? (3 benefits)</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Customization</b> — fine control over scroll behavior and look</li>
+      <li><b>Performance</b> — more efficient than standard scroll widgets for big data (only loads what's visible)</li>
+      <li><b>Flexibility</b> — combine different slivers for unique scroll effects</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout tip">
+  <b>Key exam idea</b>
+  <p>A normal ListView loads ALL records into memory. SliverList only loads records that are <b>visible</b> to the user right now. This saves memory — important because mobile devices have limited RAM.</p>
+</div>
+
+<h3>Q3. List 5 common Sliver widgets and their purpose <span class="examtag">EXAM</span></h3>
+<table>
+  <tr><th>Widget</th><th>Purpose</th><th>Use Case</th></tr>
+  <tr><td>SliverAppBar</td><td>App bar that can expand/collapse while scrolling</td><td>Big header image that shrinks as user scrolls down</td></tr>
+  <tr><td>SliverList</td><td>Renders a vertical list, like ListView, but more flexible</td><td>Long list of chat messages or news feed</td></tr>
+  <tr><td>SliverGrid</td><td>Renders a grid, like GridView, inside a scroll area</td><td>Photo gallery grid</td></tr>
+  <tr><td>SliverToBoxAdapter</td><td>Puts a normal box widget (Text/Container) inside a scroll area</td><td>Adding a plain banner or title inside a CustomScrollView</td></tr>
+  <tr><td>SliverFixedExtentList</td><td>Like SliverList but forces same height for all children</td><td>Uniform-height list items — faster rendering</td></tr>
+</table>
+
+<h3>Q4. How do you use sliver widgets together?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Slivers are used inside <code>CustomScrollView</code>. Its <code>slivers</code> property takes a list of sliver widgets, letting you combine them for your desired scroll layout.</p>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 86 to 92 (Sliver Widgets).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which sliver widget lets you put a normal Text widget inside a scroll view?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">SliverToBoxAdapter.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What wraps all your slivers together into one scroll view?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">CustomScrollView — its "slivers" property lists all sliver widgets to combine.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PERFORMANCE ============ -->
+<section id="performance">
+<span class="eyebrow">Best Practices</span>
+<h2>Performance best practices <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.1, <b>slide 94–100</b></p>
+<p>Mobile devices are weaker than desktop PCs (limited CPU, RAM, battery). These 5 practices help your Flutter app run fast and smooth.</p>
+
+<h3>Q1. What are the 5 performance best practices?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See numbered list below — memorise all 5 for the exam.</div>
+</div>
+
+<div class="flow">
+  <div class="flowstep">
+    <div class="num">1</div>
+    <div class="txt"><b>Minimize widget rebuilds</b> — avoid heavy/slow work inside <code>build()</code>, since it can run often. Use <code>const</code> for widgets that never change — Flutter skips rebuilding them.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">2</div>
+    <div class="txt"><b>Optimize layout</b> — avoid unnecessary nesting (too many widgets inside widgets); keep the widget tree flat to reduce render time. Use <code>LayoutBuilder</code> for layouts that depend on available space.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">3</div>
+    <div class="txt"><b>Efficient image loading</b> — use <code>Image.network</code> with caching for network images; resize images to the size actually needed; use efficient formats like <b>WebP</b> instead of JPEG/PNG/GIF.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">4</div>
+    <div class="txt"><b>State management</b> — call <code>setState()</code> only when truly needed. For complex apps, use Provider, Riverpod, or BLoC (Business Logic Component) instead of many scattered setState calls.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">5</div>
+    <div class="txt"><b>Use Flutter's built-in widgets</b> — Flutter's own widgets are already optimized. Prefer them over building custom versions from scratch.</div>
+  </div>
+</div>
+
+<h3>Q2. Why does using const help performance?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;"><code>const</code> tells Flutter the widget's properties will NEVER change. Flutter can then skip rebuilding it when the parent rebuilds — saving CPU work.</p>
+  </div>
+</div>
+
+<h3>Q3. Why is WebP recommended for images? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">WebP is a raster (pixel-based) image format designed to replace JPEG, PNG, and GIF. It gives smaller file size for similar quality — meaning faster load and less data/storage used. This matters because mobile devices have limited storage, RAM, and slower/unreliable network.</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <b>Link back to Chapter 1</b>
+  <p>These 5 practices exist BECAUSE mobile devices have limits: weak CPU, small RAM, unreliable network, battery drain, small screen (from Chapter 1.1). Performance code = working around these limits.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 94 to 100 (Performance Best Practices).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Name 2 state management solutions mentioned as alternatives to plain setState().</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Any two of: Provider, Riverpod, BLoC (Business Logic Component).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What tool helps build layouts that depend on the available screen space?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">LayoutBuilder.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Deep nested widget tree vs flat widget tree — which is better for performance?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Flat widget tree — less nesting means faster rendering time.</div>
+  </div>
+</div>
+
+<div class="summary">
+  <h4>Chapter 3.1 — full cheat sheet</h4>
+  <ul>
+    <li>Widget = appearance + layout + behavior. Nested in a tree.</li>
+    <li>9 basic widgets: Text, TextField, ElevatedButton, Image, Row/Column, Scaffold, Placeholder, Icon, AppBar.</li>
+    <li>3 ways to read TextField value: onChanged, onSubmitted, Controller.</li>
+    <li>3 image sources: assets, file, network.</li>
+    <li>StatelessWidget = fixed, no state. StatefulWidget = holds state, rebuilds via setState().</li>
+    <li>Design systems: Cupertino (iOS look) vs Material (Android/web/desktop look).</li>
+    <li>Layout: single-child (Align, Center, Container, Padding, SizedBox) vs multi-child (Row, Column, GridView, ListView, Stack, Wrap).</li>
+    <li>Slivers: for advanced scroll UI, only render visible items. Used inside CustomScrollView.</li>
+    <li>5 performance practices: minimize rebuilds (const), optimize layout (flat tree), efficient image loading (WebP), smart state management, use built-in widgets.</li>
+  </ul>
+</div>
+</section>
+
+</div>
+
+<footer>bmit2073 · chapter 3.1 · user interfaces · study guide</footer>
+
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('hide-ans');
+  b.textContent=a.classList.contains('hide-ans')?'Show answer':'Hide answer';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>
