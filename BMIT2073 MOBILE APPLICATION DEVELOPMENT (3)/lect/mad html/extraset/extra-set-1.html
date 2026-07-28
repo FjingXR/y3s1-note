@@ -392,13 +392,15 @@
 
 </div>
 
-<footer>bmit2073 · extra set 1 · question paper walkthrough</footer>
+<footer>bmit2073 · extra set 1 · question paper walkthrough · LAMINE CHONG</footer>
 
 <script>
 function toggleQ(b){
   var a=b.nextElementSibling;
+  a.classList.remove('hidden');
   a.classList.toggle('show');
   b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+  if(!a.classList.contains('show')){a.classList.add('hidden');b.textContent='Show answer';}
 }
 function toggleTheme(){
   var h=document.documentElement;
