@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Extra Set 3 — Provider vs setState, Lifecycle &amp; Dialogs | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
+  html.light p,
+  html.light ul,
+  html.light ol,
+  html.light td,
+  html.light li,
+  html.light .flowstep .txt,
+  html.light .summary li,
+  html.light .card li,
+  html.light .answer-content li,
+  html.light .callout p,
+  html.light .q-answer,
+  html.light .q-text,
+  html.light .slideref,
+  html.light .eyebrow,
+  html.light .modpill,
+  html.light h3,
+  html.light .hero p.lead,
+  html.light .hero p.sub {
+    color: #374151;
+  }
+  html.light .q-answer .cli{color:#065f46;}
+  html.light .q-answer code{color:#b45309;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);font-weight:700;font-size:13px;
+    color:var(--accent);margin-right:12px;white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);font-size:12px;
+    color:var(--sub);text-decoration:none;
+    padding:4px 10px;border:1px solid var(--line);
+    border-radius:6px;margin-right:8px;white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;color:var(--sub);text-decoration:none;
+    padding:6px 10px;border-radius:6px;
+    border:1px solid transparent;white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  .hero{
+    padding:56px 24px 40px;max-width:900px;
+    margin:0 auto;text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;font-family:var(--mono);
+    font-size:12px;letter-spacing:1px;
+    color:var(--accent);background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;border-radius:20px;margin-bottom:18px;
+  }
+  .hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px;font-weight:700;letter-spacing:-0.5px;}
+  .hero p.lead{color:var(--sub);font-size:16px;max-width:620px;margin:0 auto;}
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;
+    color:var(--accent);letter-spacing:1.5px;
+    text-transform:uppercase;margin-bottom:8px;
+  }
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+  h3{
+    font-size:18px;margin:32px 0 12px;font-weight:700;
+    color:var(--text);border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);background:var(--panel2);
+    padding:2px 6px;border-radius:4px;font-size:13px;
+    color:#ffd479;border:1px solid var(--line);
+  }
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--sub);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;background:var(--panel);}
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+
+  .callout{
+    border-radius:10px;padding:14px 18px;
+    margin:16px 0;font-size:14px;border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout.b{background:rgba(124,140,255,0.08);border-color:var(--accent);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout.b b{color:var(--accent);}
+  .callout p{margin:0;color:var(--text);}
+
+  .q-callout{
+    background:var(--panel);border:1px solid var(--line);
+    border-left:3px solid var(--amber);border-radius:10px;
+    padding:16px 20px;margin:14px 0;
+  }
+  .q-callout p{margin:0;font-size:15px;color:var(--text);line-height:1.7;}
+
+  .answer-wrap{margin:16px 0;}
+  .answer-toggle{
+    font-family:var(--mono);font-size:12px;
+    color:var(--sub);cursor:pointer;background:none;
+    border:1px solid var(--line);border-radius:6px;
+    padding:6px 14px;user-select:none;transition:all 0.15s;
+  }
+  .answer-toggle:hover{color:var(--text);border-color:var(--accent);}
+  .answer-content{
+    margin-top:12px;padding:16px 18px;
+    background:rgba(62,207,142,0.05);
+    border:1px solid rgba(62,207,142,0.2);border-radius:10px;
+  }
+  .answer-content.hidden{display:none;}
+  .answer-content ul{margin:8px 0;padding-left:20px;}
+  .answer-content li{margin-bottom:5px;font-size:14px;color:#c3cbd6;}
+  .answer-content .sub-note{font-size:13px;color:var(--sub);margin-top:4px;}
+
+  .summary{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:18px 22px;margin:20px 0;
+  }
+  .summary h4{margin:0 0 10px;font-size:15px;color:var(--accent);}
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  footer{
+    text-align:center;padding:30px 20px 20px;
+    color:var(--sub);font-size:12px;font-family:var(--mono);
+    border-top:1px solid var(--line);
+  }
+
+  .theme-toggle{
+    font-family:var(--mono);font-size:14px;
+    background:var(--panel);border:1px solid var(--line);
+    color:var(--text);padding:4px 10px;border-radius:6px;
+    cursor:pointer;line-height:1;transition:0.2s;user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  @media(max-width:600px){
+    .hero{padding:40px 16px 28px;}
+    .hero h1{font-size:1.6rem;}
+    h2{font-size:22px;}h3{font-size:16px;}
+    .navbar{gap:6px;padding:8px 12px;}
+    table{font-size:13px;}th,td{padding:8px 10px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="brand">MAD</a>
+  <a class="back" href="../index.html">&larr; back</a>
+  <a href="extra-set-1.html">Extra Set 1</a>
+  <a href="extra-set-2.html">Extra Set 2</a>
+  <a href="extra-set-3.html" style="border-color:var(--accent);color:var(--accent);">Extra Set 3</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">&#9788;</button>
+</nav>
+
+<div class="hero">
+  <span class="tag">EXTRA SET 3</span>
+  <h1>Provider vs setState, Lifecycle &amp; Dialogs</h1>
+  <p class="lead">Question paper walkthrough with suggested answers. Covers Provider vs setState, app lifecycle states, StatelessWidget vs StatefulWidget, image loading, image sources, AlertDialog vs SimpleDialog, and navigation principles.</p>
+</div>
+
+<div class="wrap">
+
+<!-- ============================================================ -->
+<!-- QUESTION 1                                                   -->
+<!-- ============================================================ -->
+<section>
+<span class="eyebrow">Question 1 &middot; 25 marks</span>
+<h2>Q1: State Management &amp; Lifecycle</h2>
+
+<h3>a)(i) Comparison Table</h3>
+<div class="q-callout">
+  <p>Construct a table to compare between <b>Provider</b> and <b>setState</b> for state management based on FIVE criteria: scope of data sharing, data persistence, code complexity, best suited for, and when to use.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">15 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <table>
+      <tr><th>Criteria</th><th>Provider</th><th>setState</th></tr>
+      <tr><td><b>Scope of data sharing</b></td><td>Global — data can be accessed by any widget in the app</td><td>Local — data is confined to a single widget</td></tr>
+      <tr><td><b>Data persistence</b></td><td>Can persist between sessions when combined with storage solutions</td><td>Does not persist; data is lost when the widget is disposed</td></tr>
+      <tr><td><b>Code complexity</b></td><td>More setup required (provider class, ChangeNotifier, Consumer)</td><td>Simple — just call setState() within a StatefulWidget</td></tr>
+      <tr><td><b>Best suited for</b></td><td>Complex apps with data shared across multiple screens</td><td>Simple apps or widgets with self-contained state</td></tr>
+      <tr><td><b>When to use</b></td><td>When multiple widgets need the same data (e.g., shopping cart, user login)</td><td>When only one widget needs to track changes (e.g., toggle button, animation)</td></tr>
+    </table>
+  </div>
+</div>
+
+<h3>a)(ii) Selection and Justification</h3>
+<div class="q-callout">
+  <p>A developer is building a real-time chat application where messages must be shared across multiple screens and persist between sessions. Select the most suitable state management approach and briefly justify your selection.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">2 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <p><b>Provider</b> is the most suitable approach because a real-time chat app requires messages to be shared across multiple screens (chat list, chat room, notifications) and persist between sessions. Provider with ChangeNotifier allows all screens to listen for new messages and update automatically. setState cannot share data across screens or persist data.</p>
+  </div>
+</div>
+
+<h3>b) App Lifecycle States</h3>
+<div class="q-callout">
+  <p>Identify the FOUR (4) primary states in the Flutter app lifecycle. Provide a suitable task example for each.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">8 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <table>
+      <tr><th>State</th><th>Task Example</th></tr>
+      <tr><td><b>Resumed</b></td><td>Process user interactions (taps, swipes), play audio or video, fetch and display data</td></tr>
+      <tr><td><b>Paused</b></td><td>Pause animations and location updates, save unsaved user data, release non-essential resources</td></tr>
+      <tr><td><b>Inactive</b></td><td>Briefly pause ongoing network requests, prepare for potential state change</td></tr>
+      <tr><td><b>Detached</b></td><td>Clean up resources (close databases, release memory), persist critical data before app closes</td></tr>
+    </table>
+  </div>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- QUESTION 2                                                   -->
+<!-- ============================================================ -->
+<section>
+<span class="eyebrow">Question 2 &middot; 25 marks</span>
+<h2>Q2: Widgets, Images &amp; Dialogs</h2>
+
+<h3>a) StatelessWidget vs StatefulWidget</h3>
+<div class="q-callout">
+  <p>Provide TWO (2) differences between StatelessWidget and StatefulWidget.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">4 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <table>
+      <tr><th>StatelessWidget</th><th>StatefulWidget</th></tr>
+      <tr><td>Does not hold any internal state; appearance is fixed after building</td><td>Maintains its own state which reacts to user interactions or data changes</td></tr>
+      <tr><td>Does not rebuild when data changes</td><td>Rebuilds via setState() when state changes</td></tr>
+    </table>
+  </div>
+</div>
+
+<h3>b) Efficient Image Loading</h3>
+<div class="q-callout">
+  <p>Discover THREE (3) approaches for efficient image loading in relation to performance best practices for mobile apps.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">6 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <ol>
+      <li><b>Use Image.network with caching</b> — Implement appropriate caching and loading strategies for network images to avoid re-downloading the same images repeatedly.</li>
+      <li><b>Optimize image size</b> — Resize images to the appropriate size for the app to avoid loading unnecessarily large files that consume excess memory and bandwidth.</li>
+      <li><b>Use efficient image formats</b> — Use formats like WebP instead of JPEG, PNG, or GIF to reduce file size while maintaining acceptable quality.</li>
+    </ol>
+  </div>
+</div>
+
+<h3>c) Loading Images from Different Sources</h3>
+<div class="q-callout">
+  <p>Present any TWO (2) methods of loading images in Flutter from different sources. Briefly elaborate your answers.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">4 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <ol>
+      <li><b>From assets (Image.asset)</b> — Store images in the app's assets folder, declare them in pubspec.yaml, and load them using <code>Image.asset('path/image.png')</code>. The system automatically selects the appropriate resolution variant (1x, 2x, 3x) based on the device's screen density.</li>
+      <li><b>From network (Image.network)</b> — Load images from a URL using <code>Image.network('https://example.com/image.jpg')</code>. This is useful for dynamic content like user avatars or product photos. Note that network loading is asynchronous and may take time depending on connection speed.</li>
+    </ol>
+  </div>
+</div>
+
+<h3>d) AlertDialog vs SimpleDialog</h3>
+<div class="q-callout">
+  <p>Examine TWO (2) differences between AlertDialog and SimpleDialog. Then, explain when you would use each of them.</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">6 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <table>
+      <tr><th>AlertDialog</th><th>SimpleDialog</th></tr>
+      <tr><td>Displays a message that requires acknowledgment; user must take action</td><td>Offers a list of options for the user to choose from</td></tr>
+      <tr><td>Has a title, content area, and action buttons</td><td>Has a title and a list of selectable options (SimpleDialogOption)</td></tr>
+    </table>
+    <p style="margin-top:12px;"><b>When to use AlertDialog:</b> Use when you need to inform the user about a situation that requires acknowledgment or a decision (e.g., "Are you sure you want to delete this?" with Approve and Cancel buttons).</p>
+    <p><b>When to use SimpleDialog:</b> Use when you want to present the user with multiple choices to select from (e.g., "Choose a department" with Treasury, State, Defence options).</p>
+  </div>
+</div>
+
+<h3>e) Five Navigation Principles</h3>
+<div class="q-callout">
+  <p>Identify the FIVE (5) navigation principles (explanation is not required).</p>
+  <p style="margin-top:6px;font-size:13px;color:var(--sub);">5 marks</p>
+</div>
+
+<div class="answer-wrap">
+  <button class="answer-toggle" onclick="toggleQ(this)">Show answer</button>
+  <div class="answer-content hidden">
+    <ol>
+      <li><b>Fixed start destination</b> — Every app has a fixed start destination; this is also the last screen seen when returning to the launcher after pressing Back.</li>
+      <li><b>Navigation state is represented as a stack of destinations</b> — The top of the stack is the current screen; previous destinations represent history.</li>
+      <li><b>Up and Back are identical within your app's task</b> — The Up button (in the app bar) and the Back button behave identically within the app.</li>
+      <li><b>The Up button never exits your app</b> — At the start destination, the Up button does not appear because it never exits the app.</li>
+      <li><b>Deep linking simulates manual navigation</b> — A deep link should navigate the user to the same screen as if they had navigated manually through the app.</li>
+    </ol>
+  </div>
+</div>
+
+</section>
+
+</div>
+
+<footer>bmit2073 · extra set 3 · question paper walkthrough</footer>
+
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('show');
+  b.textContent=a.classList.contains('show')?'Hide answer':'Show answer';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>
