@@ -515,7 +515,7 @@
 <h3>Q1. What are the 4 ways to create a Color in Flutter? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below — all 4 create the same type of result: a Color object.</div>
+  <div class="q-answer hide-ans">See table below — all 4 create the same type of result: a Color object.</div>
 </div>
 
 <table>
@@ -529,7 +529,7 @@
 <h3>Q2. How does the 100–900 number system work for color swatches?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Most swatches go from <b>50</b> to <b>900</b> in steps of 100. <b>Smaller number = paler (lighter) color. Bigger number = darker color.</b> Accent swatches (like <code>redAccent</code>) only have 100, 200, 400, 700.</p>
   </div>
 </div>
@@ -557,7 +557,7 @@ Container(
 <h3>Q3. What is ColorSwatch used for?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">ColorSwatch groups many colors around ONE base color theme. Useful for making a palette with different shades, tints, and tones — and you can also give colors custom names (keys) instead of just numbers.</p>
   </div>
 </div>
@@ -585,18 +585,18 @@ border: Border.all(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which is paler: Colors.blue[100] or Colors.blue[800]?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Colors.blue[100] — smaller number means paler/lighter color.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Colors.blue[100] — smaller number means paler/lighter color.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What values does Color.fromRGBO() need?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Red, Green, Blue (each 0–255), and Opacity (0.0 to 1.0).</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Red, Green, Blue (each 0–255), and Opacity (0.0 to 1.0).</div>
   </div>
   <div class="q-item">
     <div class="q-text">What values does an accent swatch (e.g. redAccent) have?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Only 100, 200, 400, and 700 — not the full 50–900 range.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Only 100, 200, 400, and 700 — not the full 50–900 range.</div>
   </div>
 </div>
 </section>
@@ -611,7 +611,7 @@ border: Border.all(
 <h3>Q1. What is the difference between a Style and a Theme?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">A <b>Theme</b> applies to the whole <b>App</b>. A <b>Style</b> applies to just one <b>Widget</b>. Style is more specific and local; Theme is shared and global.</p>
   </div>
 </div>
@@ -624,7 +624,7 @@ border: Border.all(
 <h3>Q2. In what order does Flutter apply styling? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ol>
       <li>Style applied directly to the specific widget</li>
       <li>Theme that overrides the immediate parent theme</li>
@@ -675,7 +675,7 @@ Container(
 <h3>Q4. What are the 2 ways to override a theme? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ul>
       <li><b>Create a unique ThemeData instance</b> — makes a totally new theme, ignoring the parent's theme.</li>
       <li><b>Extend the parent theme</b> — keeps most of the parent theme, but changes only a few properties.</li>
@@ -703,13 +703,13 @@ Container(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which wins: a style set directly on a widget, or the app's main theme?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">The style set directly on the widget wins — it's the most specific, applied first in the styling order.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">The style set directly on the widget wins — it's the most specific, applied first in the styling order.</div>
   </div>
   <div class="q-item">
     <div class="q-text">How do you read the current theme's colors inside a widget's build method?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer"><code>Theme.of(context).colorScheme.primary</code> (or any other colorScheme/textTheme property).</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans"><code>Theme.of(context).colorScheme.primary</code> (or any other colorScheme/textTheme property).</div>
   </div>
 </div>
 </section>
@@ -724,7 +724,7 @@ Container(
 <h3>Q1. What are the 4 font style properties? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below.</div>
+  <div class="q-answer hide-ans">See table below.</div>
 </div>
 
 <table>
@@ -738,7 +738,7 @@ Container(
 <h3>Q2. What are the TextTheme categories and size variations?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below — combine a category with a size to get names like "titleLarge" or "bodyMedium".</div>
+  <div class="q-answer hide-ans">See table below — combine a category with a size to get names like "titleLarge" or "bodyMedium".</div>
 </div>
 
 <table>
@@ -753,7 +753,7 @@ Container(
 <h3>Q3. What is Google Fonts, and how do you use it?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Google Fonts (<code>fonts.google.com</code>) is a website where you can try/test many fonts. In Flutter, you use the <code>google_fonts</code> package (from pub.dev) to apply these fonts directly in your <code>TextTheme</code>.</p>
   </div>
 </div>
@@ -789,13 +789,13 @@ Container(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Name the 4 font style properties.</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Typeface, Size, Style, Weight.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Typeface, Size, Style, Weight.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which TextTheme category is used for the biggest, most eye-catching text (like a splash screen title)?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Display (e.g. displayLarge) — the biggest category, meant for short, important text.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Display (e.g. displayLarge) — the biggest category, meant for short, important text.</div>
   </div>
 </div>
 </section>
@@ -810,7 +810,7 @@ Container(
 <h3>Q1. What are the 3 methods under "Design for Everyone"?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ol>
       <li>Internationalizing</li>
       <li>Supporting different screens</li>
@@ -822,7 +822,7 @@ Container(
 <h3>Q2. What does "internationalizing" mean, and what 5 things does it involve? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0 0 8px;">Internationalizing = making your app adapt to different languages, cultures, and regions.</p>
     <ul>
       <li>Language Translation</li>
@@ -864,7 +864,7 @@ Container(
 <h3>Q4. What is the ISO 639 language code format? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Format: <code>[language code]_[country code]</code>.</p>
   </div>
 </div>
@@ -894,18 +894,18 @@ output = myCurrency.format(total);</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What file type holds translated text for each language?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">.arb files (Android Resource Bundle) — e.g. en.arb, fr.arb.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">.arb files (Android Resource Bundle) — e.g. en.arb, fr.arb.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What is the full ISO code for Malay spoken in Malaysia?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">ms_MY — language code "ms" (Malay) + country code "MY" (Malaysia).</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">ms_MY — language code "ms" (Malay) + country code "MY" (Malaysia).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which Flutter function/class marks a string as needing translation?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer"><code>Intl.message()</code> — wraps the string, e.g. <code>Text(Intl.message('Hello, world!'))</code>.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans"><code>Intl.message()</code> — wraps the string, e.g. <code>Text(Intl.message('Hello, world!'))</code>.</div>
   </div>
 </div>
 </section>
@@ -920,7 +920,7 @@ output = myCurrency.format(total);</div>
 <h3>Q1. What are the screen size and density categories? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below — Size describes physical screen size; Density describes pixel sharpness.</div>
+  <div class="q-answer hide-ans">See table below — Size describes physical screen size; Density describes pixel sharpness.</div>
 </div>
 
 <table>
@@ -956,7 +956,7 @@ output = myCurrency.format(total);</div>
 <h3>Q4. How does Flutter handle screen orientation?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Use <code>MediaQuery.of(context).orientation</code> to check Portrait or Landscape, and build a different layout for each. Use <code>SystemChrome.setPreferredOrientations()</code> to force a fixed orientation (e.g. lock to portrait).</p>
   </div>
 </div>
@@ -986,13 +986,13 @@ output = myCurrency.format(total);</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What widget helps scale an image to fit its available space?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">FittedBox.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">FittedBox.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Why would a developer set minSdkVersion to a lower number like 16?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">To let the app run on more (older) Android devices, widening the audience.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">To let the app run on more (older) Android devices, widening the audience.</div>
   </div>
 </div>
 </section>
@@ -1007,7 +1007,7 @@ output = myCurrency.format(total);</div>
 <h3>Q1. What are the 3 accessibility considerations? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ol>
       <li>Navigation</li>
       <li>Readability</li>
@@ -1054,7 +1054,7 @@ output = myCurrency.format(total);</div>
 <h3>Q4. Readability — what helps users read your app better?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ul>
       <li><b>Adequate color contrast</b> — text color must stand out clearly against the background.</li>
       <li><b>Don't rely on color alone</b> — e.g. don't show "Going" only in green and "Can't go" only in red; add icons/text too, for colorblind users.</li>
@@ -1066,7 +1066,7 @@ output = myCurrency.format(total);</div>
 <h3>Q5. Guidance and Feedback — what makes controls "clear and discoverable"?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ul>
       <li>Interactive controls need text labels, tooltips, or placeholder text — so users know what they do.</li>
       <li>Be consistent in naming — use the same word for the same action everywhere in your app.</li>
@@ -1077,7 +1077,7 @@ output = myCurrency.format(total);</div>
 <h3>Q6. What is gesture navigation (Android 10 / API 29)?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Android 10 supports fully gesture-based navigation (swipe instead of buttons). Your app should extend content edge-to-edge and handle any conflicting gestures properly.</p>
   </div>
 </div>
@@ -1091,18 +1091,18 @@ output = myCurrency.format(total);</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What is the minimum recommended touch target size?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">48 × 48 pixels, with at least 8dp spacing between elements.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">48 × 48 pixels, with at least 8dp spacing between elements.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which widget helps screen readers understand a widget's purpose?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Semantics widget, using its "label" property.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Semantics widget, using its "label" property.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Why is it bad design to show status using ONLY color (e.g. red = error)?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Colorblind users may not tell the colors apart. Always add extra cues like icons, text, or patterns alongside color.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Colorblind users may not tell the colors apart. Always add extra cues like icons, text, or patterns alongside color.</div>
   </div>
 </div>
 
