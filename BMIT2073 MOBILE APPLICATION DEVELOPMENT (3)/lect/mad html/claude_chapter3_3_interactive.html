@@ -529,7 +529,7 @@
 <h3>Q1. What is "state" in Flutter?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">State = everything that exists in memory while the app is running. This includes app assets, UI variables, animation state, textures, fonts, and more.</p>
   </div>
 </div>
@@ -537,7 +537,7 @@
 <h3>Q2. What are the 2 types of state? <span class="examtag">EXAM FORMAT</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below — memorise this comparison for the exam.</div>
+  <div class="q-answer hide-ans">See table below — memorise this comparison for the exam.</div>
 </div>
 
 <table>
@@ -584,18 +584,18 @@
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Is "current selected tab in a BottomNavigationBar" ephemeral or app state?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Ephemeral state — it's local UI state, only matters to that one widget.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Ephemeral state — it's local UI state, only matters to that one widget.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Is the "shopping cart" in an e-commerce app ephemeral or app state?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">App state — the cart data is needed across many screens (product page, cart page, checkout page) and often needs to persist.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">App state — the cart data is needed across many screens (product page, cart page, checkout page) and often needs to persist.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What widget/method is used to manage simple ephemeral state?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">StatefulWidget, using setState().</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">StatefulWidget, using setState().</div>
   </div>
 </div>
 </section>
@@ -610,7 +610,7 @@
 <h3>Q1. What class does Provider use to notify changes?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;"><code>ChangeNotifier</code> — a class you extend to hold your data. When data changes, call <code>notifyListeners()</code> to tell all listening widgets to rebuild.</p>
   </div>
 </div>
@@ -680,18 +680,18 @@ floatingActionButton: FloatingActionButton(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What method must you call inside ChangeNotifier to update the UI?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">notifyListeners() — tells all Consumer widgets listening to this provider to rebuild.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">notifyListeners() — tells all Consumer widgets listening to this provider to rebuild.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What widget lets you provide more than one ChangeNotifier at once?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">MultiProvider — takes a list of providers.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">MultiProvider — takes a list of providers.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Should you use Consumer or context.read() inside a button's onPressed?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">context.read() — you just want to trigger an action, not rebuild that part of the UI.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">context.read() — you just want to trigger an action, not rebuild that part of the UI.</div>
   </div>
 </div>
 </section>
@@ -706,7 +706,7 @@ floatingActionButton: FloatingActionButton(
 <h3>Q1. List all 5 navigation principles <span class="examtag">EXAM FORMAT</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See numbered list below.</div>
+  <div class="q-answer hide-ans">See numbered list below.</div>
 </div>
 
 <div class="flow">
@@ -765,7 +765,7 @@ floatingActionButton: FloatingActionButton(
 <h3>Q3. Why does the Up button disappear at the start destination? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Because Up must NEVER exit the app. At the start destination, there is no "up" screen inside the app to go to — going further up would mean leaving the app, which breaks Principle 4.</p>
   </div>
 </div>
@@ -773,7 +773,7 @@ floatingActionButton: FloatingActionButton(
 <h3>Q4. What does "deep linking simulates manual navigation" mean?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">A deep link (e.g. tapping a notification that opens a detail screen directly) should still build a normal-looking back stack — as if the user had tapped through the app's main screen first, then to the detail screen. This keeps Back/Up behavior consistent no matter how the user arrived.</p>
   </div>
 </div>
@@ -792,18 +792,18 @@ floatingActionButton: FloatingActionButton(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">User is on stack [Start, A, B, C] and presses Back once. Which screen do they see?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Screen B — the top of the stack (C) is popped off, revealing B underneath.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Screen B — the top of the stack (C) is popped off, revealing B underneath.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Are Up and Back always identical in Flutter?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Only WITHIN your app's own task/stack — not necessarily true across different apps or tasks.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Only WITHIN your app's own task/stack — not necessarily true across different apps or tasks.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which principle explains why the Up button is missing on your app's home screen?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Principle 4 — The Up button never exits your app, so it's hidden at the start destination.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Principle 4 — The Up button never exits your app, so it's hidden at the start destination.</div>
   </div>
 </div>
 </section>
@@ -834,7 +834,7 @@ floatingActionButton: FloatingActionButton(
 <h3>Q2. Fixed Tabs vs Scrollable Tabs — what's the difference?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <ul>
       <li><b>Fixed Tabs</b> — all tabs fit on screen at once, evenly spaced. Good for few tabs (2–4).</li>
       <li><b>Scrollable Tabs</b> — tabs can be swiped left/right if there are too many to fit. Good for many tabs.</li>
@@ -887,13 +887,13 @@ floatingActionButton: FloatingActionButton(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What widget manages which tab is currently selected?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">TabController (often supplied automatically by DefaultTabController).</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">TabController (often supplied automatically by DefaultTabController).</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which tab style would you use for 8 category tabs that don't fit on one screen?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Scrollable Tabs — lets the user swipe to see tabs that don't fit.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Scrollable Tabs — lets the user swipe to see tabs that don't fit.</div>
   </div>
 </div>
 </section>
@@ -908,7 +908,7 @@ floatingActionButton: FloatingActionButton(
 <h3>Q1. When should you use a Navigation Drawer? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0 0 8px;">Recommended when you have:</p>
     <ul>
       <li><b>5 or more</b> top-level destinations</li>
@@ -965,13 +965,13 @@ leading: Builder(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">How many top-level destinations should you have before considering a Drawer instead of tabs?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">5 or more top-level destinations.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">5 or more top-level destinations.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What method closes the drawer after tapping a menu item?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Navigator.pop(context).</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Navigator.pop(context).</div>
   </div>
 </div>
 </section>
@@ -986,7 +986,7 @@ leading: Builder(
 <h3>Q1. AlertDialog vs SimpleDialog — what's the difference? <span class="examtag">EXAM FORMAT</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below.</div>
+  <div class="q-answer hide-ans">See table below.</div>
 </div>
 
 <table>
@@ -1040,7 +1040,7 @@ leading: Builder(
 <h3>Q2. What does barrierDismissible: false mean?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">The user CANNOT close the dialog by tapping outside it — they must tap one of the dialog's buttons. Used when the user must make a real decision (e.g. confirm delete).</p>
   </div>
 </div>
@@ -1054,13 +1054,13 @@ leading: Builder(
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which dialog type would you use to let a user pick their preferred language from a list?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">SimpleDialog — it offers a choice between multiple options.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">SimpleDialog — it offers a choice between multiple options.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Which dialog type would you use to warn "Are you sure you want to log out?"</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">AlertDialog — informs the user and asks for acknowledgment via action buttons (e.g. Yes/Cancel).</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">AlertDialog — informs the user and asks for acknowledgment via action buttons (e.g. Yes/Cancel).</div>
   </div>
 </div>
 </section>
@@ -1075,7 +1075,7 @@ leading: Builder(
 <h3>Q1. What are the 2 built-in picker functions?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;"><code>showDatePicker</code> and <code>showTimePicker</code> — both are async functions that return the value the user picked.</p>
   </div>
 </div>
@@ -1083,7 +1083,7 @@ leading: Builder(
 <h3>Q2. Why use these instead of a plain text field?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">They make sure the user picks a value that is <b>valid</b>, <b>correctly formatted</b>, and <b>adjusted to the user's locale</b> (region settings) automatically.</p>
   </div>
 </div>
@@ -1119,13 +1119,13 @@ Future<void> _selectDate(BuildContext context) async {
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">What type of function is showDatePicker — sync or async?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Async — you must "await" its result since it waits for the user's input.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Async — you must "await" its result since it waits for the user's input.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What happens if the user cancels the date picker (taps outside)?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">"picked" will be null — code should check "if (picked != null)" before using the value.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">"picked" will be null — code should check "if (picked != null)" before using the value.</div>
   </div>
 </div>
 </section>
@@ -1140,7 +1140,7 @@ Future<void> _selectDate(BuildContext context) async {
 <h3>Q1. How do you show a Snackbar?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">
+  <div class="q-answer hide-ans">
     <p style="margin:0;">Use <code>ScaffoldMessenger.of(context).showSnackBar(snackBar)</code> — it finds the ScaffoldMessenger in the widget tree and displays the SnackBar.</p>
   </div>
 </div>
@@ -1157,7 +1157,7 @@ ScaffoldMessenger.of(context).showSnackBar(snackBar);</div>
 <h3>Q2. Snackbar vs Dialog — what's the difference? <span class="examtag">EXAM FORMAT</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
-  <div class="q-answer">See table below — a very common exam comparison.</div>
+  <div class="q-answer hide-ans">See table below — a very common exam comparison.</div>
 </div>
 
 <table>
@@ -1182,18 +1182,18 @@ ScaffoldMessenger.of(context).showSnackBar(snackBar);</div>
   <h4>More practice</h4>
   <div class="q-item">
     <div class="q-text">Which widget finds and shows the SnackBar in the widget tree?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">ScaffoldMessenger.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">ScaffoldMessenger.</div>
   </div>
   <div class="q-item">
     <div class="q-text">Would you use a Snackbar or Dialog to confirm "Delete this file permanently?"</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">Dialog (AlertDialog) — this is a high-priority action needing a required user decision, not something to auto-dismiss.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">Dialog (AlertDialog) — this is a high-priority action needing a required user decision, not something to auto-dismiss.</div>
   </div>
   <div class="q-item">
     <div class="q-text">What optional feature does a Snackbar commonly have?</div>
-    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
-    <div class="q-answer">A SnackBarAction (e.g. an "Undo" button) to reverse the last action.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
+    <div class="q-answer hide-ans">A SnackBarAction (e.g. an "Undo" button) to reverse the last action.</div>
   </div>
 </div>
 
