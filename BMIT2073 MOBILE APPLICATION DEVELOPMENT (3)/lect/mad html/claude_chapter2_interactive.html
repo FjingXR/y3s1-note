@@ -502,6 +502,7 @@
     footer{padding:30px 16px 16px;font-size:11px;}
     .quiz-box h4{flex-direction:column;align-items:flex-start;}
   }
+  .exam-only .hero,.exam-only .callout,.exam-only .cardgrid,.exam-only .summary,.exam-only .summary-box,.exam-only .flowstep,.exam-only details,.exam-only .track,.exam-only .intro-section{display:none!important;}
 </style>
 </head>
 <body>
@@ -518,6 +519,7 @@
   <a href="#lifecycle">Lifecycle</a>
   <a href="#summary">Summary</a>
   <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
+  <button class="exam-toggle theme-toggle" onclick="toggleExamOnly()" title="Exam only" style="margin-left:4px;">📝</button>
 </div>
 
 <div class="hero">
@@ -1136,6 +1138,7 @@ function toggleQ(b){
   b.textContent=a.classList.contains('hide')?'Show answer':'Hide answer';
 }
 function toggleTheme(){
+function toggleExamOnly(){document.documentElement.classList.toggle("exam-only");var b=document.querySelector(".exam-toggle");if(b){b.textContent=document.documentElement.classList.contains("exam-only")?"📖":"📝";b.title=document.documentElement.classList.contains("exam-only")?"Study mode":"Exam only";}}
   var h=document.documentElement;
   h.classList.toggle('light');
   var isLight=h.classList.contains('light');
