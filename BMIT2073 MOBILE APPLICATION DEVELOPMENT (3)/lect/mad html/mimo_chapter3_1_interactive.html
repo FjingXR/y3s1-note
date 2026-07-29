@@ -92,10 +92,7 @@
   .exam-toggle:hover{color:var(--text);border-color:var(--accent);}
   .exam-toggle.on{background:var(--accent);color:#0b1628;border-color:var(--accent);}
   html.exam-only section:not(:has(.examtag)){display:none !important;}
-  html.exam-only h3:not(:has(.examtag)){display:none !important;}
-  html.exam-only h3:not(:has(.examtag))+.answer-wrap,
-  html.exam-only h3:not(:has(.examtag))+.answer-content,
-  html.exam-only h3:not(:has(.examtag))+.q-callout{display:none !important;}
+  html.exam-only .exam-hide{display:none !important;}
 
   @media(max-width:600px){.hero{padding:40px 16px 28px;}.hero h1{font-size:1.6rem;}h2{font-size:22px;}h3{font-size:16px;}.navbar{gap:6px;padding:8px 12px;}table{font-size:13px;}th,td{padding:8px 10px;}}
 </style>
@@ -775,10 +772,27 @@ function toggleTheme(){
   localStorage.setItem('mad-theme',isLight?'light':'dark');
   document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
 }
+function applyExamFilter(){
+  document.querySelectorAll('.exam-hide').forEach(function(el){el.classList.remove('exam-hide');});
+  if(!document.documentElement.classList.contains('exam-only'))return;
+  document.querySelectorAll('section').forEach(function(sec){
+    var h3s=sec.querySelectorAll('h3');
+    h3s.forEach(function(h3){
+      if(h3.querySelector('.examtag'))return;
+      h3.classList.add('exam-hide');
+      var sib=h3.nextElementSibling;
+      while(sib&&sib.tagName!=='H3'){
+        sib.classList.add('exam-hide');
+        sib=sib.nextElementSibling;
+      }
+    });
+  });
+}
 function toggleExamOnly(){
   document.documentElement.classList.toggle('exam-only');
   document.querySelector('.exam-toggle').classList.toggle('on');
   localStorage.setItem('mad-exam',document.documentElement.classList.contains('exam-only'));
+  applyExamFilter();
 }
 (function(){
   if(localStorage.getItem('mad-theme')==='light'){
@@ -788,6 +802,7 @@ function toggleExamOnly(){
   if(localStorage.getItem('mad-exam')==='true'){
     document.documentElement.classList.add('exam-only');
     document.querySelector('.exam-toggle').classList.add('on');
+    applyExamFilter();
   }
 })();
 </script>
