@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3.2 — Themes, Typography & Design for Everyone | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
+  html.light p,
+  html.light ul,
+  html.light ol,
+  html.light td,
+  html.light li,
+  html.light .flowstep .txt,
+  html.light .summary li,
+  html.light .card li,
+  html.light .answer-content li,
+  html.light .nav-principles .np-txt,
+  html.light .callout p,
+  html.light .q-answer,
+  html.light .q-text,
+  html.light .slideref,
+  html.light .eyebrow,
+  html.light .modpill,
+  html.light h3,
+  html.light .hero p.lead,
+  html.light .hero p.sub {
+    color: #374151;
+  }
+  html.light .q-answer .cli{color:#065f46;}
+  html.light .q-answer code{color:#b45309;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .track{
+    max-width:400px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .device-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .pulse{animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  .slideref{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    margin:-2px 0 18px;
+  }
+  .slideref b{color:var(--amber);font-weight:600;}
+
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  th.h-blue{color:var(--blue);}
+  th.h-amber{color:var(--amber);}
+  th.h-green{color:var(--green);}
+  th.h-pink{color:var(--pink);}
+
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card.red{border-top-color:var(--danger);}
+  .card h4{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+  .card ul{margin:8px 0 0;padding-left:16px;}
+  .card li{font-size:13px;color:var(--sub);margin-bottom:3px;}
+
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout.find{background:rgba(245,166,35,0.08);border-color:var(--amber);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout.find b{color:var(--amber);}
+  .callout p{margin:0;color:var(--text);}
+
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;font-weight:600;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:block;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.hide-ans{display:none;}
+  .q-answer ul{margin:4px 0 0;padding-left:16px;}
+  .q-answer li{margin-bottom:3px;}
+
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  .swatch-row{display:flex;gap:4px;margin:14px 0;flex-wrap:wrap;}
+  .swatch{
+    flex:1;min-width:36px;height:44px;border-radius:6px;
+    display:flex;align-items:flex-end;justify-content:center;
+    font-family:var(--mono);font-size:9px;color:#fff;padding-bottom:3px;
+    text-shadow:0 1px 2px rgba(0,0,0,0.6);
+  }
+
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  .examtag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    background:rgba(255,107,107,0.12);
+    border:1px solid rgba(255,107,107,0.35);
+    color:var(--danger);
+    padding:2px 8px;
+    border-radius:12px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:70%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .swatch{min-width:26px;height:36px;font-size:8px;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch3.2/&gt;</span>
+  <a href="#colors">Colors</a>
+  <a href="#themes">Themes</a>
+  <a href="#typography">Typography</a>
+  <a href="#internationalization">i18n</a>
+  <a href="#screens">Screens</a>
+  <a href="#accessibility">Accessibility</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Chapter 3.2 · Platforms, Themes & Design</span>
+  <h1>Chapter 3.2 — Themes, Typography & Design for Everyone</h1>
+  <p class="lead">This page covers colors, Material Design themes, typography (fonts), internationalization (i18n), supporting different screens, and accessibility. Made only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 400 90">
+      <text x="55" y="25" class="device-label" text-anchor="middle">Colors</text>
+      <rect x="20" y="33" width="70" height="50" rx="8" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+      <circle cx="55" cy="58" r="8" class="pulse" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+
+      <text x="200" y="25" class="device-label" text-anchor="middle">Theme</text>
+      <rect x="155" y="33" width="90" height="50" rx="8" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="200" y="63" class="device-label" text-anchor="middle" font-size="9" fill="#4da3ff">ThemeData</text>
+
+      <text x="345" y="25" class="device-label" text-anchor="middle">For All</text>
+      <rect x="310" y="33" width="70" height="50" rx="8" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+      <circle cx="345" cy="58" r="8" class="pulse" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+
+      <line x1="90" y1="58" x2="155" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+      <line x1="245" y1="58" x2="310" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ COLORS ============ -->
+<section id="colors">
+<span class="modpill">MODULE 3.2</span>
+<h2>Colors and ColorSwatch</h2>
+<p class="slideref">Lecture 3.2, <b>slide 3–8</b></p>
+<p>Flutter has ready-made color constants, and you can also build your own colors from numbers.</p>
+
+<h3>Q1. What are the 4 ways to create a Color in Flutter? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below — all 4 create the same type of result: a Color object.</div>
+</div>
+
+<table>
+  <tr><th>Constructor</th><th>Example</th><th>Use Case</th></tr>
+  <tr><td><code>Color()</code></td><td><code>Color(0xFFCE4EC)</code></td><td>Direct hex value (ARGB in hex form)</td></tr>
+  <tr><td><code>Color.fromARGB()</code></td><td><code>Color.fromARGB(0xFF, 0x42, 0xA5, 0xF5)</code></td><td>Alpha, Red, Green, Blue as separate hex/int values</td></tr>
+  <tr><td><code>Color.fromRGBO()</code></td><td><code>Color.fromRGBO(66, 165, 245, 1.0)</code></td><td>Red, Green, Blue (0–255) + Opacity (0.0–1.0)</td></tr>
+  <tr><td><code>ColorSwatch</code></td><td><code>MaterialColor(0xFF007AFF, {...})</code></td><td>A group of related colors under one theme (shades/tints)</td></tr>
+</table>
+
+<h3>Q2. How does the 100–900 number system work for color swatches?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Most swatches go from <b>50</b> to <b>900</b> in steps of 100. <b>Smaller number = paler (lighter) color. Bigger number = darker color.</b> Accent swatches (like <code>redAccent</code>) only have 100, 200, 400, 700.</p>
+  </div>
+</div>
+
+<div class="swatch-row">
+  <div class="swatch" style="background:#e3f2fd;color:#333;text-shadow:none;">50</div>
+  <div class="swatch" style="background:#bbdefb;color:#333;text-shadow:none;">100</div>
+  <div class="swatch" style="background:#90caf9;color:#333;text-shadow:none;">200</div>
+  <div class="swatch" style="background:#64b5f6;">300</div>
+  <div class="swatch" style="background:#42a5f5;">400</div>
+  <div class="swatch" style="background:#2196f3;">500</div>
+  <div class="swatch" style="background:#1e88e5;">600</div>
+  <div class="swatch" style="background:#1976d2;">700</div>
+  <div class="swatch" style="background:#1565c0;">800</div>
+  <div class="swatch" style="background:#0d47a1;">900</div>
+</div>
+
+<div class="cli"><span class="cmt">// selects a mid-range green</span>
+Color selection = Colors.green[400]!;
+
+Container(
+  color: Colors.blue,           <span class="cmt">// same as Colors.blue[500]</span>
+)</div>
+
+<h3>Q3. What is ColorSwatch used for?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">ColorSwatch groups many colors around ONE base color theme. Useful for making a palette with different shades, tints, and tones — and you can also give colors custom names (keys) instead of just numbers.</p>
+  </div>
+</div>
+
+<div class="cli">ColorSwatch myColorSwatch = MaterialColor(0xFF007AFF, {
+  50: Color(0xFF007AFF),
+  500: Color(0xFF007AFF),
+  'arrow': Color(0xFF20877E),
+  'border': Color(0xFF20877E),
+});
+
+Container(
+  color: myColorSwatch[500],       <span class="cmt">// access a specific shade</span>
+)
+border: Border.all(
+  color: myColorSwatch['border'],  <span class="cmt">// access by custom key</span>
+)</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 3 to 8 (Colors, Color Class, ColorSwatch).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which is paler: Colors.blue[100] or Colors.blue[800]?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Colors.blue[100] — smaller number means paler/lighter color.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What values does Color.fromRGBO() need?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Red, Green, Blue (each 0–255), and Opacity (0.0 to 1.0).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What values does an accent swatch (e.g. redAccent) have?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Only 100, 200, 400, and 700 — not the full 50–900 range.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ THEMES ============ -->
+<section id="themes">
+<span class="eyebrow">Material Design</span>
+<h2>Styles, Themes & ThemeData <span class="examtag">EXAM</span></h2>
+<p class="slideref">Lecture 3.2, <b>slide 10–18</b></p>
+<p>Material Design is Google's open-source design system — the default look for a Flutter app. A theme lets you set colors and fonts once, and use them everywhere.</p>
+
+<h3>Q1. What is the difference between a Style and a Theme?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">A <b>Theme</b> applies to the whole <b>App</b>. A <b>Style</b> applies to just one <b>Widget</b>. Style is more specific and local; Theme is shared and global.</p>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt"><b>Theme</b> — set once for the whole App (colors, fonts).</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt"><b>Style</b> — override just for one Widget, if needed.</div></div>
+</div>
+
+<h3>Q2. In what order does Flutter apply styling? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ol>
+      <li>Style applied directly to the specific widget</li>
+      <li>Theme that overrides the immediate parent theme</li>
+      <li>Main theme for the whole app</li>
+    </ol>
+    <p style="margin:8px 0 0;">In short: <b>closest/most specific style wins</b>.</p>
+  </div>
+</div>
+
+<h3>Q3. What are the 2 main properties of ThemeData?</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>colorScheme</h4>
+    <p>Defines the colors used across the whole app (primary, secondary, background, etc.).</p>
+  </div>
+  <div class="card green">
+    <h4>textTheme</h4>
+    <p>Defines text styling across the whole app (headlines, titles, body text sizes/weights).</p>
+  </div>
+</div>
+
+<div class="cli">MaterialApp(
+  title: appName,
+  theme: ThemeData(
+    useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.purple,
+      brightness: Brightness.dark,
+    ),
+    textTheme: TextTheme(
+      displayLarge: const TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+      bodyMedium: GoogleFonts.merriweather(),
+    ),
+  ),
+)</div>
+
+<div class="cli"><span class="cmt">// using the theme inside a widget</span>
+Container(
+  color: Theme.of(context).colorScheme.primary,
+  child: Text(
+    'Text with a background color',
+    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: Theme.of(context).colorScheme.onPrimary,
+    ),
+  ),
+)</div>
+
+<h3>Q4. What are the 2 ways to override a theme? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Create a unique ThemeData instance</b> — makes a totally new theme, ignoring the parent's theme.</li>
+      <li><b>Extend the parent theme</b> — keeps most of the parent theme, but changes only a few properties.</li>
+    </ul>
+    <p style="margin:8px 0 0;">Both use the <code>Theme</code> widget to wrap the part of the app you want to change.</p>
+  </div>
+</div>
+
+<div class="cli">Theme(
+  data: ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+  ),
+  child: FloatingActionButton(
+    onPressed: () {},
+    child: const Icon(Icons.add),
+  ),
+)</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 10 to 18 (Material Design, Styles and Themes, ThemeData, Override a Theme).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which wins: a style set directly on a widget, or the app's main theme?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">The style set directly on the widget wins — it's the most specific, applied first in the styling order.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">How do you read the current theme's colors inside a widget's build method?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer"><code>Theme.of(context).colorScheme.primary</code> (or any other colorScheme/textTheme property).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ TYPOGRAPHY ============ -->
+<section id="typography">
+<span class="eyebrow">Fonts</span>
+<h2>Fonts and Typography</h2>
+<p class="slideref">Lecture 3.2, <b>slide 21–25</b></p>
+<p>Typography = the study/style of fonts (how text looks).</p>
+
+<h3>Q1. What are the 4 font style properties? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th>Property</th><th>Meaning</th><th>Example</th></tr>
+  <tr><td>Typeface</td><td>Set of common character rules (the font family)</td><td>Roboto</td></tr>
+  <tr><td>Size</td><td>How big the text is</td><td>Size 18</td></tr>
+  <tr><td>Style</td><td>Slant of the text</td><td>Regular, Italic</td></tr>
+  <tr><td>Weight</td><td>Thickness of the text</td><td>Normal, Bold</td></tr>
+</table>
+
+<h3>Q2. What are the TextTheme categories and size variations?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below — combine a category with a size to get names like "titleLarge" or "bodyMedium".</div>
+</div>
+
+<table>
+  <tr><th>Category</th><th>Size Variations</th></tr>
+  <tr><td>Display</td><td>Small, Medium, Large</td></tr>
+  <tr><td>Headline</td><td>Small, Medium, Large</td></tr>
+  <tr><td>Title</td><td>Small, Medium, Large</td></tr>
+  <tr><td>Label</td><td>Small, Medium, Large</td></tr>
+  <tr><td>Body</td><td>Small, Medium, Large</td></tr>
+</table>
+
+<h3>Q3. What is Google Fonts, and how do you use it?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Google Fonts (<code>fonts.google.com</code>) is a website where you can try/test many fonts. In Flutter, you use the <code>google_fonts</code> package (from pub.dev) to apply these fonts directly in your <code>TextTheme</code>.</p>
+  </div>
+</div>
+
+<div class="cli">textTheme: TextTheme(
+  titleLarge: GoogleFonts.oswald(fontSize: 30, fontStyle: FontStyle.italic),
+  bodyMedium: GoogleFonts.merriweather(),
+  displaySmall: GoogleFonts.pacifico(),
+)</div>
+
+<h3>Q4. Serif vs Sans-Serif — which is easier to read? <span class="examtag">EXAM</span></h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Serif</h4>
+    <p>Has small lines/strokes (feet) at the ends of letters. Traditional, often used in print/books.</p>
+  </div>
+  <div class="card green">
+    <h4>Sans-Serif</h4>
+    <p>"Sans" = without. No extra lines at letter ends. Cleaner, simpler shapes.</p>
+  </div>
+</div>
+<div class="callout tip">
+  <b>Exam answer</b>
+  <p>Sans-Serif is generally considered <b>easier to read on screens</b> (mobile/digital), especially at small sizes, because its shapes are simpler and clearer on low-resolution displays. Serif can be better for large printed text.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 21 to 25 (Fonts and Typography, Google Fonts Tester, Serif vs Sans-Serif).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Name the 4 font style properties.</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Typeface, Size, Style, Weight.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which TextTheme category is used for the biggest, most eye-catching text (like a splash screen title)?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Display (e.g. displayLarge) — the biggest category, meant for short, important text.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ INTERNATIONALIZATION ============ -->
+<section id="internationalization">
+<span class="eyebrow">Design for Everyone</span>
+<h2>Internationalization (i18n) <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.2, <b>slide 27–41</b></p>
+<p><b>Design for Everyone</b> = making your app usable by as many people as possible, no matter their age, ability, language, or device. One big part of this is internationalizing your app.</p>
+
+<h3>Q1. What are the 3 methods under "Design for Everyone"?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ol>
+      <li>Internationalizing</li>
+      <li>Supporting different screens</li>
+      <li>Make apps more accessible</li>
+    </ol>
+  </div>
+</div>
+
+<h3>Q2. What does "internationalizing" mean, and what 5 things does it involve? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Internationalizing = making your app adapt to different languages, cultures, and regions.</p>
+    <ul>
+      <li>Language Translation</li>
+      <li>Generate Localization Delegates</li>
+      <li>Date, Number and Currency Formatting</li>
+      <li>Text Direction (e.g. left-to-right vs right-to-left)</li>
+      <li>Cultural Nuances (small cultural differences)</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q3. What are the setup steps for internationalization? <span class="examtag">EXAM</span></h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Add <code>flutter_localizations</code> and <code>intl</code> to <b>pubspec.yaml</b>.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Create <b>.arb files</b> (Android Resource Bundle) — one file per language, holding key-value text pairs.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">Set <b>localizationsDelegates</b> in your MaterialApp/CupertinoApp (Material, Widgets, Cupertino delegates).</div></div>
+  <div class="flowstep"><div class="num">4</div><div class="txt">Set <b>supportedLocales</b> — the list of languages/regions your app supports.</div></div>
+</div>
+
+<div class="cli"><span class="cmt">// en.arb</span>
+{ "helloWorld": "Hello, world!", "greeting": "Hello, {name}!" }
+
+<span class="cmt">// fr.arb</span>
+{ "helloWorld": "Bonjour, le monde!", "greeting": "Bonjour, {name}!" }</div>
+
+<div class="cli">return const MaterialApp(
+  localizationsDelegates: [
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: [
+    Locale('en'), // English
+    Locale('es'), // Spanish
+  ],
+  home: MyHomePage(),
+);</div>
+
+<h3>Q4. What is the ISO 639 language code format? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Format: <code>[language code]_[country code]</code>.</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>Language</th><th>Language Code</th><th>Country Code</th><th>Full Code</th></tr>
+  <tr><td>US English</td><td>en</td><td>US</td><td>en_US</td></tr>
+  <tr><td>Malay (Malaysia)</td><td>ms</td><td>MY</td><td>ms_MY</td></tr>
+  <tr><td>Chinese (China)</td><td>zh</td><td>CN</td><td>zh_CN</td></tr>
+</table>
+
+<div class="cli">final myCurrency = Intl.NumberFormat('#,##0.00', 'ms_MY');
+symbol = myCurrency.currencySymbol;
+output = myCurrency.format(total);</div>
+
+<div class="callout note">
+  <b>Why formatting matters</b>
+  <p>Dates, numbers, and currency are written differently in different countries (e.g. 27/07/2026 vs 07/27/2026, RM vs $). Using <code>intl</code> formatting keeps this correct automatically, based on locale.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 27 to 41 (Design for Everyone, Internationalizing, Setting up, Language Translation, ISO Codes).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What file type holds translated text for each language?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">.arb files (Android Resource Bundle) — e.g. en.arb, fr.arb.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What is the full ISO code for Malay spoken in Malaysia?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">ms_MY — language code "ms" (Malay) + country code "MY" (Malaysia).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which Flutter function/class marks a string as needing translation?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer"><code>Intl.message()</code> — wraps the string, e.g. <code>Text(Intl.message('Hello, world!'))</code>.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SCREENS ============ -->
+<section id="screens">
+<span class="eyebrow">Design for Everyone</span>
+<h2>Supporting different screens</h2>
+<p class="slideref">Lecture 3.2, <b>slide 42–58</b></p>
+<p>Phones come in many sizes and screen qualities. Your app must adapt to all of them.</p>
+
+<h3>Q1. What are the screen size and density categories? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below — Size describes physical screen size; Density describes pixel sharpness.</div>
+</div>
+
+<table>
+  <tr><th>Size Category</th><th>Density Category</th><th>Example</th></tr>
+  <tr><td>Small</td><td>Low (ldpi)</td><td>Older / cheap small phones</td></tr>
+  <tr><td>Normal</td><td>Medium (mdpi)</td><td>Standard phone</td></tr>
+  <tr><td>Large</td><td>High (hdpi)</td><td>Bigger phone / small tablet</td></tr>
+  <tr><td>xLarge</td><td>Extra high (xhdpi)</td><td>Tablet, high-end phone</td></tr>
+</table>
+
+<p>Resolution examples: HD (720×1280), FHD (1080×1920), QHD (1440×2560).</p>
+
+<h3>Q2. What 2 tools help with adaptive design (responsive layouts)?</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>Flexible / Expanded</h4>
+    <p>Distribute leftover space among child widgets automatically — so layout adapts to any screen width.</p>
+  </div>
+  <div class="card green">
+    <h4>FittedBox</h4>
+    <p>Scales images/content to fit the available space, keeping proportions correct.</p>
+  </div>
+</div>
+
+<h3>Q3. How do you provide different image resolutions for different screens? <span class="examtag">EXAM</span></h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Create an <code>assets/images/</code> folder.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Add subfolders/files for each density: <code>logo.png</code>, <code>logo@2x.png</code>, <code>logo@3x.png</code>.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">List them in <b>pubspec.yaml</b> under <code>assets:</code>.</div></div>
+  <div class="flowstep"><div class="num">4</div><div class="txt">Call <code>Image.asset('assets/images/logo.png')</code> — Flutter auto-picks the best resolution for the device.</div></div>
+</div>
+
+<h3>Q4. How does Flutter handle screen orientation?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Use <code>MediaQuery.of(context).orientation</code> to check Portrait or Landscape, and build a different layout for each. Use <code>SystemChrome.setPreferredOrientations()</code> to force a fixed orientation (e.g. lock to portrait).</p>
+  </div>
+</div>
+
+<div class="cli">body: MediaQuery.of(context).orientation == Orientation.portrait
+  ? PortraitLayout()
+  : LandscapeLayout(),</div>
+
+<h3>Q5. What is minSdkVersion vs targetSdkVersion? <span class="examtag">EXAM</span></h3>
+<table>
+  <tr><th></th><th>minSdkVersion</th><th>targetSdkVersion</th></tr>
+  <tr><td><b>Meaning</b></td><td>Lowest Android API level your app supports</td><td>Highest API level your app is designed/tested for</td></tr>
+  <tr><td><b>Why set it</b></td><td>To support more (older) devices</td><td>To use the latest OS features</td></tr>
+</table>
+
+<div class="callout note">
+  <b>Display cutouts</b>
+  <p>Newer phones have screen cutouts: Tear Drop, Notch, Punch Hole (middle/left/right). Your layout should avoid placing important buttons/text under these cutouts.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 42 to 58 (Supporting Different Screens, Adaptive Design, Orientation, Display Cutouts, API Levels).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What widget helps scale an image to fit its available space?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">FittedBox.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Why would a developer set minSdkVersion to a lower number like 16?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">To let the app run on more (older) Android devices, widening the audience.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ ACCESSIBILITY ============ -->
+<section id="accessibility">
+<span class="eyebrow">Design for Everyone</span>
+<h2>Making apps more accessible <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.2, <b>slide 59–74</b></p>
+<p>Accessibility = users of all abilities can navigate, understand, and use your app.</p>
+
+<h3>Q1. What are the 3 accessibility considerations? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ol>
+      <li>Navigation</li>
+      <li>Readability</li>
+      <li>Guidance and Feedback</li>
+    </ol>
+  </div>
+</div>
+
+<h3>Q2. Navigation — what 3 things help accessible navigation?</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>1. Support screen readers</h4>
+    <p>Use the <code>Semantics</code> widget to give labels for screen readers (tools that read the screen aloud for blind/low-vision users).</p>
+    <div class="cli">Semantics(
+  label: 'This is a button',
+  child: ElevatedButton(
+    onPressed: () {},
+    child: Text('Click Me'),
+  ),
+)</div>
+  </div>
+  <div class="card amber">
+    <h4>2. Easy-to-follow navigation</h4>
+    <p>Support keyboard/gesture input. Avoid UI that fades/disappears too fast. Keep a flat navigation structure (not too many levels deep).</p>
+  </div>
+  <div class="card green">
+    <h4>3. Large touch targets</h4>
+    <p>Minimum size <b>48 × 48 px</b>. Minimum space between elements: <b>8dp</b>.</p>
+  </div>
+</div>
+
+<h3>Q3. Touch target size — Do vs Don't <span class="examtag">EXAM</span></h3>
+<div class="cardgrid">
+  <div class="card green">
+    <h4>✓ Do</h4>
+    <p>Buttons at least 48×48 px, with clear spacing. Finger fits inside comfortably; edges give visual feedback when tapped.</p>
+  </div>
+  <div class="card red">
+    <h4>✗ Don't</h4>
+    <p>Buttons too small or squeezed together. User might miss the tap or press the wrong button by mistake.</p>
+  </div>
+</div>
+
+<h3>Q4. Readability — what helps users read your app better?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Adequate color contrast</b> — text color must stand out clearly against the background.</li>
+      <li><b>Don't rely on color alone</b> — e.g. don't show "Going" only in green and "Can't go" only in red; add icons/text too, for colorblind users.</li>
+      <li><b>Accessible media</b> — give controls to pause/stop video/audio, and provide transcripts/captions.</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q5. Guidance and Feedback — what makes controls "clear and discoverable"?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li>Interactive controls need text labels, tooltips, or placeholder text — so users know what they do.</li>
+      <li>Be consistent in naming — use the same word for the same action everywhere in your app.</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q6. What is gesture navigation (Android 10 / API 29)?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Android 10 supports fully gesture-based navigation (swipe instead of buttons). Your app should extend content edge-to-edge and handle any conflicting gestures properly.</p>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — slides 59 to 74 (Accessibility: Navigation, Readability, Guidance and Feedback).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What is the minimum recommended touch target size?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">48 × 48 pixels, with at least 8dp spacing between elements.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which widget helps screen readers understand a widget's purpose?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Semantics widget, using its "label" property.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Why is it bad design to show status using ONLY color (e.g. red = error)?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Colorblind users may not tell the colors apart. Always add extra cues like icons, text, or patterns alongside color.</div>
+  </div>
+</div>
+
+<div class="summary">
+  <h4>Chapter 3.2 — full cheat sheet</h4>
+  <ul>
+    <li>Color: Color(), Color.fromARGB(), Color.fromRGBO(), ColorSwatch. Swatch 50–900: smaller = paler.</li>
+    <li>Theme = app-wide. Style = widget-level. Order: widget style → parent theme override → main app theme.</li>
+    <li>ThemeData has 2 main parts: colorScheme (colors) and textTheme (text styling).</li>
+    <li>Theme override: new ThemeData instance, OR extend parent theme — both via the Theme widget.</li>
+    <li>Font style = Typeface + Size + Style + Weight. TextTheme categories: Display, Headline, Title, Label, Body (each Small/Medium/Large).</li>
+    <li>Sans-serif = easier to read on screens; serif = better for large print text.</li>
+    <li>Design for Everyone = 3 methods: Internationalizing, Supporting different screens, Accessibility.</li>
+    <li>i18n setup: pubspec.yaml → .arb files → localizationsDelegates → supportedLocales.</li>
+    <li>ISO code format: [language]_[country], e.g. ms_MY.</li>
+    <li>Screen categories: Small/Normal/Large/xLarge size × ldpi/mdpi/hdpi/xhdpi density.</li>
+    <li>minSdkVersion = oldest devices supported. targetSdkVersion = latest features tested.</li>
+    <li>Accessibility = 3 parts: Navigation (Semantics, 48×48px touch targets), Readability (contrast, not color-only), Guidance (clear labels, consistent terms).</li>
+  </ul>
+</div>
+</section>
+
+</div>
+
+<footer>bmit2073 · chapter 3.2 · platforms themes and design · study guide</footer>
+
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('hide-ans');
+  b.textContent=a.classList.contains('hide-ans')?'Show answer':'Hide answer';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>

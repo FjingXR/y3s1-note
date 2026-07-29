@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3.3 — State Management, Navigation Principles & UI Patterns | Study Guide</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel2:#1b2330;
+    --line:#2a3441;
+    --text:#e6edf3;
+    --sub:#8b96a5;
+    --mono:'JetBrains Mono','Fira Code',monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+    --accent:#7c8cff;
+    --green:#3ecf8e;
+    --amber:#f5a623;
+    --blue:#4da3ff;
+    --pink:#ff7eb3;
+    --danger:#ff6b6b;
+  }
+  html.light{
+    --bg:#f5f7fa;
+    --panel:#ffffff;
+    --panel2:#eef0f4;
+    --line:#d1d5db;
+    --text:#111827;
+    --sub:#6b7280;
+  }
+  html.light code{color:#b45309;background:#fef3c7;border-color:#fde68a;}
+  html.light .cli{color:#065f46;background:#ecfdf5;border-color:#a7f3d0;}
+  html.light .cli .cmt{color:#9ca3af;}
+  html.light .navbar{background:rgba(255,255,255,0.95);}
+  html.light ::selection{background:var(--accent);color:#fff;}
+  html.light .card{background:var(--panel);}
+  html.light p,
+  html.light ul,
+  html.light ol,
+  html.light td,
+  html.light li,
+  html.light .flowstep .txt,
+  html.light .summary li,
+  html.light .card li,
+  html.light .answer-content li,
+  html.light .nav-principles .np-txt,
+  html.light .callout p,
+  html.light .q-answer,
+  html.light .q-text,
+  html.light .slideref,
+  html.light .eyebrow,
+  html.light .modpill,
+  html.light h3,
+  html.light .hero p.lead,
+  html.light .hero p.sub {
+    color: #374151;
+  }
+  html.light .q-answer .cli{color:#065f46;}
+  html.light .q-answer code{color:#b45309;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+
+  .navbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .navbar .brand{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:12px;
+    white-space:nowrap;
+  }
+  .navbar .back{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-right:8px;
+    white-space:nowrap;
+  }
+  .navbar .back:hover{color:var(--text);border-color:var(--accent);}
+  .navbar a{
+    font-size:12.5px;
+    color:var(--sub);
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .navbar a:hover{background:var(--panel2);color:var(--text);border-color:var(--line);}
+
+  .hero{
+    padding:56px 24px 40px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .hero .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent);
+    background:rgba(124,140,255,0.1);
+    border:1px solid rgba(124,140,255,0.3);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    color:var(--sub);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .track{
+    max-width:400px;
+    margin:40px auto 0;
+    position:relative;
+    height:90px;
+  }
+  .track svg{width:100%;height:100%;overflow:visible;}
+  .device-label{
+    font-family:var(--mono);
+    font-size:11px;
+    fill:var(--sub);
+  }
+  .pulse{animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:50px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2{font-size:26px;margin:0 0 6px;font-weight:700;}
+  h3{
+    font-size:18px;
+    margin:32px 0 12px;
+    font-weight:700;
+    color:var(--text);
+    border-left:3px solid var(--accent);
+    padding-left:10px;
+  }
+  p{color:#c3cbd6;font-size:15px;}
+  ul,ol{color:#c3cbd6;font-size:15px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{
+    font-family:var(--mono);
+    background:var(--panel2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+    color:#ffd479;
+    border:1px solid var(--line);
+  }
+
+  .slideref{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    margin:-2px 0 18px;
+  }
+  .slideref b{color:var(--amber);font-weight:600;}
+
+  .cli{
+    background:#0a0e14;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#9fe89f;
+    overflow-x:auto;
+    margin:14px 0;
+    white-space:pre;
+    line-height:1.55;
+  }
+  .cli .cmt{color:#5c6773;}
+  .cli .hi{color:#ffd479;font-weight:700;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{
+    color:var(--sub);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    background:var(--panel);
+  }
+  td{color:#c3cbd6;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  th.h-blue{color:var(--blue);}
+  th.h-amber{color:var(--amber);}
+  th.h-green{color:var(--green);}
+  th.h-pink{color:var(--pink);}
+
+  .cardgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    margin:20px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    border-top:3px solid var(--accent);
+  }
+  .card.blue{border-top-color:var(--blue);}
+  .card.amber{border-top-color:var(--amber);}
+  .card.green{border-top-color:var(--green);}
+  .card.pink{border-top-color:var(--pink);}
+  .card.red{border-top-color:var(--danger);}
+  .card h4{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--sub);}
+  .card .cli{font-size:12px;padding:10px 12px;margin-top:10px;}
+  .card ul{margin:8px 0 0;padding-left:16px;}
+  .card li{font-size:13px;color:var(--sub);margin-bottom:3px;}
+
+  .callout{
+    border-radius:10px;
+    padding:14px 18px;
+    margin:16px 0;
+    font-size:14px;
+    border-left:3px solid;
+  }
+  .callout.note{background:rgba(77,163,255,0.08);border-color:var(--blue);}
+  .callout.warn{background:rgba(255,107,107,0.08);border-color:var(--danger);}
+  .callout.tip{background:rgba(62,207,142,0.08);border-color:var(--green);}
+  .callout.find{background:rgba(245,166,35,0.08);border-color:var(--amber);}
+  .callout b{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+  .callout.note b{color:var(--blue);}
+  .callout.warn b{color:var(--danger);}
+  .callout.tip b{color:var(--green);}
+  .callout.find b{color:var(--amber);}
+  .callout p{margin:0;color:var(--text);}
+
+  .flow{margin:20px 0;}
+  .flowstep{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .num{
+    flex-shrink:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .flowstep .txt{flex:1;font-size:14.5px;color:#c3cbd6;padding-top:3px;}
+  .flowstep .txt b{color:var(--text);}
+
+  .quiz-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:20px 0;
+  }
+  .quiz-box h4{
+    margin:0 0 12px;
+    font-size:14px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .q-item{margin-bottom:14px;}
+  .q-item:last-child{margin-bottom:0;}
+  .q-text{font-size:14.5px;color:var(--text);margin-bottom:6px;font-weight:600;}
+  .q-toggle{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sub);
+    cursor:pointer;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 10px;
+    user-select:none;
+  }
+  .q-toggle:hover{color:var(--text);border-color:var(--sub);}
+  .q-answer{
+    display:block;
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--panel2);
+    border-left:2px solid var(--green);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+    color:#c3cbd6;
+  }
+  .q-answer.hide-ans{display:none;}
+  .q-answer ul{margin:4px 0 0;padding-left:16px;}
+  .q-answer li{margin-bottom:3px;}
+
+  .summary{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .summary h4{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .summary ul{margin:0;padding-left:18px;}
+  .summary li{font-size:13.5px;color:#c3cbd6;}
+
+  .stack-viz{
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    margin:20px 0;
+    flex-wrap:wrap;
+  }
+  .stack-col{display:flex;flex-direction:column-reverse;gap:4px;align-items:center;}
+  .stack-block{
+    width:60px;height:34px;
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:13px;font-weight:700;
+    border:1px solid var(--line);
+  }
+  .stack-block.visible{background:rgba(124,140,255,0.25);border-color:var(--accent);color:var(--text);}
+  .stack-block.hidden{background:var(--panel2);color:var(--sub);}
+  .stack-label{font-family:var(--mono);font-size:10px;color:var(--sub);margin-top:4px;}
+  .stack-arrow{font-family:var(--mono);color:var(--sub);font-size:18px;align-self:center;padding-bottom:20px;}
+
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    color:var(--sub);
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+
+  .modpill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--sub);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+
+  .examtag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    background:rgba(255,107,107,0.12);
+    border:1px solid rgba(255,107,107,0.35);
+    color:var(--danger);
+    padding:2px 8px;
+    border-radius:12px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  @media(max-width:600px){
+    body{padding-bottom:60px;}
+    .navbar{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;gap:6px;-webkit-overflow-scrolling:touch;}
+    .navbar .brand{flex:0 0 auto;margin-right:4px;}
+    .navbar a{font-size:13px;padding:7px 10px;flex:0 0 auto;white-space:nowrap;}
+    section{padding:28px 16px;}
+    .hero{padding:40px 16px 30px;}
+    .hero h1{font-size:1.7rem;}
+    .hero .tag{font-size:11px;}
+    .hero p.lead{font-size:14px;}
+    .track{max-width:70%;margin:24px auto 0;}
+    .wrap{padding:0 14px;}
+    .cardgrid{grid-template-columns:1fr;}
+    .flow{margin:16px 0;}
+    .flowstep{border-left:3px solid var(--accent);border-bottom:1px solid var(--line);padding:12px 14px;gap:10px;}
+    .flowstep:last-child{border-bottom:none;}
+    .flowstep .num{width:24px;height:24px;font-size:11px;flex-shrink:0;}
+    .flowstep .txt{font-size:13.5px;}
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;}
+    th,td{white-space:normal;padding:8px 10px;}
+    .cli{font-size:12px;padding:10px;overflow-x:auto;white-space:pre;}
+    pre{font-size:12px;padding:10px;}
+    code{font-size:12px;word-break:break-word;}
+    .q-toggle{padding:10px 4px;font-size:14px;display:block;width:100%;text-align:center;}
+    .q-answer{font-size:13px;padding:8px 10px;}
+    .q-item{margin:16px 0;}
+    h2{font-size:1.35rem;letter-spacing:-0.3px;}
+    h3{font-size:1.1rem;}
+    .summary{padding:14px 16px;}
+    .summary li{font-size:13px;}
+    .callout{padding:12px 14px;font-size:13px;}
+    section{border-top-width:2px;}
+    footer{padding:30px 16px 16px;font-size:11px;}
+    .stack-block{width:44px;height:28px;font-size:11px;}
+  }
+
+  @media(max-width:380px){
+    .hero h1{font-size:1.45rem;}
+    .hero{padding:32px 12px 24px;}
+    section{padding:22px 12px;}
+    .flowstep .txt{font-size:13px;}
+    th,td{font-size:11.5px;padding:6px 8px;}
+    .cli{font-size:11px;padding:8px;}
+    h2{font-size:1.2rem;}
+    h3{font-size:1rem;}
+    .q-toggle{font-size:13px;padding:8px 4px;}
+  }
+  .theme-toggle{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    line-height:1;
+    transition:0.2s;
+    user-select:none;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="back" href="index.html">&larr; back</a>
+  <span class="brand">&lt;ch3.3/&gt;</span>
+  <a href="#state-mgmt">State Mgmt</a>
+  <a href="#provider">Provider</a>
+  <a href="#nav-principles">Nav Principles</a>
+  <a href="#tab">Tab</a>
+  <a href="#drawer">Drawer</a>
+  <a href="#dialog">Dialog</a>
+  <a href="#picker">Picker</a>
+  <a href="#snackbar">Snackbar</a>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
+</div>
+
+<div class="hero">
+  <span class="tag">BMIT2073 · Chapter 3.3 · State Management & Navigation</span>
+  <h1>Chapter 3.3 — State Management, Navigation Principles & UI Patterns</h1>
+  <p class="lead">This page covers ephemeral vs app state, the Provider pattern, the 5 navigation principles, and common UI patterns: tabs, drawers, dialogs, pickers, and snackbars. Made only from your lecture slides.</p>
+
+  <div class="track">
+    <svg viewBox="0 0 400 90">
+      <text x="55" y="25" class="device-label" text-anchor="middle">State</text>
+      <rect x="20" y="33" width="70" height="50" rx="8" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+      <circle cx="55" cy="58" r="8" class="pulse" fill="none" stroke="#7c8cff" stroke-width="1.5"/>
+
+      <text x="200" y="25" class="device-label" text-anchor="middle">Navigator</text>
+      <rect x="155" y="33" width="90" height="50" rx="8" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <text x="200" y="63" class="device-label" text-anchor="middle" font-size="9" fill="#4da3ff">push / pop</text>
+
+      <text x="345" y="25" class="device-label" text-anchor="middle">Screen</text>
+      <rect x="310" y="33" width="70" height="50" rx="8" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+      <circle cx="345" cy="58" r="8" class="pulse" fill="none" stroke="#3ecf8e" stroke-width="1.5"/>
+
+      <line x1="90" y1="58" x2="155" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+      <line x1="245" y1="58" x2="310" y2="58" stroke="#2a3441" stroke-width="2" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ STATE MANAGEMENT ============ -->
+<section id="state-mgmt">
+<span class="modpill">MODULE 3.3</span>
+<h2>What is State Management? <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.3, <b>slide 1–5</b></p>
+<p>State management means handling data that changes over time, and updating the screen (UI) when it changes.</p>
+
+<h3>Q1. What is "state" in Flutter?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">State = everything that exists in memory while the app is running. This includes app assets, UI variables, animation state, textures, fonts, and more.</p>
+  </div>
+</div>
+
+<h3>Q2. What are the 2 types of state? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below — memorise this comparison for the exam.</div>
+</div>
+
+<table>
+  <tr><th></th><th class="h-blue">🔄 Ephemeral State</th><th class="h-amber">📦 App State</th></tr>
+  <tr><td><b>Also called</b></td><td>UI state, local state</td><td>Shared state</td></tr>
+  <tr><td><b>Where it lives</b></td><td>Inside ONE single widget</td><td>Shared across MANY parts of the app</td></tr>
+  <tr><td><b>Lifespan</b></td><td>Short — gone when widget is removed</td><td>Can persist between user sessions</td></tr>
+  <tr><td><b>How to manage</b></td><td>StatefulWidget + setState()</td><td>Provider, Riverpod, BLoC</td></tr>
+</table>
+
+<h3>Q3. Give examples of each state type <span class="examtag">EXAM</span></h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>🔄 Ephemeral State examples</h4>
+    <ul>
+      <li>Current page in a PageView</li>
+      <li>Current progress of an animation</li>
+      <li>Current selected tab in a BottomNavigationBar</li>
+    </ul>
+  </div>
+  <div class="card amber">
+    <h4>📦 App State examples</h4>
+    <ul>
+      <li>User preferences</li>
+      <li>Login info</li>
+      <li>Notifications in a social app</li>
+      <li>Shopping cart in an e-commerce app</li>
+      <li>Read/unread state of articles in a news app</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout tip">
+  <b>Quick trick to decide</b>
+  <p>Ask: "Does another screen/widget need this data too?" If YES → App State. If it's only for this one widget and nobody else cares → Ephemeral State.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — State Management slides (Chapter 3.3, slides 1 to 5).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Is "current selected tab in a BottomNavigationBar" ephemeral or app state?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Ephemeral state — it's local UI state, only matters to that one widget.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Is the "shopping cart" in an e-commerce app ephemeral or app state?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">App state — the cart data is needed across many screens (product page, cart page, checkout page) and often needs to persist.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What widget/method is used to manage simple ephemeral state?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">StatefulWidget, using setState().</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PROVIDER ============ -->
+<section id="provider">
+<span class="eyebrow">App State Management</span>
+<h2>The Provider pattern <span class="examtag">EXAM</span></h2>
+<p class="slideref">Lecture 3.3, <b>slide 6–11</b></p>
+<p>Provider is a simple way to share App State across many widgets, without passing data manually through every widget.</p>
+
+<h3>Q1. What class does Provider use to notify changes?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;"><code>ChangeNotifier</code> — a class you extend to hold your data. When data changes, call <code>notifyListeners()</code> to tell all listening widgets to rebuild.</p>
+  </div>
+</div>
+
+<div class="cli">class CounterProvider extends ChangeNotifier {
+  int _counter = 0;
+  int get counter => _counter;
+  void increment() {
+    _counter++;
+    notifyListeners();   <span class="cmt">// tells listeners: rebuild now</span>
+  }
+}</div>
+
+<h3>Q2. What are the 4 steps to set up Provider? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Create a class that extends <b>ChangeNotifier</b> — holds your data + methods that change it.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Wrap your app (or part of it) in <b>ChangeNotifierProvider</b>, in <code>main()</code> — this creates and provides the object.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">Use <b>Consumer</b> widget in your UI to read the value and rebuild automatically when it changes.</div></div>
+  <div class="flowstep"><div class="num">4</div><div class="txt">Use <code>context.read&lt;T&gt;()</code> to call a method (like <code>increment()</code>) — this does NOT rebuild the widget, just runs the action.</div></div>
+</div>
+
+<div class="cli">void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CounterProvider(),
+      child: someWidget,
+    ),
+  );
+}</div>
+
+<div class="cli"><span class="cmt">// multiple providers at once</span>
+MultiProvider(
+  providers: [
+    ChangeNotifierProvider(create: (context) => Provider1()),
+    ChangeNotifierProvider(create: (context) => Provider2()),
+  ],
+  child: someWidget,
+)</div>
+
+<div class="cli">body: Center(
+  child: Consumer<CounterProvider>(
+    builder: (context, counter, child) {
+      return Text('${counter.counter}');
+    },
+  ),
+),
+floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    context.read<CounterProvider>().increment();
+  },
+  child: const Icon(Icons.add),
+),</div>
+
+<h3>Q3. Consumer vs context.read() — what's the difference? <span class="examtag">EXAM</span></h3>
+<table>
+  <tr><th></th><th class="h-blue">Consumer</th><th class="h-amber">context.read()</th></tr>
+  <tr><td><b>Purpose</b></td><td>READ value and auto-rebuild UI when it changes</td><td>CALL a method/action, without rebuilding</td></tr>
+  <tr><td><b>Used in</b></td><td>build() method, to show data</td><td>Button onPressed, to trigger a change</td></tr>
+</table>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — State Management - Provider slides (Chapter 3.3, slides 6 to 11).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What method must you call inside ChangeNotifier to update the UI?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">notifyListeners() — tells all Consumer widgets listening to this provider to rebuild.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What widget lets you provide more than one ChangeNotifier at once?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">MultiProvider — takes a list of providers.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Should you use Consumer or context.read() inside a button's onPressed?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">context.read() — you just want to trigger an action, not rebuild that part of the UI.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ NAVIGATION PRINCIPLES ============ -->
+<section id="nav-principles">
+<span class="eyebrow">Core Concepts</span>
+<h2>The 5 Navigation Principles <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.3, <b>slide 16–23</b></p>
+<p>These 5 rules describe how navigation should behave in every Flutter app. This is a common exam topic — memorise the exact wording.</p>
+
+<h3>Q1. List all 5 navigation principles <span class="examtag">EXAM FORMAT</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See numbered list below.</div>
+</div>
+
+<div class="flow">
+  <div class="flowstep">
+    <div class="num">1</div>
+    <div class="txt"><b>Fixed start destination</b> — every app has one fixed starting screen. This is also the last screen the user sees before returning to the home launcher.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">2</div>
+    <div class="txt"><b>Navigation state is a stack of destinations</b> — the top of the stack is the current screen; earlier screens below it are your navigation history.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">3</div>
+    <div class="txt"><b>Up and Back are identical within your app's task</b> — inside your own app, the Up button (top of app bar) behaves exactly like the phone's Back button.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">4</div>
+    <div class="txt"><b>The Up button never exits your app</b> — if the user is on the start destination, the Up button does not appear at all.</div>
+  </div>
+  <div class="flowstep">
+    <div class="num">5</div>
+    <div class="txt"><b>Deep linking simulates manual navigation</b> — jumping straight to a detail screen (deep link) should still build the same back-stack as if the user tapped through manually.</div>
+  </div>
+</div>
+
+<h3>Q2. Visualize the navigation stack (Start → A → B → C)</h3>
+<div class="stack-viz">
+  <div class="stack-col">
+    <div class="stack-block visible">Start</div>
+    <div class="stack-label">Visible</div>
+  </div>
+  <div class="stack-arrow">→</div>
+  <div class="stack-col">
+    <div class="stack-block hidden">Start</div>
+    <div class="stack-block visible">A</div>
+    <div class="stack-label">Visible</div>
+  </div>
+  <div class="stack-arrow">→</div>
+  <div class="stack-col">
+    <div class="stack-block hidden">Start</div>
+    <div class="stack-block hidden">A</div>
+    <div class="stack-block visible">B</div>
+    <div class="stack-label">Visible</div>
+  </div>
+  <div class="stack-arrow">→</div>
+  <div class="stack-col">
+    <div class="stack-block hidden">Start</div>
+    <div class="stack-block hidden">A</div>
+    <div class="stack-block hidden">B</div>
+    <div class="stack-block visible">C</div>
+    <div class="stack-label">Visible</div>
+  </div>
+</div>
+<p style="text-align:center;font-size:13px;color:var(--sub);">Pressing Back pops the top block off — you go back down the stack, one screen at a time.</p>
+
+<h3>Q3. Why does the Up button disappear at the start destination? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Because Up must NEVER exit the app. At the start destination, there is no "up" screen inside the app to go to — going further up would mean leaving the app, which breaks Principle 4.</p>
+  </div>
+</div>
+
+<h3>Q4. What does "deep linking simulates manual navigation" mean?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">A deep link (e.g. tapping a notification that opens a detail screen directly) should still build a normal-looking back stack — as if the user had tapped through the app's main screen first, then to the detail screen. This keeps Back/Up behavior consistent no matter how the user arrived.</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <b>Exam tip</b>
+  <p>A common exam question gives a screen scenario (e.g. "user is on screen C, taps Back twice") and asks which screen they land on. Use the stack diagram: popping removes the top block each time.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — Navigation principles slides (Chapter 3.3, slides 16 to 23).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">User is on stack [Start, A, B, C] and presses Back once. Which screen do they see?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Screen B — the top of the stack (C) is popped off, revealing B underneath.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Are Up and Back always identical in Flutter?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Only WITHIN your app's own task/stack — not necessarily true across different apps or tasks.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which principle explains why the Up button is missing on your app's home screen?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Principle 4 — The Up button never exits your app, so it's hidden at the start destination.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ TAB ============ -->
+<section id="tab">
+<span class="eyebrow">UI Pattern</span>
+<h2>Tab Navigation</h2>
+<p class="slideref">Lecture 3.3, <b>Tab section</b></p>
+<p>Tabs let users switch between different views inside one screen, using a TabBar at the top or bottom.</p>
+
+<h3>Q1. What 3 pieces make up Flutter's tab system?</h3>
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>TabBar</h4>
+    <p>Displays the row of tabs (icons/labels) the user taps.</p>
+  </div>
+  <div class="card amber">
+    <h4>TabBarView</h4>
+    <p>Displays the content that matches the selected tab.</p>
+  </div>
+  <div class="card green">
+    <h4>TabController</h4>
+    <p>Manages which tab is active and handles switching between them.</p>
+  </div>
+</div>
+
+<h3>Q2. Fixed Tabs vs Scrollable Tabs — what's the difference?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <ul>
+      <li><b>Fixed Tabs</b> — all tabs fit on screen at once, evenly spaced. Good for few tabs (2–4).</li>
+      <li><b>Scrollable Tabs</b> — tabs can be swiped left/right if there are too many to fit. Good for many tabs.</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q3. Show the 3-step setup for tabs <span class="examtag">EXAM</span></h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Wrap Scaffold in <b>DefaultTabController</b>, set <code>length</code> (number of tabs).</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Add a <b>TabBar</b> inside AppBar's <code>bottom</code> property, listing each <code>Tab()</code>.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">Add a <b>TabBarView</b> as the body, with matching content widgets in the same order as the tabs.</div></div>
+</div>
+
+<div class="cli">return MaterialApp(
+  home: DefaultTabController(
+    length: 3,
+    child: Scaffold(
+      appBar: AppBar(
+        bottom: const TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.directions_car)),
+            Tab(icon: Icon(Icons.directions_transit)),
+            Tab(icon: Icon(Icons.directions_bike)),
+          ],
+        ),
+      ),
+      body: const TabBarView(
+        children: [
+          Icon(Icons.directions_car),
+          Icon(Icons.directions_transit),
+          Icon(Icons.directions_bike),
+        ],
+      ),
+    ),
+  ),
+);</div>
+
+<div class="callout note">
+  <b>Order matters</b>
+  <p>The Nth tab in TabBar always shows the Nth widget in TabBarView. Keep both lists in matching order.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — Tab section (Chapter 3.3).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What widget manages which tab is currently selected?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">TabController (often supplied automatically by DefaultTabController).</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which tab style would you use for 8 category tabs that don't fit on one screen?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Scrollable Tabs — lets the user swipe to see tabs that don't fit.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DRAWER ============ -->
+<section id="drawer">
+<span class="eyebrow">UI Pattern</span>
+<h2>Drawer Navigation <span class="examtag">EXAM</span></h2>
+<p class="slideref">Lecture 3.3, <b>Drawer section</b></p>
+<p>A Drawer is a side menu that slides in from the edge of the screen — good for apps with many navigation destinations.</p>
+
+<h3>Q1. When should you use a Navigation Drawer? <span class="examtag">EXAM</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0 0 8px;">Recommended when you have:</p>
+    <ul>
+      <li><b>5 or more</b> top-level destinations</li>
+      <li><b>2 or more</b> levels of navigation hierarchy</li>
+      <li>Need for quick navigation between unrelated destinations</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Q2. What are the 5 steps to build a Drawer? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="flow">
+  <div class="flowstep"><div class="num">1</div><div class="txt">Create a <b>Scaffold</b>.</div></div>
+  <div class="flowstep"><div class="num">2</div><div class="txt">Add a <b>drawer</b> property to the Scaffold.</div></div>
+  <div class="flowstep"><div class="num">3</div><div class="txt">Populate the drawer with a <b>ListView</b> of items (e.g. DrawerHeader + ListTiles).</div></div>
+  <div class="flowstep"><div class="num">4</div><div class="txt">Open the drawer programmatically with <code>Scaffold.of(context).openDrawer()</code>.</div></div>
+  <div class="flowstep"><div class="num">5</div><div class="txt">Close the drawer programmatically with <code>Navigator.pop(context)</code>.</div></div>
+</div>
+
+<div class="cli">Drawer(
+  child: ListView(
+    padding: EdgeInsets.zero,   <span class="cmt">// remove default padding</span>
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(color: Colors.blue),
+        child: Text('Drawer Header'),
+      ),
+      ListTile(title: const Text('Item 1'), onTap: () { ... }),
+      ListTile(title: const Text('Item 2'), onTap: () { ... }),
+    ],
+  ),
+)</div>
+
+<div class="cli"><span class="cmt">// opening the drawer via hamburger icon</span>
+leading: Builder(
+  builder: (context) {
+    return IconButton(
+      icon: const Icon(Icons.menu),
+      onPressed: () { Scaffold.of(context).openDrawer(); },
+    );
+  },
+)</div>
+
+<div class="callout tip">
+  <b>Remove default ListView padding</b>
+  <p>Always set <code>padding: EdgeInsets.zero</code> on the drawer's ListView — otherwise there's a strange visible gap at the top.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — Drawer section (Chapter 3.3).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">How many top-level destinations should you have before considering a Drawer instead of tabs?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">5 or more top-level destinations.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What method closes the drawer after tapping a menu item?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Navigator.pop(context).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DIALOG ============ -->
+<section id="dialog">
+<span class="eyebrow">UI Pattern</span>
+<h2>Dialogs — AlertDialog vs SimpleDialog <span class="examtag">EXAM</span></h2>
+<p class="slideref">Lecture 3.3, <b>Dialog section</b></p>
+<p>Dialogs are popup boxes that interrupt the user to show something important or ask them to choose.</p>
+
+<h3>Q1. AlertDialog vs SimpleDialog — what's the difference? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below.</div>
+</div>
+
+<table>
+  <tr><th>Feature</th><th class="h-blue">AlertDialog</th><th class="h-amber">SimpleDialog</th></tr>
+  <tr><td><b>Purpose</b></td><td>Inform user of a situation that needs acknowledgment</td><td>Offer user a choice between several options</td></tr>
+  <tr><td><b>Content</b></td><td>Optional title + content text + action buttons</td><td>Optional title + list of choice options</td></tr>
+  <tr><td><b>Use case</b></td><td>"Delete this file?" confirmation, error message</td><td>"Choose your department" selection menu</td></tr>
+</table>
+
+<div class="cardgrid">
+  <div class="card blue">
+    <h4>AlertDialog</h4>
+    <div class="cli">showDialog<void>(
+  context: context,
+  barrierDismissible: false,  <span class="cmt">// must tap button!</span>
+  builder: (context) {
+    return AlertDialog(
+      title: const Text('AlertDialog Title'),
+      content: const Text('Approve this message?'),
+      actions: [
+        TextButton(
+          child: const Text('Approve'),
+          onPressed: () { Navigator.of(context).pop(); },
+        ),
+      ],
+    );
+  },
+);</div>
+  </div>
+  <div class="card amber">
+    <h4>SimpleDialog</h4>
+    <div class="cli">showDialog<Department>(
+  context: context,
+  builder: (context) {
+    return SimpleDialog(
+      title: const Text('Select assignment'),
+      children: [
+        SimpleDialogOption(
+          onPressed: () {
+            Navigator.pop(context, Department.treasury);
+          },
+          child: const Text('Treasury'),
+        ),
+      ],
+    );
+  },
+);</div>
+  </div>
+</div>
+
+<h3>Q2. What does barrierDismissible: false mean?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">The user CANNOT close the dialog by tapping outside it — they must tap one of the dialog's buttons. Used when the user must make a real decision (e.g. confirm delete).</p>
+  </div>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — Dialog section (AlertDialog, SimpleDialog) — Chapter 3.3.</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which dialog type would you use to let a user pick their preferred language from a list?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">SimpleDialog — it offers a choice between multiple options.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Which dialog type would you use to warn "Are you sure you want to log out?"</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">AlertDialog — informs the user and asks for acknowledgment via action buttons (e.g. Yes/Cancel).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PICKER ============ -->
+<section id="picker">
+<span class="eyebrow">UI Pattern</span>
+<h2>Date and Time Pickers</h2>
+<p class="slideref">Lecture 3.3, <b>Picker section</b></p>
+<p>Pickers let users choose a date or time using a built-in, correctly-formatted UI.</p>
+
+<h3>Q1. What are the 2 built-in picker functions?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;"><code>showDatePicker</code> and <code>showTimePicker</code> — both are async functions that return the value the user picked.</p>
+  </div>
+</div>
+
+<h3>Q2. Why use these instead of a plain text field?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">They make sure the user picks a value that is <b>valid</b>, <b>correctly formatted</b>, and <b>adjusted to the user's locale</b> (region settings) automatically.</p>
+  </div>
+</div>
+
+<div class="cli">DateTime _selectedDate = DateTime.now();
+
+Future<void> _selectDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: _selectedDate,
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2100),
+  );
+  if (picked != null) {
+    setState(() { _selectedDate = picked; });
+  }
+}</div>
+
+<h3>Q3. What do initialDate, firstDate, and lastDate control?</h3>
+<table>
+  <tr><th>Property</th><th>Meaning</th></tr>
+  <tr><td><code>initialDate</code></td><td>The date shown/selected when the picker first opens</td></tr>
+  <tr><td><code>firstDate</code></td><td>The earliest date the user is allowed to pick</td></tr>
+  <tr><td><code>lastDate</code></td><td>The latest date the user is allowed to pick</td></tr>
+</table>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — Date and Time Pickers section (Chapter 3.3).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">What type of function is showDatePicker — sync or async?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Async — you must "await" its result since it waits for the user's input.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What happens if the user cancels the date picker (taps outside)?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">"picked" will be null — code should check "if (picked != null)" before using the value.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SNACKBAR ============ -->
+<section id="snackbar">
+<span class="eyebrow">UI Pattern</span>
+<h2>Snackbar <span class="examtag">EXAM: Q1a</span></h2>
+<p class="slideref">Lecture 3.3, <b>Snackbar section</b></p>
+<p>A Snackbar is a small message that pops up briefly at the bottom of the screen, to inform the user something happened.</p>
+
+<h3>Q1. How do you show a Snackbar?</h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">
+    <p style="margin:0;">Use <code>ScaffoldMessenger.of(context).showSnackBar(snackBar)</code> — it finds the ScaffoldMessenger in the widget tree and displays the SnackBar.</p>
+  </div>
+</div>
+
+<div class="cli">final snackBar = SnackBar(
+  content: const Text('Yay! A SnackBar!'),
+  action: SnackBarAction(
+    label: 'Undo',
+    onPressed: () { <span class="cmt">// code to undo the change</span> },
+  ),
+);
+ScaffoldMessenger.of(context).showSnackBar(snackBar);</div>
+
+<h3>Q2. Snackbar vs Dialog — what's the difference? <span class="examtag">EXAM FORMAT</span></h3>
+<div class="quiz-box">
+  <h4>Answer</h4>
+  <div class="q-answer">See table below — a very common exam comparison.</div>
+</div>
+
+<table>
+  <tr><th>Aspect</th><th class="h-blue">Snackbar</th><th class="h-amber">Dialog</th></tr>
+  <tr><td><b>Priority</b></td><td>Low</td><td>High</td></tr>
+  <tr><td><b>User action</b></td><td>Optional — can ignore it</td><td>Required — user must respond</td></tr>
+  <tr><td><b>Dismissal</b></td><td>Disappears automatically after a few seconds</td><td>Blocks app usage until user takes an action or exits</td></tr>
+  <tr><td><b>Use case</b></td><td>"Message deleted" + Undo option</td><td>"Delete this file?" confirmation, form errors</td></tr>
+</table>
+
+<div class="callout tip">
+  <b>Exam tip</b>
+  <p>Snackbar = low-priority, non-blocking, "FYI" message. Dialog = high-priority, blocking, needs a decision. Pick based on how important/urgent the message is.</p>
+</div>
+
+<div class="callout find">
+  <b>Where to find it</b>
+  <p>Chapter_3_Merged.pdf — Snackbar section (Chapter 3.3).</p>
+</div>
+
+<div class="summary">
+  <h4>More practice</h4>
+  <div class="q-item">
+    <div class="q-text">Which widget finds and shows the SnackBar in the widget tree?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">ScaffoldMessenger.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">Would you use a Snackbar or Dialog to confirm "Delete this file permanently?"</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">Dialog (AlertDialog) — this is a high-priority action needing a required user decision, not something to auto-dismiss.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-text">What optional feature does a Snackbar commonly have?</div>
+    <button class="q-toggle" onclick="toggleQ(this)">Hide answer</button>
+    <div class="q-answer">A SnackBarAction (e.g. an "Undo" button) to reverse the last action.</div>
+  </div>
+</div>
+
+<div class="summary">
+  <h4>Chapter 3.3 — full cheat sheet</h4>
+  <ul>
+    <li>State = everything in memory while app runs. 2 types: Ephemeral (local, single widget) vs App State (shared, persists).</li>
+    <li>Ephemeral examples: current page, animation progress, selected tab. App State examples: login info, cart, preferences.</li>
+    <li>Provider setup: ChangeNotifier class → ChangeNotifierProvider in main() → Consumer to read → context.read() to call actions.</li>
+    <li>5 Navigation Principles: (1) Fixed start destination, (2) Stack of destinations, (3) Up = Back within task, (4) Up never exits app, (5) Deep linking simulates manual nav.</li>
+    <li>Tab setup: DefaultTabController(length) → TabBar (tabs) → TabBarView (matching content).</li>
+    <li>Drawer setup (5 steps): Scaffold → add drawer → populate ListView → openDrawer() → Navigator.pop() to close. Use when ≥5 destinations or ≥2 nav levels.</li>
+    <li>AlertDialog = inform + acknowledge. SimpleDialog = offer a choice.</li>
+    <li>Date/Time Pickers: showDatePicker/showTimePicker — ensures valid, correctly formatted, locale-adjusted values.</li>
+    <li>Snackbar (low priority, optional, auto-dismiss) vs Dialog (high priority, required, blocks app).</li>
+  </ul>
+</div>
+</section>
+
+</div>
+
+<footer>bmit2073 · chapter 3.3 · state management and navigation · study guide</footer>
+
+<script>
+function toggleQ(b){
+  var a=b.nextElementSibling;
+  a.classList.toggle('hide-ans');
+  b.textContent=a.classList.contains('hide-ans')?'Show answer':'Hide answer';
+}
+function toggleTheme(){
+  var h=document.documentElement;
+  h.classList.toggle('light');
+  var isLight=h.classList.contains('light');
+  localStorage.setItem('mad-theme',isLight?'light':'dark');
+  document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
+}
+(function(){
+  if(localStorage.getItem('mad-theme')==='light'){
+    document.documentElement.classList.add('light');
+    document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+})();
+</script>
+</body>
+</html>
