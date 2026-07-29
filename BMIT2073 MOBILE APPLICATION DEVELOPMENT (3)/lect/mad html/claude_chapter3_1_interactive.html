@@ -536,6 +536,7 @@
 <h3>Q1. What is a widget in Flutter?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0 0 8px;">A widget defines 3 things:</p>
     <ul>
@@ -563,6 +564,7 @@
 <h3>Q2. What makes widgets useful (2 characteristics)?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <ul>
       <li><b>Customizable</b> — most widgets have properties you can change (color, size, text) to fit your own design.</li>
@@ -594,6 +596,7 @@ CustomButton(
 <h3>Q4. Text vs Text.rich — what's the difference?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">Both show text, but <code>Text.rich</code> lets you style different parts of the same sentence differently (e.g. bold one word only).</p>
   </div>
@@ -630,6 +633,7 @@ CustomButton(
 <h3>Q5. What are the 3 ways to read a value from TextField? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">You can get what the user typed using: <code>onChanged()</code>, <code>onSubmitted()</code>, or a <code>Controller</code>.</p>
   </div>
@@ -669,6 +673,7 @@ CustomButton(
 <h3>Q6. What is InputDecoration used for?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">It decorates a TextField with: label, icon, inline hint text, and error text. Set <code>decoration: null</code> to remove all decoration.</p>
   </div>
@@ -686,6 +691,7 @@ CustomButton(
 <h3>Q8. How many image sources does Flutter support? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">3 ways to show an image.</p>
   </div>
@@ -714,6 +720,7 @@ CustomButton(
 <h3>Q9. Row vs Column — what's the difference?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <ul>
       <li><b>Row</b> — arranges children <b>horizontally</b> (left to right)</li>
@@ -726,6 +733,7 @@ CustomButton(
 <h3>Q10. What does Scaffold provide?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">Scaffold gives the basic Material Design screen structure. It provides ready-made APIs for drawers, snack bars, and bottom sheets.</p>
   </div>
@@ -773,6 +781,7 @@ CustomButton(
 <h3>Q1. What is the difference between StatelessWidget and StatefulWidget? <span class="examtag">EXAM FORMAT</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">See table below — memorise this for the exam.</div>
 </div>
 
@@ -817,6 +826,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q2. How does setState() work?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">Calling <code>setState()</code> tells Flutter: "data changed, please rebuild this widget's UI". Flutter then re-runs <code>build()</code> to draw the new look.</p>
   </div>
@@ -877,6 +887,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q1. What is the difference between Cupertino and Material design systems?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">See table below.</div>
 </div>
 
@@ -953,6 +964,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q1. What is the difference between single-child and multi-child layout widgets? <span class="examtag">EXAM FORMAT</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">See table below.</div>
 </div>
 
@@ -1037,6 +1049,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q4. What are the 4 key features of multi-child layout widgets?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <ul>
       <li><b>Layout management</b> — handles arranging/positioning children</li>
@@ -1050,6 +1063,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q5. What widgets are used to build a Form?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <ul>
       <li><b>TextField</b> — enter text</li>
@@ -1116,6 +1130,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q2. What is GestureDetector used for?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;"><b>GestureDetector</b> detects gestures (tap, double-tap, long press, swipe, drag) on its child widget. Wrap any widget with it to make it respond to user input — even if that widget has no built-in tap handler.</p>
   </div>
@@ -1133,6 +1148,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q3. What is the Hero widget?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;"><b>Hero</b> creates a smooth animated transition between two screens. The same widget (e.g. an image) flies from its position on the first screen to its position on the second screen during navigation. Use matching <code>hero</code> tags on both screens.</p>
   </div>
@@ -1141,6 +1157,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q4. What does the Flex widget do?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;"><b>Flex</b> provides more control over child layout using <b>flex factors</b>. <code>Row</code> and <code>Column</code> are actually built on top of Flex — Row = Flex with direction horizontal, Column = Flex with direction vertical. You can use Flex directly when you need to switch direction dynamically.</p>
   </div>
@@ -1173,6 +1190,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q1. What is a Sliver widget?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">Slivers are widgets made specifically for scroll areas. Unlike a normal box widget, a sliver can change its own size/shape based on scroll position — this makes effects like expanding headers possible.</p>
   </div>
@@ -1181,6 +1199,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q2. Why use slivers instead of a normal ListView? (3 benefits)</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <ul>
       <li><b>Customization</b> — fine control over scroll behavior and look</li>
@@ -1208,6 +1227,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q4. How do you use sliver widgets together?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">Slivers are used inside <code>CustomScrollView</code>. Its <code>slivers</code> property takes a list of sliver widgets, letting you combine them for your desired scroll layout.</p>
   </div>
@@ -1243,6 +1263,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q1. What are the 5 performance best practices?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">See numbered list below — memorise all 5 for the exam.</div>
 </div>
 
@@ -1272,6 +1293,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q2. Why does using const help performance?</h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;"><code>const</code> tells Flutter the widget's properties will NEVER change. Flutter can then skip rebuilding it when the parent rebuilds — saving CPU work.</p>
   </div>
@@ -1280,6 +1302,7 @@ class _YellowBirdState extends State<YellowBird> {
 <h3>Q3. Why is WebP recommended for images? <span class="examtag">EXAM</span></h3>
 <div class="quiz-box">
   <h4>Answer</h4>
+  <button class="q-toggle" onclick="toggleQ(this)">Show answer</button>
   <div class="q-answer hide-ans">
     <p style="margin:0;">WebP is a raster (pixel-based) image format designed to replace JPEG, PNG, and GIF. It gives smaller file size for similar quality — meaning faster load and less data/storage used. This matters because mobile devices have limited storage, RAM, and slower/unreliable network.</p>
   </div>
