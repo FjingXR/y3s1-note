@@ -480,6 +480,11 @@
   .exam-toggle:hover{color:var(--text);border-color:var(--accent);}
   .exam-toggle.on{background:var(--accent);color:#0b1628;border-color:var(--accent);}
   html.exam-only section:not(:has(.examtag)){display:none !important;}
+  html.exam-only h3:not(:has(.examtag)){display:none !important;}
+  html.exam-only h3:not(:has(.examtag))+.quiz-box,
+  html.exam-only h3:not(:has(.examtag))+.cardgrid,
+  html.exam-only h3:not(:has(.examtag))+table,
+  html.exam-only h3:not(:has(.examtag))+.q-callout{display:none !important;}
 </style>
 </head>
 <body>
