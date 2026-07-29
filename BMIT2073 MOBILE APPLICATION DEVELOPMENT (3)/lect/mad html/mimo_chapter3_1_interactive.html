@@ -90,6 +90,7 @@
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
 
   @media(max-width:600px){.hero{padding:40px 16px 28px;}.hero h1{font-size:1.6rem;}h2{font-size:22px;}h3{font-size:16px;}.navbar{gap:6px;padding:8px 12px;}table{font-size:13px;}th,td{padding:8px 10px;}}
+  .exam-only .hero,.exam-only .callout,.exam-only .cardgrid,.exam-only .summary,.exam-only .summary-box,.exam-only .flowstep,.exam-only details,.exam-only .track,.exam-only .intro-section{display:none!important;}
 </style>
 </head>
 <body>
@@ -104,6 +105,7 @@
   <a href="#slivers">Slivers</a>
   <a href="#performance">Performance</a>
   <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">&#9788;</button>
+  <button class="exam-toggle theme-toggle" onclick="toggleExamOnly()" title="Exam only" style="margin-left:4px;">📝</button>
 </nav>
 
 <div class="hero">
@@ -760,6 +762,7 @@ function toggleQ(b){
   if(!a.classList.contains('show')){a.classList.add('hidden');b.textContent='Show answer';}
 }
 function toggleTheme(){
+function toggleExamOnly(){document.documentElement.classList.toggle("exam-only");var b=document.querySelector(".exam-toggle");if(b){b.textContent=document.documentElement.classList.contains("exam-only")?"📖":"📝";b.title=document.documentElement.classList.contains("exam-only")?"Study mode":"Exam only";}}
   var h=document.documentElement;
   h.classList.toggle('light');
   var isLight=h.classList.contains('light');
