@@ -474,7 +474,10 @@
     user-select:none;
   }
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
-  .exam-only .hero,.exam-only .callout,.exam-only .cardgrid,.exam-only .summary,.exam-only .summary-box,.exam-only .flowstep,.exam-only details,.exam-only .track,.exam-only .intro-section{display:none!important;}
+  .exam-toggle{font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--line);color:var(--sub);padding:5px 10px;border-radius:6px;cursor:pointer;transition:0.2s;user-select:none;white-space:nowrap;}
+  .exam-toggle:hover{color:var(--text);border-color:var(--accent);}
+  .exam-toggle.on{background:var(--accent);color:#0b1628;border-color:var(--accent);}
+  html.exam-only section:not(:has(.examtag)){display:none !important;}
 </style>
 </head>
 <body>
@@ -490,8 +493,8 @@
   <a href="#dialog">Dialog</a>
   <a href="#picker">Picker</a>
   <a href="#snackbar">Snackbar</a>
+  <button class="exam-toggle" onclick="toggleExamOnly()" aria-label="Exam only">📝 Exam</button>
   <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="margin-left:auto;">☀</button>
-  <button class="exam-toggle theme-toggle" onclick="toggleExamOnly()" title="Exam only" style="margin-left:4px;">📝</button>
 </div>
 
 <div class="hero">
@@ -1226,17 +1229,25 @@ function toggleQ(b){
   b.textContent=a.classList.contains('hide-ans')?'Show answer':'Hide answer';
 }
 function toggleTheme(){
-function toggleExamOnly(){document.documentElement.classList.toggle("exam-only");var b=document.querySelector(".exam-toggle");if(b){b.textContent=document.documentElement.classList.contains("exam-only")?"📖":"📝";b.title=document.documentElement.classList.contains("exam-only")?"Study mode":"Exam only";}}
   var h=document.documentElement;
   h.classList.toggle('light');
   var isLight=h.classList.contains('light');
   localStorage.setItem('mad-theme',isLight?'light':'dark');
   document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent=isLight?'\u263E':'\u2600';});
 }
+function toggleExamOnly(){
+  document.documentElement.classList.toggle('exam-only');
+  document.querySelector('.exam-toggle').classList.toggle('on');
+  localStorage.setItem('mad-exam',document.documentElement.classList.contains('exam-only'));
+}
 (function(){
   if(localStorage.getItem('mad-theme')==='light'){
     document.documentElement.classList.add('light');
     document.querySelectorAll('.theme-toggle').forEach(function(b){b.textContent='\u263E';});
+  }
+  if(localStorage.getItem('mad-exam')==='true'){
+    document.documentElement.classList.add('exam-only');
+    document.querySelector('.exam-toggle').classList.add('on');
   }
 })();
 </script>
